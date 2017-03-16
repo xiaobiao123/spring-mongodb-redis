@@ -138,10 +138,8 @@ public class RedisTest {
     @Test
     public void addHash() {
         ShardedJedis shardedJedis = this.getConnection();
-        //shardedJedis.hmset();
-
         for (int i = 0; i < 10; i++) {
-            System.out.println(JSON.toJSONString(shardedJedis.hset("test:hash", "hashField" + i, "hashValue" + i)));
+            System.out.println(JSON.toJSONString(shardedJedis.hset("test:hash", "hashField" + i, "hashValue" + i+"update")));
         }
         shardedJedis.close();
     }
