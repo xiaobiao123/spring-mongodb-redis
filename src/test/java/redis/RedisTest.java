@@ -99,6 +99,8 @@ public class RedisTest {
 
     /**
      * 从redis库，获取指定size个数的主键
+     *
+     * <p>Redis 管道技术可以在服务端未响应时，客户端可以继续向服务端发送请求，并最终一次性读取所有服务端的响应。</p>
      */
     @Test
     public void genMultiUuidDbKey() {
@@ -497,7 +499,7 @@ public class RedisTest {
         shardedJedis.close();
     }
 
-//    @Test
+//    @TestSleep
 //    public void zlexcount() {
 //        ShardedJedis shardedJedis = this.getConnection();
 //        //添加

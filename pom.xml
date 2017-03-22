@@ -144,7 +144,7 @@
 
             <groupId>org.springframework</groupId>
 
-            <artifactId>spring-test</artifactId>
+            <artifactId>spring-testSleep</artifactId>
 
             <version>${spring.version}</version>
 
@@ -199,7 +199,7 @@
 
             <version>4.11</version>
 
-            <scope>test</scope>
+            <scope>testSleep</scope>
 
         </dependency>
 

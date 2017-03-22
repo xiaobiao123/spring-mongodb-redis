@@ -1,6 +1,5 @@
 package redis;
 
-import cn.springmvc.model.User;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
@@ -11,9 +10,13 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import redis.clients.jedis.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.ShardedJedisPool;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * redis应用场景
@@ -56,6 +59,7 @@ public class RedisApplicationScenariosTest {
             map.put("fangwenshu", "30");
             shardedJedis.hmset("count_product:product_no" + i, map);
         }
+        shardedJedis.close();
     }
 
     @Test
@@ -186,20 +190,6 @@ public class RedisApplicationScenariosTest {
         System.out.println(JSON.toJSONString(shardedJedis.zrangeByScoreWithScores("topN", 2, 9)));
 
 //        System.out.println(JSON.toJSONString(shardedJedis.zrange("List",0,20)));
-        shardedJedis.close();
-    }
-
-
-
-
-
-
-    @Test
-    public void pfadd() {
-        ShardedJedis shardedJedis = this.getConnection();
-        for (int i = 0; i < 30; i++) {
-            System.out.println(JSON.toJSONString(shardedJedis.pfadd("pfadd", i + "")));
-        }
         shardedJedis.close();
     }
 

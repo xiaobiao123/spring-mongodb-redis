@@ -248,8 +248,6 @@ public class MongodbTest {
         for (UserEntity uentity : list) {
             System.out.println("======================" + JSON.toJSONString(uentity));
         }
-
-
     }
 
 

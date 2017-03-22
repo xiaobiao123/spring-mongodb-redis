@@ -10,13 +10,11 @@ import cn.springmvc.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-//	@Autowired
-	//private UserDAO userDAO;
+	@Autowired
+	private UserDAO userDAO;
 
 	public int insertUser(User user) {
-
-		return 1;// userDAO.insertUser(user);
-
+		return userDAO.insertUser(user);
 	}
 
 }

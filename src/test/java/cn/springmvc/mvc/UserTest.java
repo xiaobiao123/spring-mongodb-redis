@@ -4,7 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import mongodb.example.MongodbTest;
+import mongodb.example.data.model.UserEntity;
 import org.junit.Before;
 
 import org.junit.Test;
@@ -21,50 +25,66 @@ import cn.springmvc.service.UserService;
 
 public class UserTest {
 
-	private UserService userService;
+    private UserService userService;
 
-	@Before
-	public void before() {
+    @Before
+    public void before() {
 
-		@SuppressWarnings("resource")
-		 ApplicationContext context = new ClassPathXmlApplicationContext(
-		 new String[] { "classpath:conf/spring.xml",
-		 "classpath:conf/spring-mybatis.xml" });
+        @SuppressWarnings("resource")
+        ApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[]{"classpath:conf/spring.xml",
+                        "classpath:conf/spring-mybatis.xml"});
 //		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] { "classpath:conf/spring.xml" });
-		userService = (UserService) context.getBean("userServiceImpl");
+        userService = (UserService) context.getBean("userServiceImpl");
 
-		// //创建IoC容器管理的Bean的xml配置文件，即定位资源
-		// ClassPathResource resource = new ClassPathResource("spring.xml");
-		// //创建BeanFactory
-		// DefaultListableBeanFactory factory = new DefaultListableBeanFactory
-		// ();
-		// //创键Bean定义读取器
-		// XmlBeanDefinitionReader reader = new
-		// XmlBeanDefinitionReader(factory);
-		// //使用Bean定义读取器读入Bean配置信息，即载入配置
-		// reader.loadBeanDefinitions(resource);
+        // //创建IoC容器管理的Bean的xml配置文件，即定位资源
+        // ClassPathResource resource = new ClassPathResource("spring.xml");
+        // //创建BeanFactory
+        // DefaultListableBeanFactory factory = new DefaultListableBeanFactory
+        // ();
+        // //创键Bean定义读取器
+        // XmlBeanDefinitionReader reader = new
+        // XmlBeanDefinitionReader(factory);
+        // //使用Bean定义读取器读入Bean配置信息，即载入配置
+        // reader.loadBeanDefinitions(resource);
 
-	}
+    }
 
-	@Test
-	public void addUser() {
-		 User user = new User();
-		 user.setNickname("你好");
-		 user.setState(2);
-		 
-		 
-		 
-//		 
-//		Date dNow = new Date(); // 当前时间
-//		Date nTime = new Date();
-//		Calendar calendar = Calendar.getInstance(); // 得到日历
-//		calendar.setTime(dNow);// 把当前时间赋给日历
-//		calendar.add(Calendar.MONTH, +3); // 设置过期时间，dto.getPastType()==null时查询所有
-//		nTime = calendar.getTime(); // 得到后3月的时间
-//		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//		System.out.println(dateFormat.format(nTime));
-		 System.out.println(userService.insertUser(user));
+    @Test
+    public void addUser() throws InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        Long start=System.currentTimeMillis();
+        for (int i = 0; i < 100000; i++) {
+            User user = new User();
+            user.setNickname("nickname" + i);
+            user.setState(i);
+            executorService.execute(new InserUser(user));
+        }
+        System.out.println();
 
-	}
+        executorService.shutdown();//关闭线程池
+        //判断是否所有的线程已经运行完
+        while (!executorService.isTerminated()) {
+
+        }
+        System.out.println(System.currentTimeMillis()-start);
+        System.out.println("所有子线程已执行完毕");
+
+    }
+
+    public class InserUser implements Runnable {
+        private User user;
+        public InserUser(User user) {
+            this.user = user;
+        }
+        @Override
+        public void run() {
+            synchronized (user) {
+                userService.insertUser(user);
+            }
+
+        }
+    }
+
 
 }

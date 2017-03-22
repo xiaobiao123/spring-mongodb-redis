@@ -4,26 +4,27 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Synch {
-public static void main(String[] args) {
-	
-	ExecutorService executorService = Executors.newFixedThreadPool(5);
+    public static void main(String[] args) {
 
-	for ( int i=0 ; i < 100; i++) {
-		
-		executorService.submit(new Runnable() {
-			public void run() {
-				synchronized (this) {
-					System.out.println("sssssssssssssssssss"+Thread.currentThread().getId());
-				}
-				
-			}
-		});
-	}
-	executorService.shutdown();
-	try {
-		new Thread().sleep(1000000);
-	} catch (InterruptedException e) {
-	System.out.println("xxxxxxxxx");	
-	}
-}
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+
+        for (int i = 0; i < 1000; i++) {
+
+            executorService.submit(new Runnable() {
+                public void run() {
+                    synchronized (this) {
+                        System.out.println("sssssssssssssssssss" + Thread.currentThread().getId());
+                    }
+
+                }
+            });
+        }
+        executorService.shutdown();//关闭线程池
+
+        //判断是否所有的线程已经运行完
+        while (!executorService.isTerminated()) {
+
+        }
+        System.out.println("xxxxxxxxx");
+    }
 }
