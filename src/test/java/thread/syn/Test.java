@@ -39,7 +39,7 @@ class InsertData {
     public synchronized static void insert1() {
         System.out.println("执行insert1");
         try {
-            Thread.sleep(1000);
+            Thread.sleep(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

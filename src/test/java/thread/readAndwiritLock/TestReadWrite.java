@@ -1,5 +1,7 @@
 package thread.readAndwiritLock;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
@@ -9,6 +11,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class TestReadWrite {
     private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+
+    private Lock lock=new ReentrantLock();
+
+//    private ReentrantReadWriteLock rw2=new ReentrantReadWriteLock();
      
     public static void main(String[] args)  {
         final TestReadWrite testReadWrite = new TestReadWrite();
@@ -18,10 +24,15 @@ public class TestReadWrite {
                 testReadWrite.get(Thread.currentThread());
             };
         }.start();
-         
         new Thread(){
             public void run() {
                 testReadWrite.get(Thread.currentThread());
+            };
+        }.start();
+         
+        new Thread(){
+            public void run() {
+                testReadWrite.add(Thread.currentThread());
             };
         }.start();
          
@@ -31,13 +42,31 @@ public class TestReadWrite {
         rwl.readLock().lock();
         try {
             long start = System.currentTimeMillis();
-             
-            while(System.currentTimeMillis() - start <= 1) {
+
+            Thread.sleep(1000);
+
+            for (int i = 0; i <10 ; i++) {
                 System.out.println(thread.getName()+"正在进行读操作");
             }
             System.out.println(thread.getName()+"读操作完毕");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             rwl.readLock().unlock();
+        }
+    }
+
+    public void add(Thread thread) {
+        rwl.writeLock().lock();
+        try {
+            long start = System.currentTimeMillis();
+
+            for (int i = 0; i <10 ; i++) {
+                System.out.println(thread.getName()+"正在进行写操作");
+            }
+            System.out.println(thread.getName()+"写操作完毕");
+        } finally {
+            rwl.writeLock().unlock();
         }
     }
 }

@@ -23,6 +23,12 @@ public  class  TestSynch {
             }
         }.start();
 
+        new Thread() {
+            public void run() {
+                insertData.insert3(Thread.currentThread());
+            }
+        }.start();
+
 
         new Thread() {
             public void run() {
@@ -50,7 +56,23 @@ public  class  TestSynch {
             System.out.println(thread.getName() + "在插入数据" + i);
             arrayList.add(i);
             try {
-                Thread.sleep(1000000);
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * synchronized在方法上
+     * @param thread
+     */
+    public synchronized void insert3(Thread thread) {
+        for (int i = 0; i < 5; i++) {
+            System.out.println(thread.getName() + "在插入数据" + i);
+            arrayList.add(i);
+            try {
+                Thread.sleep(0);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -61,7 +83,7 @@ public  class  TestSynch {
      * synchronized代码块
      * @param thread
      */
-    public void insert2(Thread thread) {
+    public  void insert2(Thread thread) {
         synchronized (object) {
             for (int i = 0; i < 10; i++) {
                 System.out.println(thread.getName() + "在插入数据" + i);

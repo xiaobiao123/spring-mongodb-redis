@@ -120,6 +120,7 @@ public class RedisTest {
         if (shardedJedis != null) {
             shardedJedis.close();
         }
+
     }
 
     @Test

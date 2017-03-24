@@ -1,5 +1,6 @@
 package thread.collection.currentHashMap;
 
+import com.google.common.collect.Maps;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -9,7 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Administrator on 2017/3/21.
- * 1
+ * <p>
+ * CHM适用于读者数量超过写者时，当写者数量大于等于读者时，CHM的性能是低于Hashtable和synchronized Map的。
+ * 这是因为当锁住了整个Map时，读操作要等待对同一部分执行写操作的线程结束
  */
 public class TestHashMapException {
 
@@ -20,7 +23,7 @@ public class TestHashMapException {
 
     //HashMap或者ArrayList边遍历边删除数据会报java.util.ConcurrentModificationException异常
     @Test
-    public  void HashMapException() {
+    public void HashMapException() {
         Map<Long, String> mReqPacket = new HashMap<Long, String>();
         for (long i = 0; i < 15; i++) {
             mReqPacket.put(i, i + "");
@@ -41,7 +44,7 @@ public class TestHashMapException {
 
     //所以要用迭代器删除元素：
     @Test
-    public  void HashMapSuccess() {
+    public void HashMapSuccess() {
         Map<Long, String> mReqPacket = new HashMap<Long, String>();
         for (long i = 0; i < 15; i++) {
             mReqPacket.put(i, i + "");
@@ -66,8 +69,9 @@ public class TestHashMapException {
      * 因为其内部已经做了维护，遍历的时候都能获得最新的值。即便是多个线程一起删除、添加元素也没问题。
      */
     @Test
-    public  void ConcurrentHashMapTest() {
+    public void ConcurrentHashMapTest() {
         Map<Long, String> conMap = new ConcurrentHashMap<Long, String>();
+
         for (long i = 0; i < 15; i++) {
             conMap.put(i, i + "");
         }
@@ -88,7 +92,7 @@ public class TestHashMapException {
      * 一个线程对ConcurrentHashMap增加数据，另外一个线程在遍历时就能获得。
      */
     @Test
-    public  void ConcurrentHashMapTest2() {
+    public void ConcurrentHashMapTest2() {
         Map<Long, String> conMap = new ConcurrentHashMap<Long, String>();
         for (long i = 0; i < 15; i++) {
             conMap.put(i, i + "");
