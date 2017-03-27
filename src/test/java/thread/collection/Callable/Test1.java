@@ -28,6 +28,8 @@ public class Test1 {
         System.out.println("所有任务执行完毕");
     }
 }
+
+
 class Task2 implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {

@@ -23,6 +23,7 @@ import java.util.concurrent.CyclicBarrier;
  * 　　下面举几个例子就明白了：
  * 　　假若有若干个线程都要进行写数据操作，并且只有所有线程都完成写数据操作之后，这些线程才能继续做后面的事情，此时就可以利用CyclicBarrier了：
  */
+//saɪklɪk/bærɪɚ
 public class TestCyclicBarrier {
     public static void main(String[] args) {
         int N = 4;

@@ -58,7 +58,7 @@ public class CopyOnWriteArrayListDemo {
 		}
 
         executorService.shutdown();
-//        while (!executorService.isTerminated()) {
+//        while (executorService.isTerminated()) {
 //            System.out.println("所有子线程已执行完毕");
 //        }
 

@@ -46,7 +46,6 @@ class MyThread extends Thread {
     }
     @Override
     public void run() {
-         
         try {
             test.insert(Thread.currentThread());
         } catch (InterruptedException e) {

@@ -10,8 +10,11 @@ class MyThread extends Thread{
         public void run() {
             int i = 0;
             while(!isStop){
+                System.out.println("isStop:"+isStop);
+
                 if (i==3){
                     this.setStop(true);
+                    System.out.println("isStop===true:"+isStop);
                 }
                 i++;
                 System.out.println(i);
@@ -24,4 +27,15 @@ class MyThread extends Thread{
     }
 
 
+class TestTread{
+    public static void main(String[] args) {
 
+        for (int i = 0; i <10 ; i++) {
+            MyThread thread=new MyThread();
+            thread.start();
+        }
+
+
+    }
+
+}

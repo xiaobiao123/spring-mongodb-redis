@@ -21,7 +21,6 @@ public class Test1233 {
         cunsumer.start();
 
     }
-
     class Cunsumer extends Thread {
         @Override
         public void run() {
@@ -29,6 +28,7 @@ public class Test1233 {
         }
 
         private void consume() {
+
             while (true) {
                 try {
                     queue.take();
