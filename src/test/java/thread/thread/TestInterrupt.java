@@ -15,11 +15,7 @@ public class TestInterrupt {
         TestInterrupt testInterrupt = new TestInterrupt();
         MyThread thread = testInterrupt.new MyThread();
         thread.start();
-        try {
-            Thread.currentThread().sleep(2000);
-        } catch (InterruptedException e) {
 
-        }
         /*将线程中断标志设置为true*/
         thread.interrupt();
 
@@ -38,7 +34,7 @@ public class TestInterrupt {
         public void run() {
             try {
                 System.out.println("进入睡眠状态");
-                Thread.currentThread().sleep(4000);
+                Thread.currentThread().sleep(100);
                 System.out.println("睡眠完毕");
             } catch (InterruptedException e) {
                 System.out.println("得到中断异常");

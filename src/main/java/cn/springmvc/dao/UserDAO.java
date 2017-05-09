@@ -15,4 +15,7 @@ public interface UserDAO {
 
 	public int insertUser(User user);
 
+    void updateUser(Long i);
+
+    User getUser(String nickName);
 }

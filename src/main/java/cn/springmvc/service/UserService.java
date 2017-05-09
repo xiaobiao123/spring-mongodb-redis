@@ -6,4 +6,7 @@ public interface UserService {
 
 	public int insertUser(User user);
 
+    void updateUser(Long i);
+
+    User getUser(String nickName);
 }

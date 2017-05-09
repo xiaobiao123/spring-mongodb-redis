@@ -1,0 +1,60 @@
+###1、传递依赖 与 排除依赖
+<exclusions>
+    <exclusion>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+    </exclusion>
+</exclusions>
+###2、distributionManagement
+<distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Release Repository</name>
+            <url>http://172.30.43.252/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Snapshot Repository</name>
+            <url>http://172.30.43.252/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+ <!--使用mvn deploy  用来将项目生成的构件分发到远程Maven仓库 distributionManagement来指定Maven分发构件的位置
+
+    同时在setting.xml中配置
+    <servers>
+    <server>
+      <id>nexus-releases</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+    <server>
+      <id>nexus-snapshots</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+  </servers>
+
+  settings.xml中server元素下id的值必须与POM中repository或snapshotRepository下id的值完全一致。
+  将认证信息放到settings下而非POM中，是因为POM往往是它人可见的，而settings.xml是本地的
+    -->
+
+###3、scm
+    <scm>
+        <url>http://172.30.43.251/hg/service_goods</url>
+        <connection>scm:hg:http://172.30.43.251/hg/service_goods</connection>
+        <developerConnection>scm:hg:http://172.30.43.251/hg/service_goods</developerConnection>
+    </scm>
+
+###4、resources控制资源文件的拷贝
+        <build>
+            ...
+            <resources>
+                <!--控制资源文件的拷贝 -->
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <targetPath>${project.build.directory}/classes</targetPath>
+                </resource>
+            </resources>
+            ...
+        </build>

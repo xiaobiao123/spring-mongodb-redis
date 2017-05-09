@@ -22,6 +22,9 @@ import java.util.Map;
  * redis应用场景
  * 参考地址
  * url:https://my.oschina.net/lnmpstudy/blog/266541
+ *
+ *
+ * https://my.oschina.net/ydsakyclguozi/blog/421070?p={{totalPage}}
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:conf/applicationContext-redis.xml")
@@ -67,9 +70,32 @@ public class RedisApplicationScenariosTest {
         ShardedJedis shardedJedis = this.getConnection();
         for (int i = 0; i < 15; i++) {
             Map<String, String> map = Maps.newHashMap();
-            map.put("pingluanshu", "20" + i);
-            shardedJedis.hmset("count_product:product_no" + i, map);
+            map.put("pingluanshu", "20" + 11);
+            shardedJedis.hmset("count_product:product_no" + 10, map);
         }
+        shardedJedis.close();
+    }
+
+    /**
+     * 返回名称为key的hash中field对应的value
+     */
+    @Test
+    public void hmget() {
+        ShardedJedis shardedJedis = this.getConnection();
+        System.out.println(shardedJedis.hmget("count_product:product_no10","xihuanshu","pingluanshu","fangwenshu"));
+        System.out.println(shardedJedis.hvals("count_product:product_no10"));
+        shardedJedis.close();
+    }
+
+    /**
+     * hvals(key)：返回名称为key的hash中所有键对应的value
+     * hkeys(key)：返回名称为key的hash中所有键
+     * hgetall(key)：返回名称为key的hash中所有的键（field）及其对应的value
+     */
+    @Test
+    public void hvals() {
+        ShardedJedis shardedJedis = this.getConnection();
+        System.out.println(shardedJedis.hvals("count_product:product_no10"));
         shardedJedis.close();
     }
 
@@ -106,10 +132,12 @@ public class RedisApplicationScenariosTest {
     @Test
     public void zadd() {
         ShardedJedis shardedJedis = this.getConnection();
-        for (int i = 100010; i < 100013; i++) {
+        for (int i = 100008; i < 100015; i++) {
             Map<String, Double> map = Maps.newHashMap();
             map.put("follow" + i, Double.valueOf(i));
-            shardedJedis.zadd("user_relation:100001", map);
+            map.put("fans" + i, Double.valueOf(i));
+            map.put("focusOn" + i, Double.valueOf(i));
+            shardedJedis.zadd("user_relation:100000", map);
         }
         shardedJedis.close();
     }
@@ -122,7 +150,6 @@ public class RedisApplicationScenariosTest {
     @Test
     public void zinterstore() {
         ShardedJedis shardedJedis = this.getConnection();
-
         Collection<Jedis> jedisC = shardedJedis.getAllShards();
         Iterator<Jedis> iter = jedisC.iterator();
         Jedis jedis = iter.next();

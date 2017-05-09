@@ -52,13 +52,14 @@ public class UserTest {
 
     @Test
     public void addUser() throws InterruptedException {
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
         Long start=System.currentTimeMillis();
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 1; i++) {
             User user = new User();
-            user.setNickname("nickname" + i);
-            user.setState(i);
+            user.setNickname("nickname" + 1);
+            user.setState(1);
             executorService.execute(new InserUser(user));
+            Thread.sleep(1000);
         }
         System.out.println();
 

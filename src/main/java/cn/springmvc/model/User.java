@@ -1,19 +1,30 @@
 package cn.springmvc.model;
 
 import com.mongodb.DBObject;
+import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 
  * 用户表
  */
-
-public class User {
+@Data
+public class User implements Serializable {
 
 	private int id;
 
 	private int state;
 
 	private String nickname;
+
+	private String name;
+
+	private int age;
+
+	private String password;
+
+	private String mark;
 
 	public int getId() {
 

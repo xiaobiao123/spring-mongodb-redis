@@ -22,7 +22,7 @@ public class TestEx {
 //		JSONObject json=new JSONObject();
 //		json.put("1","1");
 //		json.put("1","2");
-//		Map map=new HashMap<>();
+//		Map map=new HashMapSource<>();
 //		
 //		map.put("1","1");
 //		map.put("2","2");

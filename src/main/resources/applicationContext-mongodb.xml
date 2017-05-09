@@ -8,8 +8,11 @@
         http://www.springframework.org/schema/data/mongo       
         http://www.springframework.org/schema/data/mongo/spring-mongo.xsd   
         http://www.springframework.org/schema/context  
-        http://www.springframework.org/schema/context/spring-context-3.0.xsd">  
-  
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+	<!--replica-set 集群-->
+
     <mongo:mongo-client id="mongoClient"
   		host="${mongo.ip}" 
   		port="${mongo.port}"
@@ -21,12 +24,14 @@
    			socket-timeout="${mongo.socketTimeout}"
    			write-concern="SAFE" />
  	</mongo:mongo-client>
- 	
+	<!--http://blog.csdn.net/freebird_lb/article/details/8229567-->
  	<!--  <mongo:mongo-client id="mongoClient"
   		 host="127.0.0.1" port="27017"
   		credentials="zjy:zjy@testSleep" >
-  		<mongo:client-options 
+  		<mongo:client-options
+  			线程池的大小
   			connections-per-host="10"
+  			#这个*mongo.connectionsPerHost则是如果链接数大于100的等待xttk数
    			threads-allowed-to-block-for-connection-multiplier="5"
    			connect-timeout="0"
    			socket-timeout="0"

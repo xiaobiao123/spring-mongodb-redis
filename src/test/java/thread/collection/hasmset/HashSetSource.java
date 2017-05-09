@@ -2,7 +2,7 @@ package thread.collection.hasmset;
 
 import java.util.*;
 
-public class HashSet<E>
+public class HashSetSource<E>
         extends AbstractSet<E>
         implements Set<E>, Cloneable, java.io.Serializable {
     static final long serialVersionUID = -5024744406713321676L;
@@ -18,7 +18,7 @@ public class HashSet<E>
      * <p>
      * 实际底层会初始化一个空的HashMap，并使用默认初始容量为16和加载因子0.75。
      */
-    public HashSet() {
+    public HashSetSource() {
         map = new HashMap<E, Object>();
     }
 
@@ -30,7 +30,7 @@ public class HashSet<E>
      *
      * @param c 其中的元素将存放在此set中的collection。
      */
-    public HashSet(Collection<? extends E> c) {
+    public HashSetSource(Collection<? extends E> c) {
         map = new HashMap<E, Object>(Math.max((int) (c.size() / .75f) + 1, 16));
         addAll(c);
     }
@@ -43,7 +43,7 @@ public class HashSet<E>
      * @param initialCapacity 初始容量。
      * @param loadFactor      加载因子。
      */
-    public HashSet(int initialCapacity, float loadFactor) {
+    public HashSetSource(int initialCapacity, float loadFactor) {
         map = new HashMap<E, Object>(initialCapacity, loadFactor);
     }
 
@@ -54,7 +54,7 @@ public class HashSet<E>
      *
      * @param initialCapacity 初始容量。
      */
-    public HashSet(int initialCapacity) {
+    public HashSetSource(int initialCapacity) {
         map = new HashMap<E, Object>(initialCapacity);
     }
 
@@ -68,7 +68,7 @@ public class HashSet<E>
      * @param loadFactor      加载因子。
      * @param dummy           标记。
      */
-    HashSet(int initialCapacity, float loadFactor, boolean dummy) {
+    HashSetSource(int initialCapacity, float loadFactor, boolean dummy) {
         map = new LinkedHashMap<E, Object>(initialCapacity, loadFactor);
     }
 
@@ -172,7 +172,7 @@ public class HashSet<E>
      */
     public Object clone() {
         try {
-            HashSet<E> newSet = (HashSet<E>) super.clone();
+            HashSetSource<E> newSet = (HashSetSource<E>) super.clone();
             newSet.map = (HashMap<E, Object>) map.clone();
             return newSet;
         } catch (CloneNotSupportedException e) {

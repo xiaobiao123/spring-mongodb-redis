@@ -76,10 +76,11 @@ public class RedisTest {
             System.out.println(JSON.toJSONString(shardedJedis.del("test:string") + 1));
         }
         shardedJedis.close();
+
     }
 
     /**
-     * string incr /decr
+     * string incr +/decr -1
      */
     @Test
     public void genUuidDbKey() {
@@ -123,14 +124,7 @@ public class RedisTest {
 
     }
 
-    @Test
-    public void scanString() {
-        ShardedJedis shardedJedis = this.getConnection();
-//        for (int i = 0; i < 15; i++) {
-        shardedJedis.scard("test:string");
-//        }
-        shardedJedis.close();
-    }
+
 
     /*********************************************string操作 end*******************************************/
 
@@ -215,7 +209,7 @@ public class RedisTest {
     public void lrem() {
         ShardedJedis shardedJedis = this.getConnection();
         //插入输入
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             User user = new User();
             user.setNickname("nickname" + i);
             user.setState(i);
@@ -247,7 +241,7 @@ public class RedisTest {
     }
 
     /**
-     * 删除 LPOP key移除并返回列表 key 的头元素
+     * 删除 从前 LPOP key移除并返回列表 key 的头元素
      */
     @Test
     public void lpopList() {
@@ -272,7 +266,7 @@ public class RedisTest {
 
 
     /**
-     * lrangeList
+     * lrangeList（分页查询）
      */
     @Test
     public void lrangeList() {
@@ -288,8 +282,14 @@ public class RedisTest {
      */
     @Test
     public void lremList() {
+
+        User user = new User();
+        user.setNickname("nickname" + 7);
+        user.setState(7);
+        user.setId(7);
+
         ShardedJedis shardedJedis = this.getConnection();
-        System.out.println("=====================" + shardedJedis.lrem("user_list", 1, "nickname7"));
+        System.out.println("=====================" + shardedJedis.lrem("user_list", 1, JSON.toJSONString(user)));
         //获取对象的长度
         System.out.println("=====================" + shardedJedis.llen("user_list"));
         shardedJedis.close();
@@ -348,13 +348,13 @@ public class RedisTest {
 
 
     /**
-     * 返回给定集合之间的差集。不存在的集合 key 将视为空集。
+     *   smembers(key) ：返回名称为key的set的所有元素
      */
     @Test
     public void smembers() {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
-        System.out.println("=====================" + shardedJedis.smembers("name_set"));
+        System.out.println("=====================" + shardedJedis.smembers("name_set2"));
         shardedJedis.close();
     }
 
@@ -376,7 +376,7 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
         for (int i = 0; i < 10; i++) {
-            System.out.println("=====================" + shardedJedis.zadd("name_zadd", i, "test" + i));
+            System.out.println("=====================" + shardedJedis.zadd("name_zuser", i, "test" + i));
         }
         shardedJedis.close();
     }

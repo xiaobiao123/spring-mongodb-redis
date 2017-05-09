@@ -1,0 +1,84 @@
+###XmlBeanFactory
+
+//创建IoC容器管理的Bean的xml配置文件，即定位资源
+ClassPathResource resource = new ClassPathResource(“beans.xml”);
+//创建BeanFactory
+DefaultListableBeanFactory factory = new DefaultListableBeanFactory ();
+//创键Bean定义读取器
+XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+//使用Bean定义读取器读入Bean配置信息，即载入配置
+reader.loadBeanDefinitions(resource);
+###ApplicationContext是一个在BeanFactory基础进行功能扩展的，最常用的IoC容器。
+public interface ApplicationContext extends ListableBeanFactory, HierarchicalBeanFactory,
+        MessageSource, ApplicationEventPublisher, ResourcePatternResolver {
+    //获取ApplicationContext的id
+    String getId();
+    //获取ApplicationContext的displayName
+    String getDisplayName();
+    //获取ApplicationContext第一次加载的时间戳
+    long getStartupDate();
+    //获取ApplicationContext容器的父容器
+    ApplicationContext getParent();
+    //获取自动装配功能的BeanFactory
+    AutowireCapableBeanFactory getAutowireCapableBeanFactory() throws IllegalStateException;
+}
+
+
+###3、spring的IoC容器初始化包括：Bean定义资源文件的定位、载入和注册3个基本过程。
+    (1).Bean定义资源文件的定位：
+    Bean定义资源文件定位由ResourceLoader通过统一的Resource接口来完成，Resource接口将各种形式的Bean定义资源文件封装成统一的、
+    IoC容器可进行载入操作的对象。
+    (2).Bean定义资源文件的载入：
+    Bean定义资源文件载入的过程是将Bean定义资源文件中配置的Bean转换成IoC容器中所管理Bean的数据结构形式。
+    SpringIoC中管理的Bean的数据结构是BeanDefinition，BeanDefinition是POJO对象在IoC容器中的抽象。
+    (3).Bean定义的注册：
+    通过调用BeanDefinitionRegistry接口把从Bean定义资源文件中解析的Bean向IoC容器进行注册，在IoC容器内部，
+    是通过一个HashMap来存储这些Bean对象数据的。
+
+###4、FileSystemXmlApplicationContext
+    通过分析FileSystemXmlApplicationContext的源代码可以知道，在创建FileSystemXmlApplicationContext容器时，
+    构造方法做以下两项重要工作：
+    首先，调用父类容器的构造方法(super(parent)方法)为容器设置好Bean资源加载器。
+    然后，再调用父类AbstractRefreshableConfigApplicationContext的setConfigLocations(configLocations)
+    方法设置Bean定义资源文件的定位路径。
+
+
+
+     //调用容器准备刷新的方法，获取容器的当时时间，同时给容器设置同步标识
+                prepareRefresh();
+                //告诉子类启动refreshBeanFactory()方法，Bean定义资源文件的载入从
+    //子类的refreshBeanFactory()方法启动
+                ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
+    //为BeanFactory配置容器特性，例如类加载器、事件处理器等
+                prepareBeanFactory(beanFactory);
+                try {
+                    //为容器的某些子类指定特殊的BeanPost事件处理器
+                    postProcessBeanFactory(beanFactory);
+                    //调用所有注册的BeanFactoryPostProcessor的Bean
+                    invokeBeanFactoryPostProcessors(beanFactory);
+                    //为BeanFactory注册BeanPost事件处理器.
+                    //BeanPostProcessor是Bean后置处理器，用于监听容器触发的事件
+                    registerBeanPostProcessors(beanFactory);
+                    //初始化信息源，和国际化相关.
+                    initMessageSource();
+                    //初始化容器事件传播器.
+                    initApplicationEventMulticaster();
+                    //调用子类的某些特殊Bean初始化方法
+                    onRefresh();
+                    //为事件传播器注册事件监听器.
+                    registerListeners();
+                    //初始化所有剩余的单态Bean.
+                    finishBeanFactoryInitialization(beanFactory);
+                    //初始化容器的生命周期事件处理器，并发布容器的生命周期事件
+                    finishRefresh();
+                }
+                catch (BeansException ex) {
+                    //销毁以创建的单态Bean
+                    destroyBeans();
+    //取消refresh操作，重置容器的同步标识.
+                    cancelRefresh(ex);
+                    throw ex;
+                }
+
+
+   主要这里又使用了一个委派模式，在当前类中只定//义了抽象的loadBeanDefinitions方法，具体的实现调用子类容器

@@ -1,1 +1,2 @@
-2017-03-22 16:40:58 [ main:13023 ] - [ ERROR ] %
+[ERROR] [MALL-SCHEDULE] 2017-05-09 15:44:25: 6221 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
+[ERROR] [MALL-SCHEDULE] 2017-05-09 16:56:36: 4123340 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated

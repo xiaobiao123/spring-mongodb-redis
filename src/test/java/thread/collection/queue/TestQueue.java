@@ -48,8 +48,8 @@ public class TestQueue {
             while(true){
                 try {
                     queue.put(1);
-                    Thread.sleep(1000);
                     System.out.println("向队列取中插入一个元素，队列剩余空间："+(queueSize-queue.size()));
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

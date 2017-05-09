@@ -17,4 +17,16 @@ public class UserServiceImpl implements UserService {
 		return userDAO.insertUser(user);
 	}
 
+	@Override
+	public  void updateUser(Long i) {
+		 userDAO.updateUser(i);
+//		logger.error("AtomicInteger测试:"+integer.get());
+//		integer.addAndGet(1);
+	}
+
+	@Override
+	public User getUser( String nickName) {
+		return userDAO.getUser(nickName);
+	}
+
 }

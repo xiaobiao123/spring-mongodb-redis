@@ -1,6 +1,6 @@
 package thread.threadlocal;
 
-public class Test {
+public class TestInit {
     ThreadLocal<Long> longLocal = new ThreadLocal<Long>(){
         protected Long initialValue() {
             return Thread.currentThread().getId();
@@ -27,24 +27,24 @@ public class Test {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        final Test test = new Test();
+        final TestInit testInit = new TestInit();
 
-//        test.set();
-        System.out.println(test.getLong());
-        System.out.println(test.getString());
+//        testInit.set();
+        System.out.println(testInit.getLong());
+        System.out.println(testInit.getString());
 
 
         Thread thread1 = new Thread(){
             public void run() {
-//                test.set();
-                System.out.println(test.getLong());
-                System.out.println(test.getString());
+//                testInit.set();
+                System.out.println(testInit.getLong());
+                System.out.println(testInit.getString());
             };
         };
         thread1.start();
         thread1.join();
 
-        System.out.println(test.getLong());
-        System.out.println(test.getString());
+        System.out.println(testInit.getLong());
+        System.out.println(testInit.getString());
     }
 }

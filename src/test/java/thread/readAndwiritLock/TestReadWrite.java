@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class TestReadWrite {
     private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
 
-    private Lock lock=new ReentrantLock();
+//    private Lock lock=new ReentrantLock();
 
 //    private ReentrantReadWriteLock rw2=new ReentrantReadWriteLock();
      
