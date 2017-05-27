@@ -173,6 +173,7 @@ public class JavaESTest {
             long version = response.getVersion();
             RestStatus status = response.status();
             System.out.println(index + " : " + type + ": " + id + ": " + version + ": " +JSONObject.toJSONString(status));
+
     }
 
 

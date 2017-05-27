@@ -2,6 +2,7 @@ package elk;
 
 import java.net.InetAddress;
 import java.util.Iterator;
+import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import org.elasticsearch.action.search.MultiSearchResponse;
@@ -18,7 +19,11 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.global.Global;
 import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
+import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.aggregations.metrics.valuecount.ValueCountAggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -53,7 +58,7 @@ public class JavaESTest2 {
 
         Settings settings = Settings.builder().put("cluster.name", "elasticsearch").build();
         client = new PreBuiltTransportClient(settings)
-                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.30.22.239"), 9300));
+                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.30.21.92"), 9300));
 
 
     }
@@ -172,6 +177,11 @@ public class JavaESTest2 {
      */
     @Test
     public void testFilter() {
+        ////前缀查找
+        //QueryBuilders.prefixQuery("","");//
+        ////匹配短语查询
+        //QueryBuilders.matchPhraseQuery("","");
+
         SearchResponse response = client.prepareSearch("twitter")
                 .setTypes("user")
                 .setQuery(QueryBuilders.matchAllQuery()) //查询所有
@@ -229,7 +239,17 @@ public class JavaESTest2 {
 //        gradeAgg.subAggregation(grade);
         srb.addAggregation(grade);
         SearchResponse sr = srb.execute().actionGet();
-        Aggregation aggregation = sr.getAggregations().get("classAgg");
+
+        //获取Terms类型的聚合查询结果
+        //API https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/_bucket_aggregations.html
+        Terms agg = sr.getAggregations().get("classAgg");
+        List<Terms.Bucket> buckets = agg.getBuckets();
+        for (Terms.Bucket bucket:buckets){
+            bucket.getDocCount();
+            bucket.getKeyAsString();
+        }
+
+
         SearchHits searchHits = sr.getHits();
         for (SearchHit hit : searchHits) {
             hit.getSourceAsString();
