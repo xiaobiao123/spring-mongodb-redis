@@ -25,7 +25,8 @@ public class ZooKeeperTest {
     static {
         // 创建一个与服务器的连接
         try {
-            zookeeper = new ZooKeeper("172.30.21.92:" + 2181,
+//            new ZkClient(zkUrl);
+            zookeeper = new ZooKeeper("172.30.22.239:" + 2181,
                     3000, new Watcher() {
                 // 监控所有被触发的事件
                 public void process(WatchedEvent event) {
@@ -47,11 +48,11 @@ public class ZooKeeperTest {
      */
     @Test
     public void  createNode()  throws Exception{
-        if (zookeeper.exists("/test/childNode2",false)==null){
+        if (zookeeper.exists("/test",true)==null){
             System.out.println("节点名称为test不存在");
-            zookeeper.create("/test/childNode2","Znode1".getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
+            zookeeper.create("/test","Znode1".getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
         }else {
-            System.out.println("节点名称为test已存在");
+            System.out.println("节点名称为test");
         }
     }
 
@@ -104,8 +105,6 @@ public class ZooKeeperTest {
         zookeeper.delete(data,-1);
         zookeeper.close();
     }
-
-
     public void createWatcher() throws IOException {
         // 创建一个与服务器的连接
         ZooKeeper zk = new ZooKeeper("localhost:" + CLIENT_PORT,
@@ -120,27 +119,29 @@ public class ZooKeeperTest {
 
 
     public static void main(String[] args) throws Exception{
-        System.out.println("=========创建节点===========");
-        if(zookeeper.exists("/test", false) == null)
-        {
-            zookeeper.create("/test", "znode1".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-        }
-        System.out.println("=============查看节点是否安装成功===============");
-        System.out.println(new String(zookeeper.getData("/test", false, null)));
 
-        System.out.println("=========修改节点的数据==========");
-        String data = "zNode2";
-        zookeeper.setData("/test", data.getBytes(), -1);
-
-        System.out.println("========查看修改的节点是否成功=========");
-        System.out.println(new String(zookeeper.getData("/test", false, null)));
-
-        System.out.println("=======删除节点==========");
-        zookeeper.delete("/test", -1);
-
-        System.out.println("==========查看节点是否被删除============");
-        System.out.println("节点状态：" + zookeeper.exists("/test", false));
-
-        zookeeper.close();
+        Thread.sleep(100000);
+//        System.out.println("=========创建节点===========");
+//        if(zookeeper.exists("/test", false) == null)
+//        {
+//            zookeeper.create("/test", "znode1".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+//        }
+//        System.out.println("=============查看节点是否安装成功===============");
+//        System.out.println(new String(zookeeper.getData("/test", false, null)));
+//
+//        System.out.println("=========修改节点的数据==========");
+//        String data = "zNode2";
+//        zookeeper.setData("/test", data.getBytes(), -1);
+//
+//        System.out.println("========查看修改的节点是否成功=========");
+//        System.out.println(new String(zookeeper.getData("/test", false, null)));
+//
+//        System.out.println("=======删除节点==========");
+//        zookeeper.delete("/test", -1);
+//
+//        System.out.println("==========查看节点是否被删除============");
+//        System.out.println("节点状态：" + zookeeper.exists("/test", false));
+//
+//        zookeeper.close();
     }
 }

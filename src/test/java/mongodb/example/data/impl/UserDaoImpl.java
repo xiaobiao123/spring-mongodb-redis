@@ -65,7 +65,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<UserEntity> findListByAge(int age) {
         Query query = new Query();
-        query.addCriteria(new Criteria("age").is(age));
+        query.addCriteria(new Criteria("age").gt(age));
+        query.skip(0).limit(10);
         return this.mongoTemplate.find(query, UserEntity.class);
     }
 
@@ -100,8 +101,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public UserEntity findOne(String id) {
         Query query = new Query();
-
-        query.addCriteria(new Criteria("_id").is(id));
+        query.addCriteria(Criteria.where("_id").is(id));
         return this.mongoTemplate.findOne(query, UserEntity.class);
     }
 
@@ -169,6 +169,7 @@ public class UserDaoImpl implements UserDao {
 //        query.with(new Sort(Direction.DESC,"birth"));
 //        query.with(new Sort("birth")); 排序
         query.with(new Sort(Sort.Direction.ASC, "birth"));
+
         return this.mongoTemplate.find(query, UserEntity.class);
     }
 
@@ -227,6 +228,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Long count() {
         Query query=new Query();
+        query.addCriteria(Criteria.where("age").gt(20));
         return this.mongoTemplate.count(query,UserEntity.class);
     }
 
@@ -240,10 +242,9 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void aggregate() {
-        GroupBy groupBy = GroupBy.key("msgContent").initialDocument("{count:0}")
+        GroupBy groupBy = GroupBy.key("age").initialDocument("{count:0}")
                 .reduceFunction("function(key, values){values.count+=1;}");
-        System.out.println(JSON.toJSON(mongoTemplate.group("message", groupBy, Message.class)));
-
+        System.out.println(JSON.toJSON(mongoTemplate.group("mg_user", groupBy, UserEntity.class)));
 
 //		Query query=new Query();
 //		
@@ -258,7 +259,7 @@ public class UserDaoImpl implements UserDao {
     public void distinc() {
 
         DB db = this.mongoTemplate.getDb();
-        DBCollection collection = db.getCollection("message");
+        DBCollection collection = db.getCollection("mg_user");
         DBObject object = new BasicDBObject();
 
 //		 collection.group(new BasicDBObject("name",1), 
@@ -267,7 +268,7 @@ public class UserDaoImpl implements UserDao {
 
         object.put("_id", new BasicDBObject("$gt", 120000));
 
-        List distinc = collection.distinct("msgContent", object);
+        List distinc = collection.distinct("age", object);
 
 
         System.out.println(JSON.toJSON(distinc));

@@ -1,5 +1,6 @@
 package mongodb.example;
 
+import com.alibaba.fastjson.JSON;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.junit.FixMethodOrder;
@@ -34,7 +35,7 @@ public class MongodbTest1 {
 		st.setContent("content1");
 		st.setFromNick("test");
 		st.setFromUid("1313131313123");
-		st.setToUid("gwb123");
+		st.setToUid("gwb");
 		st.setUnreadCount(2l);
 		mongoTemplate.insert(st);
     } 
@@ -44,12 +45,13 @@ public class MongodbTest1 {
 	@Test
 	public void findNewMessage() {  
 		String userId="gwb";
-        Long total = 0l;  
+        Long total = 0L;
         String reduce = "function(doc, aggr){" +  
                 "            aggr.total += doc.unreadCount;" +  
                 "        }";  
         Query query = Query.query(Criteria.where("toUid").is(userId));  
-        DBObject result = mongoTemplate.getCollection("gwb").group(new BasicDBObject("toUid", 1),   
+        DBObject result = mongoTemplate.getCollection("mg_state")
+				.group(new BasicDBObject("toUid", 1),
                 query.getQueryObject(),   
                 new BasicDBObject("total", total),  
                 reduce);  
@@ -69,15 +71,17 @@ public class MongodbTest1 {
 		String userId="gwb";
         Long total = 0l;  
         
-        AggregationOperation match = Aggregation.match(Criteria.where("service").is("EFT").and("source").is("MARKUP"));
+//        AggregationOperation match = Aggregation.match(Criteria.where("service").is("EFT").and("source").is("MARKUP"));
     
         System.out.println(total);
 		Criteria criteria = Criteria.where("toUid").is(userId);
-		mongoTemplate.group(criteria, "gwb", new GroupBy("toUid"), StateStats.class);
+//		mongoTemplate.group(criteria, "mg_state", new GroupBy("toUid"), StateStats.class);
 //		mongoTemplate.group(criteria, "gwb", new GroupBy("gwb"), StateStats.class);
-   
-        
-        mongoTemplate.group(criteria, "collectionName", new GroupBy("gwb"), StateStats.class);
+
+		GroupBy groupBy = GroupBy.key("toUid").initialDocument("{count:0}")
+				.reduceFunction("function(key, values){values.count+=1;}");
+
+		System.out.println(JSON.toJSON(mongoTemplate.group(criteria, "mg_state", groupBy, StateStats.class)));
 	
 	}
 }

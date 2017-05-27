@@ -19,11 +19,12 @@ public class TestInterrupt {
         /*将线程中断标志设置为true*/
         thread.interrupt();
 
+
         /*如果当前线程的中断标志是true,将线程中断标志设置为false*/
-        System.out.println("interrupted22=======================:" + thread.interrupted());
+//        System.out.println("interrupted22=======================:" + thread.interrupted());
 
-        while (!thread.isInterrupted()){
-
+        while (!thread.isInterrupted()) {
+            System.out.println("while");
         }
         /*判断当前现在的中断状态*/
         System.out.println("isInterrupted22=======================:" + thread.isInterrupted());
@@ -34,12 +35,12 @@ public class TestInterrupt {
         public void run() {
             try {
                 System.out.println("进入睡眠状态");
-                Thread.currentThread().sleep(100);
+                Thread.currentThread().sleep(0);
                 System.out.println("睡眠完毕");
             } catch (InterruptedException e) {
                 System.out.println("得到中断异常");
 //                System.out.println("isInterrupted=======================:" + Thread.currentThread().isInterrupted());
-//                System.out.println("interrupted=======================:"+Thread.currentThread().interrupted());
+//                System.out.println("interrupted=======================:" + Thread.currentThread().interrupted());
             }
             System.out.println("run方法执行完毕");
         }

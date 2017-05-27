@@ -11,7 +11,7 @@ public class ConnectionManager {
 		protected Connection initialValue() {
 			Connection conn = null;
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+				conn = DriverManager.getConnection("jdbc:mysql://172.30.22.239:3306/test", "root", "root");
 				System.out.println(conn);
 			} catch (SQLException e) {
 				e.printStackTrace();

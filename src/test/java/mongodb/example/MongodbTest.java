@@ -93,7 +93,7 @@ public class MongodbTest {
 
     @Test
     public void findList() {
-        List<UserEntity> list = userDao.findList(1, 10);
+        List<UserEntity> list = userDao.findList(0, 10);
         for (UserEntity uentity : list) {
             System.out.println("==================" + JSONObject.toJSON(uentity));
         }
@@ -109,7 +109,7 @@ public class MongodbTest {
 
     @Test
     public void findOne() {
-        UserEntity uentity = userDao.findOne("58c1104f45815e1b7c8a4d94");
+        UserEntity uentity = userDao.findOne("591fd48f385e531e9491301c");
         System.out.println("==================" + JSONObject.toJSON(uentity));
     }
 

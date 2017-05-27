@@ -1,6 +1,7 @@
 package cn.springmvc.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import cn.springmvc.dao.UserDAO;
@@ -12,6 +13,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDAO userDAO;
+
+	private String string;
+
 
 	public int insertUser(User user) {
 		return userDAO.insertUser(user);

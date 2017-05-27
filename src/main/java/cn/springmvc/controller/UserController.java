@@ -57,7 +57,7 @@ public class UserController {
         user.setMark("mark"+integer.addAndGet(1));
         user.setPassword("password"+integer.getAndAdd(1));
         //System.out.println(integer.addAndGet(1));
-//        userService.insertUser(user);
+        userService.insertUser(user);
 //        User rtUser = userService.getUser(nickName);
         returnData.setData(user);
         return returnData.toString();

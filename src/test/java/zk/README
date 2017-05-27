@@ -1,0 +1,33 @@
+一、zk四种节点类型
+    #持久节点（PERSISTENT）
+    #持久顺序节点（PERSISTENT_SEQUENTIAL）
+    #临时节点（EPHEMERAL）
+    #临时顺序节点（EPHEMERAL_SEQUENTIAL）   可以用来实现分布式锁
+
+二、watcher
+
+    #IZkChildListener 监听子节点的信息变动(创建/删除)
+    #IZkDataListener  监听节点信息的变更（如对节点testUserNode的值进行修改）
+
+
+
+1、集中式配置管理: 像数据库配置信息集中
+
+2、统一命名服务:是指通过指定的名字来获取资源或者服务的地址，提供者的信息
+
+3、分布式通知/协调
+
+     通过watcher的通知机制实现
+          分布式锁
+          分布式事务
+
+4、集群监控和Master选举
+
+    #leader:事物请求的唯一调度和处理者，保证集群事物处理的一直性
+    #
+
+5、分布式锁
+
+6、分布式队列
+
+

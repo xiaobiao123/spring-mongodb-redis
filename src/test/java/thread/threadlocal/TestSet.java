@@ -19,31 +19,28 @@ public class TestSet {
     }
 
     public static void main(String[] args) throws InterruptedException {
-//        final TestSet testSet = new TestSet();
-//
-//
-//        testSet.set();
-//        System.out.println(testSet.getLong());
-//        System.out.println(testSet.getString());
-//
-//
-//        Thread thread1 = new Thread() {
-//            public void run() {
-//                testSet.set();
-//                System.out.println(testSet.getLong());
-//                System.out.println(testSet.getString());
-//            }
-//
-//            ;
-//        };
-//        thread1.start();
-//        thread1.join();
-//
-//        System.out.println(testSet.getLong());
-//        System.out.println(testSet.getString());
+        final TestSet testSet = new TestSet();
 
-        String  ss="abcdefg.pdf";
 
-        System.out.println(ss.replaceAll(".pdf",".png"));
+        testSet.set();
+        System.out.println(testSet.getLong());
+        System.out.println(testSet.getString());
+
+
+        Thread thread1 = new Thread() {
+            public void run() {
+                testSet.set();
+                System.out.println(testSet.getLong());
+                System.out.println(testSet.getString());
+            }
+
+            ;
+        };
+        thread1.start();
+        thread1.join();
+
+        System.out.println(testSet.getLong());
+        System.out.println(testSet.getString());
+
     }
 }

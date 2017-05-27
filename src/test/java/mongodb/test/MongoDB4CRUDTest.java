@@ -36,22 +36,22 @@ public class MongoDB4CRUDTest {
 
 	private Mongo mg = null;
 	private DB db;
-	private DBCollection users;
+	private DBCollection dbCollection;
 	MongoClient mongoClient = new MongoClient();
 	
 
 	@Before
 	public void init() throws UnknownHostException {
 		try {
-			mg = new Mongo();
-			// mg = new Mongo("localhost", 27017);
+//			mg = new Mongo();
+			 mg = new Mongo("172.30.21.92", 27017);
 		} catch (MongoException e) {
 			e.printStackTrace();
 		}
 		// 获取temp DB；如果默认没有创建，mongodb会自动创建
 		db = mongoClient.getDB("temp");
 		// 获取users DBCollection；如果默认没有创建，mongodb会自动创建
-		users = db.getCollection("users");
+		dbCollection = db.getCollection("users");
 	}
 
 	@After
@@ -60,7 +60,7 @@ public class MongoDB4CRUDTest {
 			mg.close();
 		mg = null;
 		db = null;
-		users = null;
+		dbCollection = null;
 		System.gc();
 	}
 
@@ -79,7 +79,7 @@ public class MongoDB4CRUDTest {
 	private void queryAll() {
 		print("查询users的所有数据：");
 		// db游标
-		DBCursor cur = users.find();
+		DBCursor cur = dbCollection.find();
 		while (cur.hasNext()) {
 			print(cur.next());
 		}
@@ -94,12 +94,12 @@ public class MongoDB4CRUDTest {
 	public void add() {
 		// 先查询所有数据
 		queryAll();
-		print("count: " + users.count());
+		print("count: " + dbCollection.count());
 
 		DBObject user = new BasicDBObject();
 		user.put("name", "hoojo");
 		user.put("age", 28);
-		 users.save(user);//保存，getN()获取影响行数
+		dbCollection.save(user);//保存，getN()获取影响行数
 		// print(users.save(user).getN());
 
 		// users.remove(new BasicDBObject("age",28)).getN();
@@ -138,7 +138,7 @@ public class MongoDB4CRUDTest {
 		// + users.remove(new BasicDBObject("_id", new
 		// ObjectId("57e38c16605de00face64ec0"))));
 
-		System.out.println(users.remove(new BasicDBObject("name", "tom")).getN());
+		System.out.println(dbCollection.remove(new BasicDBObject("name", "tom")).getN());
 		// print("remove name = hoojo: " + users.remove(new
 		// BasicDBObject("name", new BasicDBObject("$gte", 24))));
 		// print("remove name = hoojo: " + users.remove(new
@@ -149,13 +149,13 @@ public class MongoDB4CRUDTest {
 
 	@Test
 	public void modify() {
-		print("修改：" + users.update(new BasicDBObject("_id", new ObjectId("4dde25d06be7c53ffbd70906")),
+		print("修改：" + dbCollection.update(new BasicDBObject("_id", new ObjectId("4dde25d06be7c53ffbd70906")),
 				new BasicDBObject("age", 99)));
-		print("修改：" + users.update(new BasicDBObject("_id", new ObjectId("4dde2b06feb038463ff09042")),
+		print("修改：" + dbCollection.update(new BasicDBObject("_id", new ObjectId("4dde2b06feb038463ff09042")),
 				new BasicDBObject("age", 121), true, // 如果数据库不存在，是否添加
 				false// 多条修改
 		));
-		print("修改：" + users.update(new BasicDBObject("name", "haha"), new BasicDBObject("name", "dingding"), true, // 如果数据库不存在，是否添加
+		print("修改：" + dbCollection.update(new BasicDBObject("name", "haha"), new BasicDBObject("name", "dingding"), true, // 如果数据库不存在，是否添加
 				true// false只修改第一天，true如果有多条就不修改
 		));
 
@@ -196,7 +196,7 @@ public class MongoDB4CRUDTest {
 		//排序
 		//print("find age = 24: " + users.find(cond).sort(new BasicDBObject("age",1)).toArray());
 		//分页
-		print("find age = 24: " + users.find(cond).sort(new BasicDBObject("age",1)).limit(5).skip(0).toArray());
+		print("find age = 24: " + dbCollection.find(cond).sort(new BasicDBObject("age",1)).limit(5).skip(0).toArray());
 
 		
 		// 查询age >= 24

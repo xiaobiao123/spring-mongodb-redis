@@ -1,6 +1,7 @@
 package redis;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 import org.junit.FixMethodOrder;
@@ -16,14 +17,15 @@ import redis.clients.jedis.ShardedJedisPool;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
  * redis应用场景
  * 参考地址
  * url:https://my.oschina.net/lnmpstudy/blog/266541
- *
- *
+ * <p>
+ * <p>
  * https://my.oschina.net/ydsakyclguozi/blog/421070?p={{totalPage}}
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -54,7 +56,7 @@ public class RedisApplicationScenariosTest {
     @Test
     public void hmset() {
         ShardedJedis shardedJedis = this.getConnection();
-//        shardedJedis.hset("product_no"+1,"xihuanshu","2");
+       shardedJedis.hset("product_no"+1,"xihuanshu","2");
         for (int i = 0; i < 15; i++) {
             Map<String, String> map = Maps.newHashMap();
             map.put("xihuanshu", "10");
@@ -82,7 +84,7 @@ public class RedisApplicationScenariosTest {
     @Test
     public void hmget() {
         ShardedJedis shardedJedis = this.getConnection();
-        System.out.println(shardedJedis.hmget("count_product:product_no10","xihuanshu","pingluanshu","fangwenshu"));
+        System.out.println(shardedJedis.hmget("count_product:product_no10", "pingluanshu",  "fangwenshu","xihuanshu"));
         System.out.println(shardedJedis.hvals("count_product:product_no10"));
         shardedJedis.close();
     }
@@ -96,6 +98,8 @@ public class RedisApplicationScenariosTest {
     public void hvals() {
         ShardedJedis shardedJedis = this.getConnection();
         System.out.println(shardedJedis.hvals("count_product:product_no10"));
+
+        System.out.println(shardedJedis.hgetAll("count_product:product_no10"));
         shardedJedis.close();
     }
 
@@ -155,6 +159,8 @@ public class RedisApplicationScenariosTest {
         Jedis jedis = iter.next();
         System.out.println(JSON.toJSONString(jedis.zinterstore("user_relation:100003", "user_relation:100001", "user_relation:100000")));
         System.out.println(JSON.toJSONString(shardedJedis.zrange("user_relation:100003", 0, -1)));
+        System.out.println(shardedJedis.zcard("user_relation:100003"));
+
         jedis.close();
         shardedJedis.close();
     }
@@ -211,7 +217,7 @@ public class RedisApplicationScenariosTest {
 //        System.out.println(JSON.toJSONString(shardedJedis.zremrangeByRank("topN",0,1)));
 
         //移除所有薪水在 1500 到 3500 内的员工
-        System.out.println(JSON.toJSONString(shardedJedis.zremrangeByScore("topN",0,1)));
+        System.out.println(JSON.toJSONString(shardedJedis.zremrangeByScore("topN", 0, 1)));
 
 
         System.out.println(JSON.toJSONString(shardedJedis.zrangeByScoreWithScores("topN", 2, 9)));

@@ -17,12 +17,15 @@ public class TestSleep {
         TestSleep testSleep = new TestSleep();
         MyThread thread1 = testSleep.new MyThread();
         MyThread thread2 = testSleep.new MyThread();
+
         thread1.start();
         System.out.println("thread1=====" + thread1.getId());
         thread2.start();
         System.out.println("thread2=====" + thread2.getId());
-        Thread thread = new Thread(new BtestRunnable());
-        thread.start();
+
+
+        System.out.println("main===="+Thread.currentThread().getId()+"getname:"+Thread.currentThread().getName());
+
     }
 
 
@@ -31,16 +34,16 @@ public class TestSleep {
         public void run() {
             synchronized (object) {
                 i++;
-                System.out.println("i:" + i);
+                System.out.println("i12:" + i);
                 try {
                     System.out.println("线程" + Thread.currentThread().getName() + "进入睡眠状态");
-                    Thread.currentThread().sleep(100);
+                    Thread.currentThread().sleep(10000);
                 } catch (InterruptedException e) {
                     // TODO: handle exception
                 }
                 System.out.println("线程" + Thread.currentThread().getName() + "睡眠结束");
                 i++;
-                System.out.println("i:" + i);
+                System.out.println("i23:" + i);
             }
         }
     }

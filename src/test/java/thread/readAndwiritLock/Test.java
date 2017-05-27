@@ -33,12 +33,12 @@ public class Test {
         lock.readLock().lock();
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        for (int i = 0; i <10 ; i++) {
+        for (int i = 0; i <100 ; i++) {
             System.out.println(thread.getName()+"正在进行读操作");
         }
 

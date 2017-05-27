@@ -14,7 +14,7 @@
   
    <!--  <mongo:mongo-client id="mongoClient" host="127.0.0.1" port="27017" />  -->
   	  <mongo:mongo-client id="mongoClient"
-  		 host="127.0.0.1" port="27017" >
+  		 host="172.30.21.92" port="27017" >
   		<mongo:client-options 
   			connections-per-host="10"
    			threads-allowed-to-block-for-connection-multiplier="8"
@@ -24,7 +24,7 @@
    		</mongo:mongo-client> 
    		
     <!-- mongo的工厂，通过它来取得mongo实例,dbname为mongodb的数据库名，没有的话会自动创建 -->  
-  <mongo:db-factory id="mongoDbFactory" dbname="student123" mongo-ref="mongoClient" /> 
+  <mongo:db-factory id="mongoDbFactory" dbname="student" mongo-ref="mongoClient" />
     <!-- mongodb的主要操作对象，所有对mongodb的增删改查的操作都是通过它完成 -->  
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">  
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />  

@@ -2,7 +2,7 @@ package mongodb.example;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "gwb")  
+@Document(collection = "mg_state")
 public class StateStats {
 
 	private String content;

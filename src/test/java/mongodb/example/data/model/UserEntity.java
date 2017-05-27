@@ -6,7 +6,7 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;  
 import org.springframework.data.mongodb.core.mapping.Document;  
   
-@Document(collection = "user111")  
+@Document(collection = "mg_user")
 public class UserEntity implements Serializable{  
   
     /**  */

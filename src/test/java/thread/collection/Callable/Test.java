@@ -5,17 +5,17 @@ import java.util.concurrent.*;
 public class Test {
     public static void main(String[] args) {
         //第一种方式
-        ExecutorService executor = Executors.newCachedThreadPool();
-        Task task = new Task();
-        FutureTask<Integer> futureTask = new FutureTask<Integer>(task);
-        executor.submit(futureTask);
-        executor.shutdown();
+//        ExecutorService executor = Executors.newCachedThreadPool();
+//        Task task = new Task();
+//        FutureTask<Integer> futureTask = new FutureTask<Integer>(task);
+//        executor.submit(futureTask);
+//        executor.shutdown();
          
         //第二种方式，注意这种方式和第一种方式效果是类似的，只不过一个使用的是ExecutorService，一个使用的是Thread
-        /*Task task = new Task();
+        Task task = new Task();
         FutureTask<Integer> futureTask = new FutureTask<Integer>(task);
         Thread thread = new Thread(futureTask);
-        thread.start();*/
+        thread.start();
          
         try {
             Thread.sleep(1000);

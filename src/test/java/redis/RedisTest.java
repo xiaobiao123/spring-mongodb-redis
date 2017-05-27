@@ -107,6 +107,7 @@ public class RedisTest {
     public void genMultiUuidDbKey() {
         List<Long> ids = new ArrayList<Long>();
         ShardedJedis shardedJedis = this.getConnection();
+
         ShardedJedisPipeline shardedJedisPipeline = shardedJedis.pipelined();
         for (int i = 0; i < size; i++) {
             shardedJedisPipeline.incr(dbName + "." + tableName + ".KEY");
@@ -147,8 +148,6 @@ public class RedisTest {
     @Test
     public void getHash() {
         ShardedJedis shardedJedis = this.getConnection();
-        //shardedJedis.hmget();
-
         for (int i = 0; i < 10; i++) {
             System.out.println(JSON.toJSONString(shardedJedis.hget("test:hash", "hashField" + i)));
         }
@@ -272,6 +271,10 @@ public class RedisTest {
     public void lrangeList() {
         ShardedJedis shardedJedis = this.getConnection();
         System.out.println("=====================" + shardedJedis.lrange("user_list", 0, 10));
+
+        ////命令使其永远只保存最近N个ID
+        shardedJedis.ltrim("user_list",0,9);
+
         //获取对象的长度
         System.out.println("=====================" + shardedJedis.llen("user_list"));
         shardedJedis.close();
@@ -354,7 +357,8 @@ public class RedisTest {
     public void smembers() {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
-        System.out.println("=====================" + shardedJedis.smembers("name_set2"));
+        System.out.println("=====================" + shardedJedis.smembers("name_set"));
+
         shardedJedis.close();
     }
 
@@ -365,7 +369,8 @@ public class RedisTest {
     public void srem() {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
-        System.out.println("=====================" + shardedJedis.srem("name_set", "member" + 1));
+        System.out.println("=====================" + shardedJedis.srem("name_set", "member" + 2));
+        System.out.println("====================="+shardedJedis.scard("name_set"));
         shardedJedis.close();
     }
 
@@ -389,7 +394,7 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
         for (int i = 0; i < 3; i++) {
-            System.out.println("=====================" + shardedJedis.zrem("name_zadd", "test" + i));
+            System.out.println("=====================" + shardedJedis.zrem("name_zuser", "test" + i));
         }
         shardedJedis.close();
     }
@@ -401,7 +406,7 @@ public class RedisTest {
     public void zcard() {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
-        System.out.println("=====================" + shardedJedis.zcard("name_zadd"));
+        System.out.println("=====================" + shardedJedis.zcard("name_zuser"));
         shardedJedis.close();
     }
 
@@ -412,7 +417,7 @@ public class RedisTest {
     public void zscore() {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
-        System.out.println("=====================" + shardedJedis.zscore("name_zadd", "test4"));
+        System.out.println("=====================" + shardedJedis.zscore("name_zuser", "test4"));
         shardedJedis.close();
     }
 
@@ -423,7 +428,7 @@ public class RedisTest {
     public void zrange() {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
-        System.out.println("=====================" + shardedJedis.zrange("name_zadd", 0, -1));
+        System.out.println("=====================" + shardedJedis.zrange("name_zuser", 0, -1));
         shardedJedis.close();
     }
 
@@ -434,7 +439,7 @@ public class RedisTest {
     public void zrevrange() {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
-        System.out.println("=====================" + shardedJedis.zrevrange("name_zadd", 0, -1));
+        System.out.println("=====================" + shardedJedis.zrevrange("name_zuser", 0, -1));
         shardedJedis.close();
     }
 
@@ -450,13 +455,13 @@ public class RedisTest {
         //显示整个有序集成员
         //Set<Tuple> set = shardedJedis.zrangeWithScores("name_zadd", 0, -1);
 
-        Set<Tuple> set = shardedJedis.zrangeWithScores("name_zadd", 0, 9);
+        Set<Tuple> set = shardedJedis.zrangeWithScores("name_zuser", 0, 9);
         for (Tuple tuple : set) {
             System.out.println("=====================" + tuple.getScore());
             System.out.println("=====================" + tuple.getElement());
         }
         System.out.println("===================================================");
-        Set<Tuple> set1 = shardedJedis.zrevrangeWithScores("name_zadd", 0, -1);
+        Set<Tuple> set1 = shardedJedis.zrevrangeWithScores("name_zuser", 0, -1);
         for (Tuple tuple : set1) {
             System.out.println("=====================" + tuple.getScore());
             System.out.println("=====================" + tuple.getElement());
@@ -473,14 +478,14 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
 
         //显示整个有序集成员
-        Set<Tuple> set = shardedJedis.zrangeByScoreWithScores("name_zadd", 0, 5);
+        Set<Tuple> set = shardedJedis.zrangeByScoreWithScores("name_zuser", 0, 5);
         for (Tuple tuple : set) {
             System.out.println("=====================" + tuple.getScore());
             System.out.println("=====================" + tuple.getElement());
         }
         System.out.println("===================================================");
 
-        Set<Tuple> set1 = shardedJedis.zrevrangeByScoreWithScores("name_zadd", 3, -1);
+        Set<Tuple> set1 = shardedJedis.zrevrangeByScoreWithScores("name_zuser", 3, -1);
         for (Tuple tuple : set1) {
             System.out.println("=====================" + tuple.getScore());
             System.out.println("=====================" + tuple.getElement());
@@ -496,7 +501,7 @@ public class RedisTest {
     public void zcount() {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
-        System.out.println("=====================" + shardedJedis.zcount("name_zadd", 5, 10));
+        System.out.println("=====================" + shardedJedis.zcount("name_zuser", 5, 10));
         shardedJedis.close();
     }
 
@@ -517,6 +522,8 @@ public class RedisTest {
         //添加
         System.out.println("=====================" + shardedJedis.zincrby("name_zadd", 10, "test6"));
         shardedJedis.close();
+
+
     }
 
 }
