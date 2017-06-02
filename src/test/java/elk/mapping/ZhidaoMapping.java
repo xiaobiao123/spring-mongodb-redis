@@ -81,9 +81,29 @@ public class ZhidaoMapping {
     public static void addMapping(String index, String type, TransportClient client) {
         try {
             // 使用XContentBuilder创建Mapping
-            XContentBuilder builder = XContentFactory.jsonBuilder().startObject().field("properties").startObject().field("my_field").startObject().field("index", "not_analyzed").field("type", "string").field("fields").startObject().field("keyword").startObject().field("type", "keyword").endObject().endObject()
-
-                    .endObject().field("age").startObject().field("index", "not_analyzed").field("type", "integer").endObject().endObject().endObject();
+            XContentBuilder builder = XContentFactory.jsonBuilder()
+                    .startObject()
+                        .field("properties")
+                            .startObject()
+                            .field("my_field")
+                                .startObject()
+                                .field("index", "not_analyzed")
+                                .field("type", "string")
+                                .field("fields")
+                                    .startObject()
+                                     .field("keyword")
+                                        .startObject()
+                                        .field("type", "keyword")
+                                        .endObject()
+                                    .endObject()
+                                 .endObject()
+                            .field("age")
+                                .startObject()
+                                .field("index", "not_analyzed")
+                                .field("type", "integer")
+                                .endObject()
+                             .endObject()
+                    .endObject();
             System.out.println(builder.string());
             PutMappingRequest mappingRequest = Requests.putMappingRequest(index).source(builder).type(type);
             client.admin().indices().putMapping(mappingRequest).actionGet();
@@ -111,23 +131,23 @@ public class ZhidaoMapping {
         //
         //
         ////        创建可用户聚合查询的索引
-        //addMapping("mapping_test_index_shard", "user_type", client);
+        addMapping("mapping_test_index_shard", "user_type", client);
         //创建PutMappingRequest类型的索引
         //PutMappingRequest mapping = Requests.putMappingRequest("mapping_test_index").type("mapping").source(ZhidaoMapping.getMapping2());
         //client.admin().indices().putMapping(mapping).actionGet();
 
 
-        //创建索引并指定主分片及副本分片数
-        Settings settings2 = Settings.builder()
-                //5个主分片
-                .put("number_of_shards", 3)
-                //测试环境，减少副本提高速度
-                .put("number_of_replicas", 2).build();
-        client.admin().indices()
-                //这个索引库的名称还必须不包含大写字母
-                .prepareCreate("testindex").setSettings(settings2)
-                //这里直接添加type的mapping
-                .addMapping("testType", getMapping()).execute();
+        ////创建索引并指定主分片及副本分片数
+        //Settings settings2 = Settings.builder()
+        //        //5个主分片
+        //        .put("number_of_shards", 3)
+        //        //测试环境，减少副本提高速度
+        //        .put("number_of_replicas", 2).build();
+        //client.admin().indices()
+        //        //这个索引库的名称还必须不包含大写字母
+        //        .prepareCreate("testindex").setSettings(settings2)
+        //        //这里直接添加type的mapping
+        //        .addMapping("testType", getMapping()).execute();
     }
 
 
