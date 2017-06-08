@@ -25,7 +25,7 @@ public class Test123 {
 		
 		FastClass serviceFastClass = FastClass.create(UserService.class);
 		FastMethod serviceFastMethod = serviceFastClass.getMethod("insertUser",methods[0].getParameterTypes());
-//		serviceFastMethod.invoke(serviceFastClass,"");
+		//serviceFastMethod.invoke(serviceFastClass,new Object[]);
 	}
 	@Test
 	public void testnew() {

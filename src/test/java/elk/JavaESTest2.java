@@ -12,6 +12,7 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.io.stream.StreamOutput;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -513,5 +514,8 @@ public class JavaESTest2 {
             System.out.println(hit.getSourceAsMap());
         }
     }
+
+    //TODO  地理位置索引
+    //http://blog.csdn.net/yusewuhen/article/details/50896151
 
 }
