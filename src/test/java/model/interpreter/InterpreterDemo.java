@@ -13,6 +13,7 @@ import java.util.Date;
  * •java.text.MessageFormat
  * •java.text.NumberFormat
  * <p>
+ *     给定一个语言，定义其文法的一种表示，并定义一个解释器，这个解释器使用该表示来解释语言中的句子
  * <p>
  * Interpreter解释器设计模式的应用场景：
  * 在软件构建过程中，若果某一特定领域的问题比较复杂，类似的模式不断重复出现，
@@ -39,6 +40,6 @@ public class InterpreterDemo {
         NumberFormat instance = NumberFormat.getNumberInstance();
         instance.setMinimumFractionDigits(2);
         instance.setGroupingUsed(true);
-        System.out.println(instance.format(13323));
+        System.out.println(instance.format("13323"));
     }
 }  

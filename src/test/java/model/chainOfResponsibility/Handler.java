@@ -19,5 +19,6 @@ abstract class Handler {
         this.successor = successor;
     }
 
-    public void handRequest(Request request){}
+    public void handRequest(Request request) {
+    }
 }

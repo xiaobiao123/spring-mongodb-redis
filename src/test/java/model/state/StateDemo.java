@@ -19,6 +19,7 @@ public class StateDemo {
 
     public static void main(String[] args) {
         StateDemo demo = new StateDemo();
+
         demo.run(demo.sp);
         demo.sp.changeState(new Implementation2());
         demo.run(demo.sp);

@@ -1,6 +1,6 @@
 package model.bridge;
 
 //实现
-interface Drawing {
+interface IDrawing {
     public void draw();
 }  

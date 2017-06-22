@@ -1,6 +1,8 @@
 package model.templateMethod;
 
 /**
+ * Template Method模板方法设计模式定义一个操作中算法的骨架，将具体步骤的执行延迟到子类中实现
+ * <p>
  * 举个例子，以准备去学校所要做的工作（prepareGotoSchool）为例，假设需要分三步：
  * 穿衣服（dressUp），吃早饭（eatBreakfast），带上东西（takeThings）。
  * 学生和老师要做得具体事情肯定有所区别。
@@ -10,10 +12,10 @@ package model.templateMethod;
 
 public class Client {
     public static void main(String[] args) {
-        Student student = new Student();
+        AbstractPerson student = new Student();
         student.prepareGotoSchool();
 
-        Teacher teacher = new Teacher();
+        AbstractPerson teacher = new Teacher();
         teacher.prepareGotoSchool();
     }
     /**

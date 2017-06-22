@@ -16,15 +16,18 @@ public class Application {
         Handler symbolHandler = new SymbolHandler();
 
         numberHandler.setSuccessor(characterHandler);
+
+
         characterHandler.setSuccessor(symbolHandler);
+        symbolHandler.setSuccessor(numberHandler);
 
 
         Request request1 = new Request("Number");
-        Request request2 = new Request("Character");
-        Request request3 = new Request("Symbol");
+        //Request request2 = new Request("Character");
+        //Request request3 = new Request("Symbol");
 
-        numberHandler.handRequest(request1);
-        numberHandler.handRequest(request2);
-        numberHandler.handRequest(request3);
+        characterHandler.handRequest(request1);
+        //characterHandler.handRequest(request2);
+        //characterHandler.handRequest(request3);
     }
 }  

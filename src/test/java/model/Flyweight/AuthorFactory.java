@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Flyweight享元设计模式是为了避免大量拥有相同内容的小类重复创建，而使大家共享一个类的模式
+ * <p>
  * Flyweight享元设计模式非常适合文字处理软件，因为像文字这种小对象重用的可能性很高，
  * 如果不共享对象，就会生成数量巨大的小对象消耗内存，享元模式则可以使重复概率高的对象重用，
  * 大大提高程序效率和性能。
@@ -35,6 +37,7 @@ public class AuthorFactory {
     }
 
     public static void main(String[] args) {
-        Integer.valueOf("1000");
+        Integer.valueOf(10);
+        Integer.valueOf(10);
     }
 }  

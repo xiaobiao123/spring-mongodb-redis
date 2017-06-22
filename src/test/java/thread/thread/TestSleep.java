@@ -47,15 +47,4 @@ public class TestSleep {
             }
         }
     }
-
-    static class BtestRunnable implements Runnable {
-
-        @Override
-        public void run() {
-
-            System.out.println("xxxxxxxxxxxxxxxx");
-        }
-    }
-
-
 }

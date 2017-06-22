@@ -3,26 +3,6 @@ package thread.thread;
 import java.io.IOException;
 
 public class Test {
-
-    public static void main(String[] args) throws IOException {
-        Test test = new Test();
-        MyThread2 thread = new MyThread2();
-
-        MyRunner myRunner = new MyRunner();
-
-        Thread t = new Thread(myRunner);
-
-
-        thread.start();
-        t.start();
-        try {
-            Thread.currentThread().sleep(2000);
-        } catch (InterruptedException e) {
-
-        }
-        thread.interrupt();
-    }
-
     static class MyThread2 extends Thread {
         @Override
         public void run() {
@@ -39,5 +19,32 @@ public class Test {
         public void run() {
             System.out.println("MyRunner is running");
         }
+    }
+
+    static class MyRunner3 extends Thread {
+        @Override
+        public void run() {
+            System.out.println("my runner 3 is going");
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        Test test = new Test();
+        MyThread2 thread = new MyThread2();
+        MyRunner myRunner = new MyRunner();
+        MyRunner3 myRunner3 = new MyRunner3();
+
+        Thread t = new Thread(myRunner);
+        thread.start();
+        t.start();
+        try {
+            Thread.currentThread().sleep(2000);
+        } catch (InterruptedException e) {
+
+        }
+        thread.interrupt();
+
+
+        myRunner3.start();
     }
 }

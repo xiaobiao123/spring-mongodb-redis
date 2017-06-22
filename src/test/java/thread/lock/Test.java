@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -44,8 +45,9 @@ public class Test {
         try {
             for (int i = 0; i < 10; i++) {
                 System.out.println("thread:" + thread.getName() + ":" + thread.getId());
+                Thread.sleep(1);
             }
-            Thread.sleep(4000);
+
             System.out.println("执行结束");
 
         } catch (InterruptedException e) {

@@ -29,6 +29,7 @@ public class Composite extends Component {
         // TODO Auto-generated method stub
         System.out.println(name + "执行了");
         for (Component c : list) {
+            System.out.println(c.name + "===================");
             c.eachChild();
         }
     }

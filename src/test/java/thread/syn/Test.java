@@ -15,7 +15,7 @@ public class Test {
             public void run() {
                 insertData.insert();
             }
-        }.start(); 
+        }.start();
         new Thread(){
             @Override
             public void run() {

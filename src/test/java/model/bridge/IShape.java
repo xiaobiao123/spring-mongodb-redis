@@ -1,5 +1,5 @@
 package model.bridge;
 
-interface Shape {
+interface IShape {
     public void doDraw();
 }  

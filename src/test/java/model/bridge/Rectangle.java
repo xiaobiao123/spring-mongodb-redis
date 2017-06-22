@@ -1,13 +1,15 @@
 package model.bridge;
 
-class Rectangle implements Shape {
-    private Drawing draw;
+class Rectangle implements IShape {
+    private IDrawing draw;
 
-    public Rectangle(Drawing draw) {
+    public Rectangle(IDrawing draw) {
         this.draw = draw;
     }
 
+    @Override
     public void doDraw() {
+        System.out.println("i am rectangle...........");
         draw.draw();
     }
 }  
