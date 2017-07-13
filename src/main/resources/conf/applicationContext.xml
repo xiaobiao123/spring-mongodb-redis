@@ -10,12 +10,15 @@
         http://www.springframework.org/schema/context  
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">  
   
-    <context:component-scan base-package="mongodb.example" />  
-  
+    <context:component-scan base-package="mongodb.example" />
+
+
+
+	<!-- credentials="${common.mongo.username}:${common.mongo.password}@yosemite_common">-->
    <!--  <mongo:mongo-client id="mongoClient" host="127.0.0.1" port="27017" />  -->
   	  <mongo:mongo-client id="mongoClient"
-  		 host="172.30.21.92" port="27017" >
-  		<mongo:client-options 
+  		 host="172.30.21.92" port="27017">
+  		<mongo:client-options
   			connections-per-host="10"
    			threads-allowed-to-block-for-connection-multiplier="8"
    			connect-timeout="0"

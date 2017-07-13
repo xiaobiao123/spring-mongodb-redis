@@ -17,7 +17,7 @@ public class createNode {
     private static ZkClient zkClient;
 
     static {
-        String ZKServers = "172.30.22.239";
+        String ZKServers = "172.30.21.92";
         zkClient = new ZkClient(ZKServers, 10000, 10000, new SerializableSerializer());
 //        zkClient = new ZkClient(ZKServers, 10000, 10000,  new ZkSerializer() {
 //            public byte[] serialize(Object data) throws ZkMarshallingError {

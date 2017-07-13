@@ -1,9 +1,2 @@
-[ERROR] [MALL-SCHEDULE] 2017-05-17 10:04:57: 76332 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
-[ERROR] [MALL-SCHEDULE] 2017-05-17 10:24:46: 235666 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
-[ERROR] [MALL-SCHEDULE] 2017-05-17 10:26:16: 19362 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
-[ERROR] [MALL-SCHEDULE] 2017-05-17 11:06:38: 164487 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
-[ERROR] [MALL-SCHEDULE] 2017-05-17 13:31:26: 12585 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
-[ERROR] [MALL-SCHEDULE] 2017-05-17 13:32:35: 19331 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
-[ERROR] [MALL-SCHEDULE] 2017-05-17 13:57:01: 105831 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
-[ERROR] [MALL-SCHEDULE] 2017-05-17 13:58:49: 10165 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
-[ERROR] [MALL-SCHEDULE] 2017-05-17 13:59:19: 14333 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
+[ERROR] [MALL-SCHEDULE] 2017-07-10 10:38:18: 55458 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
+[ERROR] [MALL-SCHEDULE] 2017-07-10 13:21:51: 3223 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated

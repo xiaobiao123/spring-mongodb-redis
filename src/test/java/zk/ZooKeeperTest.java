@@ -26,7 +26,7 @@ public class ZooKeeperTest {
         // 创建一个与服务器的连接
         try {
 //            new ZkClient(zkUrl);
-            zookeeper = new ZooKeeper("172.30.22.239:" + 2181,
+            zookeeper = new ZooKeeper(HOST,
                     3000, new Watcher() {
                 // 监控所有被触发的事件
                 public void process(WatchedEvent event) {
@@ -48,6 +48,7 @@ public class ZooKeeperTest {
      */
     @Test
     public void  createNode()  throws Exception{
+
         if (zookeeper.exists("/test",true)==null){
             System.out.println("节点名称为test不存在");
             zookeeper.create("/test","Znode1".getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
@@ -62,9 +63,9 @@ public class ZooKeeperTest {
      */
     @Test
     public void  createChildNode()  throws Exception{
-        if (zookeeper.exists("/test/child",false)==null){
+        if (zookeeper.exists("/test33/child",false)==null){
             System.out.println("节点名称为test不存在");
-            zookeeper.create("/test/child","child".getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
+            zookeeper.create("/test33/child","child".getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
         }else {
             System.out.println("节点名称为test已存在");
         }
@@ -72,7 +73,7 @@ public class ZooKeeperTest {
 
     @Test
     public void  getChildNode()  throws Exception{
-            System.out.println(zookeeper.getChildren("/test",false));
+            System.out.println(zookeeper.getChildren("/test33",false));
     }
 
     /**
@@ -91,7 +92,7 @@ public class ZooKeeperTest {
      */
     @Test
     public void getNodeValue() throws Exception{
-        String s = new String(zookeeper.getData("/test/child",false, null), "UTF-8");
+        String s = new String(zookeeper.getData("/test33/child",false, null), "UTF-8");
         System.out.println("xxxxxxxxxxxxxx:"+s);
         zookeeper.close();
     }

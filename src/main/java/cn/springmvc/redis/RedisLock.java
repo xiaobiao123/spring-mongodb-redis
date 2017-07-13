@@ -4,6 +4,7 @@ package cn.springmvc.redis;
 
 import java.util.Random;
 
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
@@ -12,6 +13,7 @@ import redis.clients.jedis.ShardedJedisPool;
  * Date: 13-12-20
  * Time: 上午11:45
  */
+@Service
 public class RedisLock {
 
 

@@ -85,7 +85,7 @@ public class ZhidaoMapping {
                     .startObject()
                         .field("properties")
                             .startObject()
-                            .field("my_field")
+                            .field("user")
                                 .startObject()
                                 .field("index", "not_analyzed")
                                 .field("type", "string")
@@ -97,6 +97,18 @@ public class ZhidaoMapping {
                                         .endObject()
                                     .endObject()
                                  .endObject()
+                            .field("gender")
+                                .startObject()
+                                    .field("index", "not_analyzed")
+                                    .field("type", "string")
+                                    .field("fields")
+                                    .startObject()
+                                        .field("keyword")
+                                        .startObject()
+                                        .field("type", "keyword")
+                                        .endObject()
+                                    .endObject()
+                                .endObject()
                             .field("age")
                                 .startObject()
                                 .field("index", "not_analyzed")
@@ -125,13 +137,13 @@ public class ZhidaoMapping {
         //exists.actionGet().isExists();
         //
         ////构建一个Index（索引）
-        CreateIndexRequest request = new CreateIndexRequest("mapping_test_index_shard");
+        CreateIndexRequest request = new CreateIndexRequest("twitter");
         ActionFuture<CreateIndexResponse> createIndexResponseActionFuture = client.admin().indices().create(request);
         CreateIndexResponse createIndexResponse = createIndexResponseActionFuture.actionGet();
         //
         //
         ////        创建可用户聚合查询的索引
-        addMapping("mapping_test_index_shard", "user_type", client);
+        addMapping("twitter", "tweet2", client);
         //创建PutMappingRequest类型的索引
         //PutMappingRequest mapping = Requests.putMappingRequest("mapping_test_index").type("mapping").source(ZhidaoMapping.getMapping2());
         //client.admin().indices().putMapping(mapping).actionGet();

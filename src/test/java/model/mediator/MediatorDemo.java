@@ -1,5 +1,9 @@
 package model.mediator;
 
+/**
+ * 用一个中介者对象来封装一系列的对象交互。中介者使得各对象不需要显式地相互引用，
+ * 从而使其松散耦合，而且可以独立地改变它们之间的交互。
+ */
 public class MediatorDemo {
     public static void main(String[] args) {
         //创建中介

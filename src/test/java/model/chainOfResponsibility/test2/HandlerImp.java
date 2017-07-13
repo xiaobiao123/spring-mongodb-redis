@@ -15,8 +15,6 @@ public class HandlerImp extends AHandlera {
 
     @Override
     public void handler(String name) {
-
-
         System.out.println("i am handler a...i am going todo "+name);
 
         if ("".equals(name)) {

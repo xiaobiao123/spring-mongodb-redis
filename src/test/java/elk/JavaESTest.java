@@ -9,6 +9,7 @@ import org.elasticsearch.action.bulk.byscroll.BulkByScrollResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.get.MultiGetItemResponse;
 import org.elasticsearch.action.get.MultiGetResponse;
@@ -57,6 +58,9 @@ public class JavaESTest {
     private TransportClient client;
     private IndexRequest source;
 
+    private String index = "twitter";
+    private String type = "tweet2";
+
     /**
      * 获取连接, 第一种方式
      *
@@ -67,6 +71,8 @@ public class JavaESTest {
         Settings settings = Settings.builder().put("cluster.name", "elasticsearch").build();
         client = new PreBuiltTransportClient(settings)
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.30.21.92"), 9300));
+
+
         //        Map<String, String> map = new HashMap<String, String>();
         //        map.put("cluster.name", "elasticsearch");
         //        Settings.Builder settings = Settings.builder();
@@ -123,11 +129,18 @@ public class JavaESTest {
      * 使用es的帮助类
      */
     public XContentBuilder createJson4(int i) throws Exception {
+
+        String gender = "male";
+        if (i % 2 == 0) {
+            gender = "man";
+        }
+
         // 创建json对象, 其中一个创建json的方式
         XContentBuilder source = jsonBuilder()
                 .startObject()
-                .field("my_field", "test")
+                .field("user", "kimchy")
                 .field("age", i)
+                .field("gender", gender)
                 .field("postDate", new Date())
                 .field("message", "trying to out ElasticSearch" + i)
                 .endObject();
@@ -165,19 +178,20 @@ public class JavaESTest {
     @Test
     public void test1() throws Exception {
 
-        //        for (int i=0;i<100;i++){
-        XContentBuilder source = createJson4(1);
-        // 存json入索引中
-        IndexResponse response = client.prepareIndex("twitter", "tweet2", 6 + "").setSource(source).get();
-        // 结果获取
-        //IndexResponse response =client.prepareIndex("ypt_da","elastatic_serarch").setSource(source).get();
-        String index = response.getIndex();
-        String type = response.getType();
-        String id = response.getId();
-        long version = response.getVersion();
-        RestStatus status = response.status();
-        System.out.println(index + " : " + type + ": " + id + ": " + version + ": " + JSONObject.toJSONString(status));
+        for (int i = 0; i < 200; i++) {
+            XContentBuilder source = createJson4(i + 100);
+            // 存json入索引中
+            IndexResponse response = client.prepareIndex("twitter", "tweet2", i + "").setSource(source).get();
+            // 结果获取
 
+            //IndexResponse response =client.prepareIndex("ypt_da","elastatic_serarch").setSource(source).get();
+            String index = response.getIndex();
+            String type = response.getType();
+            String id = response.getId();
+            long version = response.getVersion();
+            RestStatus status = response.status();
+            System.out.println(index + " : " + type + ": " + id + ": " + version + ": " + JSONObject.toJSONString(status));
+        }
     }
 
 
@@ -187,12 +201,21 @@ public class JavaESTest {
     @Test
     public void testGet() {
         //        GetResponse response = client.prepareGet("twitter", "tweet", "1")
-        GetResponse response = client.prepareGet("twitter", "tweet", "6")
+        //删除api允许执行前设置线程模式（operationThreaded选项），operationThreaded这个选项是使这个操作在另外一个线程中执行，
+        // 或在一个正在请求的线程（假设这个api仍是异步的）中执行。默认的话operationThreaded会设置成true，这意味着这个操作将在一
+        // 个不同的线程中执行。下面是设置成false的方法：
+        GetResponse response = client.prepareGet("twitter", "tweet2", "6")
                 .setOperationThreaded(false)    // 线程安全
                 .get();
 
+
+        GetResponse getResponse = client.prepareGet("twitter", "tweet2", "2").get();
+
         //      QueryBuilder builder = QueryBuilders.typeQuery("tweet");//查询整个type
-        System.out.println(response.getSourceAsString());
+        System.out.println("====================================================");
+        System.out.println(response.getSourceAsMap());
+        System.out.println("====================================================");
+        System.out.println(getResponse.getSourceAsMap());
     }
 
     /**
@@ -214,14 +237,16 @@ public class JavaESTest {
      */
     @Test
     public void testDeleteByQueryAction() {
-        BulkByScrollResponse scrollResponse =
-                DeleteByQueryAction.INSTANCE.newRequestBuilder(client)
-                        .filter(QueryBuilders.matchQuery("my_field", "test"))
-                        .source("twitter")      //index
-                        .get();
-        long deleted = scrollResponse.getDeleted();
+        //BulkByScrollResponse scrollResponse =
+        //        DeleteByQueryAction.INSTANCE.newRequestBuilder(client)
+        //                .filter(QueryBuilders.matchQuery("my_field", "test"))
+        //                .source("twitter")      //index
+        //                .get();
+        //long deleted = scrollResponse.getDeleted();
 
-        System.out.println("deleted numbier is " + deleted);
+        BulkByScrollResponse scrollResponse = DeleteByQueryAction.INSTANCE.newRequestBuilder(client).
+                filter(QueryBuilders.matchQuery("age", "110")).source("twitter").get();
+        System.out.println("deleted numbier is " + scrollResponse.getDeleted());
 
     }
 
@@ -245,7 +270,9 @@ public class JavaESTest {
         //        .endObject());
         //UpdateResponse response = client.update(updateRequest).get();
 
-        UpdateResponse response = client.prepareUpdate("twitter", "tweet", "6").setDoc(createJson4(7)).get();
+        //UpdateResponse response = client.prepareUpdate("twitter", "tweet", "6").setDoc(createJson4(7)).get();
+
+        UpdateResponse response = client.prepareUpdate("twitter", "tweet2", "5").setDoc(createJson4(6)).get();
 
         // 打印
         String index = response.getIndex();
@@ -280,10 +307,10 @@ public class JavaESTest {
         //        UpdateResponse response = client.update(updateRequest).get();
 
         // 使用updateRequest对象及documents进行更新
-        UpdateResponse response = client.update(new UpdateRequest("twitter", "tweet", "1")
+        UpdateResponse response = client.update(new UpdateRequest("twitter", "tweet2", "1")
                 .doc(jsonBuilder()
                         .startObject()
-                        .field("gender", "male")
+                        .field("gender", "man")
                         .endObject()
                 )).get();
         System.out.println(response.getIndex());
@@ -312,14 +339,14 @@ public class JavaESTest {
     @Test
     public void testUpsert() throws Exception {
         // 设置查询条件, 查找不到则添加生效
-        IndexRequest indexRequest = new IndexRequest("twitter", "tweet", "2")
+        IndexRequest indexRequest = new IndexRequest("twitter", "tweet2", "201")
                 .source(jsonBuilder()
                         .startObject()
                         .field("name", "214")
-                        .field("gender", "gfrerq")
+                        .field("gender", "man")
                         .endObject());
         // 设置更新, 查找到更新下面的设置
-        UpdateRequest upsert = new UpdateRequest("twitter", "tweet", "2")
+        UpdateRequest upsert = new UpdateRequest("twitter", "tweet2", "202")
                 .doc(jsonBuilder()
                         .startObject()
                         .field("user", "wenbronk")
@@ -335,13 +362,13 @@ public class JavaESTest {
     @Test
     public void testMultiGet() {
         MultiGetResponse multiGetResponse = client.prepareMultiGet()
-                .add("twitter", "tweet", "1")
-                .add("twitter", "tweet", "2", "3", "4")
+                .add("twitter", "tweet2", "1")
+                .add("twitter", "tweet2", "2", "3", "4")
                 .add("anothoer", "type", "foo")
                 .get();
         for (MultiGetItemResponse itemResponse : multiGetResponse) {
             GetResponse response = itemResponse.getResponse();
-            if (response.isExists()) {
+            if (response != null) {
                 String sourceAsString = response.getSourceAsString();
                 System.out.println(sourceAsString);
             }
@@ -354,15 +381,18 @@ public class JavaESTest {
      */
     @Test
     public void testBulk() throws Exception {
+
+        BulkResponse response1 = client.prepareBulk().add(client.prepareDelete(index, type, "111")).get();
+
         BulkRequestBuilder bulkRequest = client.prepareBulk();
-        bulkRequest.add(client.prepareIndex("twitter", "tweet", "1")
+        bulkRequest.add(client.prepareIndex(index, type, "1")
                 .setSource(XContentFactory.jsonBuilder()
                         .startObject()
                         .field("user", "kimchy")
                         .field("postDate", new Date())
                         .field("message", "trying out Elasticsearch")
                         .endObject()));
-        bulkRequest.add(client.prepareIndex("twitter", "tweet", "2")
+        bulkRequest.add(client.prepareIndex(index, type, "2")
                 .setSource(XContentFactory.jsonBuilder()
                         .startObject()
                         .field("user", "kimchy")
@@ -378,8 +408,11 @@ public class JavaESTest {
 
     /**
      * 使用bulk processor
-     *
-     * @throws Exception
+     * <p>
+     * 1）beforeBulk会在批量提交之前执行，可以从BulkRequest中获取请求信息request.requests()或者请求数量request.numberOfActions()。
+     * 2） 第一个afterBulk会在批量成功后执行，可以跟beforeBulk配合计算批量所需时间。
+     * 3）第二个afterBulk会在批量失败后执行。
+     * 4）在例子中，当请求超过10000个（default=1000）或者总大小超过1GB（default=5MB）时，触发批量提交动作。
      */
     @Test
     public void testBulkProcessor() throws Exception {

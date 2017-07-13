@@ -12,7 +12,7 @@ import java.util.List;
 public class SubscribeChildChanges {
 
     private static  ZkClient zkClient;
-    private  static final String ZKServers = "172.30.22.239";
+    private  static final String ZKServers = "172.30.21.92";
 
     static {
          zkClient = new ZkClient(ZKServers,10000,10000,new SerializableSerializer());

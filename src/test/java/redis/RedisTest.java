@@ -1,6 +1,7 @@
 package redis;
 
 import cn.springmvc.model.User;
+import cn.springmvc.redis.RedisLock;
 import com.alibaba.fastjson.JSON;
 import org.apache.log4j.Logger;
 import org.junit.FixMethodOrder;
@@ -27,12 +28,32 @@ public class RedisTest {
     @Autowired
     private ShardedJedisPool redisPool;
     /*支持多命令操作*/
-//    @Autowired
+    //    @Autowired
     private Jedis jedis = new Jedis();
+
 
     public static String dbName = "test";
     public static String tableName = "tableName";
     public static int size = 10;
+
+
+
+    @Test
+    public void redsiLock(){
+        RedisLock redisLock=new RedisLock("test",redisPool);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 获取redis的链接
@@ -48,9 +69,14 @@ public class RedisTest {
     @Test
     public void setString() {
         ShardedJedis shardedJedis = this.getConnection();
-        for (int i = 0; i < 15; i++) {
-            shardedJedis.set("test:string" + i, i + "");
-        }
+        //for (int i = 0; i < 15; i++) {
+        //    shardedJedis.set("test:string" + i, i + "");
+        //}
+
+        //nxxx的值只能取NX或者XX，如果取NX，则只有当key不存在是才进行set，如果取XX，则只有当key已经存在时才进行set
+        //expx expx的值只能取EX或者PX，代表数据过期时间的单位，EX代表秒，PX代表毫秒。
+        //过期时间，单位是expx所代表的单位。
+        shardedJedis.set("redis:string", "xxxxxxxxxx", "xx", "ex", 10);
         shardedJedis.close();
     }
 
@@ -100,7 +126,7 @@ public class RedisTest {
 
     /**
      * 从redis库，获取指定size个数的主键
-     *
+     * <p>
      * <p>Redis 管道技术可以在服务端未响应时，客户端可以继续向服务端发送请求，并最终一次性读取所有服务端的响应。</p>
      */
     @Test
@@ -126,7 +152,6 @@ public class RedisTest {
     }
 
 
-
     /*********************************************string操作 end*******************************************/
 
     /*********************************************hash 操作 start*******************************************/
@@ -137,7 +162,7 @@ public class RedisTest {
     public void addHash() {
         ShardedJedis shardedJedis = this.getConnection();
         for (int i = 0; i < 10; i++) {
-            System.out.println(JSON.toJSONString(shardedJedis.hset("test:hash", "hashField" + i, "hashValue" + i+"update")));
+            System.out.println(JSON.toJSONString(shardedJedis.hset("test:hash", "hashField" + i, "hashValue" + i + "update")));
         }
         shardedJedis.close();
     }
@@ -273,7 +298,7 @@ public class RedisTest {
         System.out.println("=====================" + shardedJedis.lrange("user_list", 0, 10));
 
         ////命令使其永远只保存最近N个ID
-        shardedJedis.ltrim("user_list",0,9);
+        shardedJedis.ltrim("user_list", 0, 9);
 
         //获取对象的长度
         System.out.println("=====================" + shardedJedis.llen("user_list"));
@@ -351,7 +376,7 @@ public class RedisTest {
 
 
     /**
-     *   smembers(key) ：返回名称为key的set的所有元素
+     * smembers(key) ：返回名称为key的set的所有元素
      */
     @Test
     public void smembers() {
@@ -370,7 +395,7 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
         System.out.println("=====================" + shardedJedis.srem("name_set", "member" + 2));
-        System.out.println("====================="+shardedJedis.scard("name_set"));
+        System.out.println("=====================" + shardedJedis.scard("name_set"));
         shardedJedis.close();
     }
 
@@ -505,13 +530,13 @@ public class RedisTest {
         shardedJedis.close();
     }
 
-//    @TestSleep
-//    public void zlexcount() {
-//        ShardedJedis shardedJedis = this.getConnection();
-//        //添加
-//        System.out.println("=====================" + shardedJedis.zlexcount("name_zadd","1","6"));
-//        shardedJedis.close();
-//    }
+    //    @TestSleep
+    //    public void zlexcount() {
+    //        ShardedJedis shardedJedis = this.getConnection();
+    //        //添加
+    //        System.out.println("=====================" + shardedJedis.zlexcount("name_zadd","1","6"));
+    //        shardedJedis.close();
+    //    }
 
     /**
      * 有序集合中对指定成员的分数加上增量 increment
@@ -522,8 +547,6 @@ public class RedisTest {
         //添加
         System.out.println("=====================" + shardedJedis.zincrby("name_zadd", 10, "test6"));
         shardedJedis.close();
-
-
     }
 
 }
