@@ -1,0 +1,2 @@
+语法:区域，注释，数据类型(布尔值，字符串，数值，数组，哈希)，条件判断，字段引用
+# bin/logstash -e 'input{stdin{}}output{stdout{codec=>rubydebug}}'

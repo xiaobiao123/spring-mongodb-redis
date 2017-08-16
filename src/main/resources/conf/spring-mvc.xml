@@ -41,7 +41,7 @@
       - @date 2014-10-15
       - ===============================================
 	-->
-    <beans:bean id="byteArrayHttpMessageConverter" class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+    <beans:bean id="byteArrayHttpMessageConverter"  class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
     <beans:bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
         <beans:property name="supportedMediaTypes">
             <beans:list><beans:value>text/html; charset=utf-8</beans:value></beans:list>
@@ -60,7 +60,7 @@
     </beans:bean>
 
 
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="utf-8"></property>
         <property name="maxUploadSize" value="10485760000"></property>
         <property name="maxInMemorySize" value="40960"></property>
@@ -69,5 +69,7 @@
     <!-- 对模型视图添加前后缀 -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+
+
 
 </beans>

@@ -11,4 +11,8 @@
   <context:property-placeholder location="classpath:conf/jdbc.properties"/>
   <!-- 扫描文件（自动将servicec层注入） -->
   <context:component-scan base-package="cn.springmvc.service"/>
+
+  <!--<context:annotation- config/>隐式地向 Spring容器注册AutowiredAnnotationBeanPostProcessor、
+  RequiredAnnotationBeanPostProcessor、CommonAnnotationBeanPostProcessor以及
+  PersistenceAnnotationBeanPostProcessor这4个BeanPostProcessor-->
 </beans>

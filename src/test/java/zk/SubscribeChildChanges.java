@@ -12,7 +12,7 @@ import java.util.List;
 public class SubscribeChildChanges {
 
     private static  ZkClient zkClient;
-    private  static final String ZKServers = "172.30.21.92";
+    private  static final String ZKServers = "172.30.22.239";
 
     static {
          zkClient = new ZkClient(ZKServers,10000,10000,new SerializableSerializer());
@@ -45,6 +45,6 @@ public class SubscribeChildChanges {
          * "/testUserNode" 监听的节点，可以是现在存在的也可以是不存在的 
          */  
         zkClient.subscribeChildChanges("/testUserNode", new ZKChildListener());
-        Thread.sleep(Integer.MAX_VALUE);  
-    }  
+        Thread.sleep(Integer.MAX_VALUE);
+    }
 }  

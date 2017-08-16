@@ -1,6 +1,8 @@
 package elk;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.action.bulk.*;
@@ -23,6 +25,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.unit.ByteSizeUnit;
 import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
@@ -68,16 +71,10 @@ public class JavaESTest {
      */
     @Before
     public void before() throws Exception {
-        Settings settings = Settings.builder().put("cluster.name", "elasticsearch").build();
+        Settings settings = Settings.builder().put("cluster.name", "my-application").build();
         client = new PreBuiltTransportClient(settings)
-                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.30.21.92"), 9300));
+                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.30.22.11"), 9300));
 
-
-        //        Map<String, String> map = new HashMap<String, String>();
-        //        map.put("cluster.name", "elasticsearch");
-        //        Settings.Builder settings = Settings.builder();
-        //        client = TransportClient.builder().settings(settings).build()
-        //                        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.30.22.239"), Integer.parseInt("9300")));
     }
 
     /**
@@ -107,6 +104,10 @@ public class JavaESTest {
      * 使用map创建json
      */
     public Map<String, Object> createJson2() {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("first name", "111");
+
+
         Map<String, Object> json = new HashMap<String, Object>();
         json.put("user", "kimchy");
         json.put("postDate", new Date());
@@ -138,7 +139,7 @@ public class JavaESTest {
         // 创建json对象, 其中一个创建json的方式
         XContentBuilder source = jsonBuilder()
                 .startObject()
-                .field("user", "kimchy")
+                .field("user", "kimchy is a good boy "+i)
                 .field("age", i)
                 .field("gender", gender)
                 .field("postDate", new Date())
@@ -178,19 +179,19 @@ public class JavaESTest {
     @Test
     public void test1() throws Exception {
 
-        for (int i = 0; i < 200; i++) {
-            XContentBuilder source = createJson4(i + 100);
-            // 存json入索引中
-            IndexResponse response = client.prepareIndex("twitter", "tweet2", i + "").setSource(source).get();
-            // 结果获取
-
-            //IndexResponse response =client.prepareIndex("ypt_da","elastatic_serarch").setSource(source).get();
-            String index = response.getIndex();
-            String type = response.getType();
-            String id = response.getId();
-            long version = response.getVersion();
-            RestStatus status = response.status();
-            System.out.println(index + " : " + type + ": " + id + ": " + version + ": " + JSONObject.toJSONString(status));
+        for (int i = 200; i < 400; i++) {
+        XContentBuilder source = createJson4(i);
+        // 存json入索引中
+        IndexResponse response = client.prepareIndex("index_test", type, i + "").setSource(source).get();
+        // 结果获取
+        //IndexResponse response =client.prepareIndex("ypt_da","elastatic_serarch").setSource(source).get();
+        String index = response.getIndex();
+        String type = response.getType();
+        String id = response.getId();
+        long version = response.getVersion();
+        RestStatus status = response.status();
+        System.out.println(index + " : " + type + ": " + id + ": " + version + ": " + JSONObject.toJSONString
+                (response.toString()));
         }
     }
 
@@ -204,14 +205,13 @@ public class JavaESTest {
         //删除api允许执行前设置线程模式（operationThreaded选项），operationThreaded这个选项是使这个操作在另外一个线程中执行，
         // 或在一个正在请求的线程（假设这个api仍是异步的）中执行。默认的话operationThreaded会设置成true，这意味着这个操作将在一
         // 个不同的线程中执行。下面是设置成false的方法：
-        GetResponse response = client.prepareGet("twitter", "tweet2", "6")
+        GetResponse response = client.prepareGet(index, type, "10")
                 .setOperationThreaded(false)    // 线程安全
                 .get();
 
+        GetResponse getResponse = client.prepareGet(index, type, "2").get();
 
-        GetResponse getResponse = client.prepareGet("twitter", "tweet2", "2").get();
-
-        //      QueryBuilder builder = QueryBuilders.typeQuery("tweet");//查询整个type
+        //QueryBuilder builder = QueryBuilders.typeQuery("tweet");//查询整个type
         System.out.println("====================================================");
         System.out.println(response.getSourceAsMap());
         System.out.println("====================================================");
@@ -223,8 +223,9 @@ public class JavaESTest {
      */
     @Test
     public void testDelete() {
-        DeleteResponse response = client.prepareDelete("twitter", "tweet", "1")
+        DeleteResponse response = client.prepareDelete(index, type, "1")
                 .get();
+
         String index = response.getIndex();
         String type = response.getType();
         String id = response.getId();
@@ -244,8 +245,10 @@ public class JavaESTest {
         //                .get();
         //long deleted = scrollResponse.getDeleted();
 
+
         BulkByScrollResponse scrollResponse = DeleteByQueryAction.INSTANCE.newRequestBuilder(client).
                 filter(QueryBuilders.matchQuery("age", "110")).source("twitter").get();
+
         System.out.println("deleted numbier is " + scrollResponse.getDeleted());
 
     }
@@ -352,7 +355,8 @@ public class JavaESTest {
                         .field("user", "wenbronk")
                         .endObject())
                 .upsert(indexRequest);
-        client.update(upsert).get();
+        UpdateResponse updateResponse = client.update(upsert).get();
+
     }
 
     /**
@@ -366,6 +370,7 @@ public class JavaESTest {
                 .add("twitter", "tweet2", "2", "3", "4")
                 .add("anothoer", "type", "foo")
                 .get();
+
         for (MultiGetItemResponse itemResponse : multiGetResponse) {
             GetResponse response = itemResponse.getResponse();
             if (response != null) {
@@ -399,6 +404,8 @@ public class JavaESTest {
                         .field("postDate", new Date())
                         .field("message", "another post")
                         .endObject()));
+
+
         BulkResponse response = bulkRequest.get();
         if (response.hasFailures()) {
             // process failures by iterating through each bulk response item

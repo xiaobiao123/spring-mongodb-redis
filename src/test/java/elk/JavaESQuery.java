@@ -16,6 +16,7 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,9 +44,9 @@ public class JavaESQuery {
 
     @Before
     public void testBefore() {
-        Settings settings = Settings.builder().put("cluster.name", "elasticsearch").build();
+        Settings settings = Settings.builder().put("cluster.name", "my-application").build();
         client = new PreBuiltTransportClient(settings)
-                .addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("172.30.21.92", 9300)));
+                .addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("172.30.22.11", 9300)));
         System.out.println("success to connect escluster");
     }
 

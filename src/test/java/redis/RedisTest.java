@@ -37,22 +37,25 @@ public class RedisTest {
     public static int size = 10;
 
 
-
+    /**
+     * redis 分布式锁
+     */
     @Test
-    public void redsiLock(){
-        RedisLock redisLock=new RedisLock("test",redisPool);
+    public void redsiLock() {
+        RedisLock redisLock = new RedisLock("test", redisPool);
+
+        Boolean lock = redisLock.lock(1000l);
+        if (lock) {
+            // doSomething.........................
+
+
+            //执行完后删除锁
+            redisLock.unlock();
+
+        }
+
 
     }
-
-
-
-
-
-
-
-
-
-
 
 
     /**

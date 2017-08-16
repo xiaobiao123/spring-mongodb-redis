@@ -20,7 +20,7 @@
 
         <!-- spring版本号 -->
 
-        <spring.version>4.2.4.RELEASE</spring.version>
+        <spring.version>4.3.3.RELEASE</spring.version>
 
         <!-- mybatis版本号 -->
 
@@ -30,7 +30,7 @@
 
         <slf4j.version>1.6.6</slf4j.version>
 
-        <log4j.version>1.2.12</log4j.version>
+        <log4j.version>1.2.17</log4j.version>
         <zookeeper.version>3.4.6</zookeeper.version>
 
 
@@ -198,7 +198,7 @@
 
             <artifactId>junit</artifactId>
 
-            <version>4.11</version>
+            <version>4.12</version>
 
             <scope>testSleep</scope>
 
@@ -218,17 +218,11 @@
 
 
         <!-- json数据 -->
-
         <dependency>
-
             <groupId>org.codehaus.jackson</groupId>
-
             <artifactId>jackson-mapper-asl</artifactId>
-
             <version>1.9.13</version>
-
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -239,40 +233,22 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.5.1</version>
         </dependency>
-
-
         <!-- 日志文件管理包 -->
-
         <!-- log start -->
-
         <dependency>
-
             <groupId>log4j</groupId>
-
             <artifactId>log4j</artifactId>
-
             <version>${log4j.version}</version>
-
         </dependency>
-
         <dependency>
-
             <groupId>org.slf4j</groupId>
-
             <artifactId>slf4j-api</artifactId>
-
             <version>${slf4j.version}</version>
-
         </dependency>
-
         <dependency>
-
             <groupId>org.slf4j</groupId>
-
             <artifactId>slf4j-log4j12</artifactId>
-
             <version>${slf4j.version}</version>
-
         </dependency>
 
         <!-- log end -->
@@ -324,11 +300,11 @@
             <artifactId>zookeeper</artifactId>
             <version>${zookeeper.version}</version>
         </dependency>
-       <!-- <dependency>
-            <groupId>com.github.tobato</groupId>
-            <artifactId>fastdfs-client</artifactId>
-            <version>1.25.3-RELEASE</version>
-        </dependency>-->
+        <!-- <dependency>
+             <groupId>com.github.tobato</groupId>
+             <artifactId>fastdfs-client</artifactId>
+             <version>1.25.3-RELEASE</version>
+         </dependency>-->
         <dependency>
             <groupId>org.csource</groupId>
             <artifactId>fastdfs-client-java</artifactId>
@@ -345,40 +321,53 @@
             <artifactId>elasticsearch</artifactId>
             <version>5.4.0</version>
         </dependency>
+
         <dependency>
-             <groupId>org.elasticsearch.client</groupId>
-             <artifactId>transport</artifactId>
-             <version>5.4.0</version>
-         </dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>transport</artifactId>
+            <version>5.4.0</version>
+           <!-- <exclusions>
+                <exclusion>
+                    <groupId>org.elasticsearch.plugin</groupId>
+                    <artifactId>transport-netty3-client</artifactId>
+                </exclusion>
+            </exclusions>-->
+        </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
             <version>2.8.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>2.8.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-1.2-api -->
-
-
-        <!--
-               <dependency>
-                   <groupId>org.elasticsearch</groupId>
-                   <artifactId>elasticsearch</artifactId>
-                   <version>2.3.2</version>
-               </dependency>
-               -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>2.8.1</version>
         </dependency>
 
+        <!-- Kafka和spring集成的支持类库，spring和kafka通信监听-->
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-kafka</artifactId>
+            <version>2.1.0.RELEASE</version>
+        </dependency>
 
-
+       <!-- &lt;!&ndash;kafka发送消息以及接受消息使用的类库&ndash;&gt;
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>0.10.0.1</version>
+        </dependency>
+        &lt;!&ndash;kafka自带监听器，依赖于spring，所以需要和pring-integration-kafka结合使用&ndash;&gt;
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>1.1.0.RELEASE</version>
+        </dependency>-->
     </dependencies>
 
     <build>

@@ -2,29 +2,22 @@ package cn.springmvc.controller;
 
 import cn.springmvc.commen.RandomDataUtil;
 import cn.springmvc.commen.ReturnData;
-import cn.springmvc.commen.ReturnUntil;
 import cn.springmvc.model.User;
 import cn.springmvc.service.UserService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Random;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.apache.log4j.Logger;
 
 @Controller
 @RequestMapping("user")
 public class UserController {
-    private Logger logger = Logger.getLogger(UserController.class);
-
-
+    private static final Logger logger = Logger.getLogger(UserController.class);
     private static Executor executor = Executors.newFixedThreadPool(10);
 
     private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(8, 8, 0L,
@@ -101,8 +94,20 @@ public class UserController {
 //
 //
     @RequestMapping("index2")
+    @ResponseBody
     public String index2() {
-        logger.info("loadRunner" + "========================");
+        logger.debug("This is a debug messagexxxxxxxxxxxxxxxxxxxx!");
+        logger.info("This is info messagexxxxxxxxxxxxxxxxxxxxxxx!");
+        logger.warn("This is a warn messagexxxxxxxxxxxxxxxxxxxxxxxx!");
+        logger.error("This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!");
+
+        userService.getUser("");
+
+        try{
+            System.out.println(5/0);
+        }catch(Exception e){
+            logger.error(e,e.getCause());
+        }
         return "index";
 
     }

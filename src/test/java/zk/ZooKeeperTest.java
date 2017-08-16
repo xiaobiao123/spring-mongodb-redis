@@ -10,7 +10,7 @@ import static org.jboss.netty.handler.codec.rtsp.RtspHeaders.Values.CLIENT_PORT;
 public class ZooKeeperTest {
   
     private static final int TIME_OUT = 3000;
-    private static final String HOST = "172.30.21.92:2181";
+    private static final String HOST = "172.30.22.9:2181";
 
     private static  ZooKeeper zookeeper;
 

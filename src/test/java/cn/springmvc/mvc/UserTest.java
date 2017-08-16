@@ -4,9 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.google.common.collect.Maps;
 import mongodb.example.MongodbTest;
 import mongodb.example.data.model.UserEntity;
 import org.junit.Before;
@@ -22,6 +24,7 @@ import org.springframework.core.io.ClassPathResource;
 import cn.springmvc.model.User;
 
 import cn.springmvc.service.UserService;
+import org.springframework.stereotype.Service;
 
 public class UserTest {
 
@@ -47,6 +50,15 @@ public class UserTest {
         // XmlBeanDefinitionReader(factory);
         // //使用Bean定义读取器读入Bean配置信息，即载入配置
         // reader.loadBeanDefinitions(resource);
+
+        ////定位资源
+        //ClassPathResource resource=new ClassPathResource("spring.xml");
+        ////创建ioc容器管理
+        //DefaultListableBeanFactory factory=new DefaultListableBeanFactory();
+        ////创建资源读取器
+        //XmlBeanDefinitionReader reader=new XmlBeanDefinitionReader(factory);
+        ////读取器读入bean的配置信息
+        //reader.loadBeanDefinitions(resource);
 
     }
 

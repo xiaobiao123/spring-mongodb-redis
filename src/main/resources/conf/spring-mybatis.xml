@@ -15,7 +15,7 @@
  http://www.springframework.org/schema/util
  http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-	<bean id="dataSource" name="dataSourceName,;dataSourceName222" class="com.alibaba.druid.pool.DruidDataSource"
+	<bean id="dataSource" name="dataSourceName" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		<property name="driverClassName">
 			<value>${jdbc_driverClassName}</value>

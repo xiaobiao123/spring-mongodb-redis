@@ -1,2 +1,51 @@
-[ERROR] [MALL-SCHEDULE] 2017-07-10 10:38:18: 55458 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
-[ERROR] [MALL-SCHEDULE] 2017-07-10 13:21:51: 3223 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
+[ERROR] [MALL-SCHEDULE] 2017-08-14 14:49:05: 2952 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
+[ERROR] [MALL-SCHEDULE] 2017-08-14 14:49:48: 46073 [qtp1846412426-17] ( UserController.java,102 ) - This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+[ERROR] [MALL-SCHEDULE] 2017-08-14 14:49:48: 46074 [qtp1846412426-17] ( UserController.java,107 ) - java.lang.ArithmeticException: / by zero
+[ERROR] [MALL-SCHEDULE] 2017-08-14 14:52:43: 2898 [main] ( DruidAbstractDataSource.java,918 ) - maxIdle is deprecated
+2017-08-14 14:53:58 [ main:24244 ] - [ ERROR ] maxIdle is deprecated
+2017-08-14 14:55:28 [ qtp1412925683-16:113962 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:28 [ qtp1412925683-16:113963 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:55:47 [ qtp1412925683-14:132670 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:47 [ qtp1412925683-14:132670 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:55:47 [ qtp1412925683-15:133223 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:47 [ qtp1412925683-15:133223 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:55:51 [ qtp1412925683-19:136757 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:51 [ qtp1412925683-19:136757 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:55:54 [ qtp1412925683-20:139942 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:54 [ qtp1412925683-20:139942 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:55:54 [ qtp1412925683-14:139965 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:54 [ qtp1412925683-14:139966 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:55:58 [ qtp1412925683-21:144148 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:58 [ qtp1412925683-21:144148 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:55:59 [ qtp1412925683-20:144608 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:59 [ qtp1412925683-20:144608 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:55:59 [ qtp1412925683-14:144880 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:59 [ qtp1412925683-14:144892 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:55:59 [ qtp1412925683-21:145056 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:59 [ qtp1412925683-21:145056 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:55:59 [ qtp1412925683-17:145222 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:55:59 [ qtp1412925683-17:145222 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:56:00 [ qtp1412925683-19:145328 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:56:00 [ qtp1412925683-19:145328 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:56:00 [ qtp1412925683-21:145500 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:56:00 [ qtp1412925683-21:145500 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:56:00 [ qtp1412925683-17:145715 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:56:00 [ qtp1412925683-17:145715 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 14:58:22 [ qtp1412925683-15:288019 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 14:58:22 [ qtp1412925683-15:288020 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 17:13:16 [ main:3172 ] - [ ERROR ] maxIdle is deprecated
+2017-08-14 17:14:03 [ qtp1682463303-18:50433 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 17:14:03 [ qtp1682463303-18:50433 ] - [ ERROR ] java.lang.ArithmeticException: / by zero
+2017-08-14 17:15:41 [ main:2906 ] - [ ERROR ] maxIdle is deprecated
+2017-08-14 17:16:04 [ qtp1682463303-21:25960 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 17:19:20 [ main:2776 ] - [ ERROR ] maxIdle is deprecated
+2017-08-14 17:20:04 [ qtp1682463303-17:46973 ] - [ ERROR ] This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!
+2017-08-14 17:20:04 [ qtp1682463303-17:47208 ] - [ ERROR ] 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'test.gwb_user_test' doesn't exist
+### The error may exist in file [D:\IdeaProjects_1603\springmvc\target\classes\mapper\UserMapper.xml]
+### The error may involve cn.springmvc.dao.UserDAO.getUser-Inline
+### The error occurred while setting parameters
+### SQL: select * from gwb_user_test where nickNameSS=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'test.gwb_user_test' doesn't exist
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'test.gwb_user_test' doesn't exist
+2017-08-14 17:20:04 [ qtp1682463303-17:47208 ] - [ ERROR ] java.lang.ArithmeticException: / by zero

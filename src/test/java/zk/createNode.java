@@ -17,7 +17,7 @@ public class createNode {
     private static ZkClient zkClient;
 
     static {
-        String ZKServers = "172.30.21.92";
+        String ZKServers = "172.30.22.239";
         zkClient = new ZkClient(ZKServers, 10000, 10000, new SerializableSerializer());
 //        zkClient = new ZkClient(ZKServers, 10000, 10000,  new ZkSerializer() {
 //            public byte[] serialize(Object data) throws ZkMarshallingError {
@@ -46,7 +46,7 @@ public class createNode {
          * user：数据的对象 
          * CreateMode.PERSISTENT：创建的节点类型 
          */
-        String path = zkClient.create("/testUserNode", user, CreateMode.PERSISTENT);
+        String path = zkClient.create("/testUserNode/node2", user, CreateMode.PERSISTENT);
         //输出创建节点的路径
         System.out.println("created path:" + path);
     }

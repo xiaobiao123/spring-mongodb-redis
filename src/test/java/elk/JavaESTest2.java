@@ -1,40 +1,23 @@
 package elk;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.Iterator;
-import java.util.List;
-
-import com.alibaba.fastjson.JSON;
-import org.apache.lucene.search.Query;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.io.stream.StreamOutput;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.common.xcontent.ToXContent;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.query.BaseTermQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryShardContext;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHitField;
 import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.Aggregations;
-import org.elasticsearch.search.aggregations.bucket.global.Global;
-import org.elasticsearch.search.aggregations.bucket.histogram.*;
+import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
+import org.elasticsearch.search.aggregations.bucket.histogram.ExtendedBounds;
+import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
 import org.elasticsearch.search.aggregations.bucket.nested.Nested;
 import org.elasticsearch.search.aggregations.bucket.nested.NestedAggregationBuilder;
-import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
-import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.aggregations.metrics.avg.Avg;
@@ -45,13 +28,13 @@ import org.elasticsearch.search.aggregations.metrics.min.Min;
 import org.elasticsearch.search.aggregations.metrics.min.MinAggregationBuilder;
 import org.elasticsearch.search.aggregations.metrics.valuecount.ValueCount;
 import org.elasticsearch.search.aggregations.metrics.valuecount.ValueCountAggregationBuilder;
-import org.elasticsearch.search.rescore.RescoreBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.Before;
 import org.junit.Test;
-import org.omg.PortableInterceptor.INACTIVE;
+
+import java.net.InetAddress;
+import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
@@ -81,12 +64,13 @@ public class JavaESTest2 {
         //
         //        org.elasticsearch.client.transport.TransportClient.Builder transportBuild = TransportClient.builder();
         //        TransportClient client1 = transportBuild.settings(settings).build();
-        //        client = client1.addTransportAddress((new InetSocketTransportAddress(new InetSocketAddress("192.168.50.37", 9300))));
+        //        client = client1.addTransportAddress((new InetSocketTransportAddress(new InetSocketAddress
+        // ("192.168.50.37", 9300))));
         //        System.out.println("success connect to escluster");
 
-        Settings settings = Settings.builder().put("cluster.name", "elasticsearch").build();
+        Settings settings = Settings.builder().put("cluster.name", "my-application").build();
         client = new PreBuiltTransportClient(settings)
-                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.30.21.92"), 9300));
+                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.30.22.11"), 9300));
         //.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.30.21.92"), 9300));
 
 
@@ -98,6 +82,8 @@ public class JavaESTest2 {
     @Test
     public void testSearch() {
         SearchRequestBuilder searchRequestBuilder = client.prepareSearch("twitter");
+
+
         SearchResponse response = searchRequestBuilder.setTypes("tweet2")
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                 .setQuery(QueryBuilders.termQuery("gender", "man"))
@@ -133,11 +119,12 @@ public class JavaESTest2 {
                 .setScroll(new TimeValue(60000))
                 .setQuery(queryBuilder)
                 .setSize(10).execute().actionGet();
-
         while (true) {
+
             for (SearchHit hit : response.getHits().getHits()) {
                 System.out.println("i am coming" + hit.getSourceAsString());
             }
+
             SearchResponse response2 = client.prepareSearchScroll(response.getScrollId())
                     .setScroll(new TimeValue(60000)).execute().actionGet();
             if (response2.getHits().getHits().length == 0) {
@@ -149,14 +136,58 @@ public class JavaESTest2 {
     }
 
     /**
+     * QueryBuilders.matchQuery
+     * <p>
+     * 根据请求字段（name）,匹配text
+     */
+    @Test
+    public void testMatchQuery() {
+        //QueryBuilder qb2 = QueryBuilders.matchQuery("content", "各地校车");
+        QueryBuilder qb2 = QueryBuilders.matchQuery("user", "context classloader");
+        SearchRequestBuilder requestBuilder2 = client.prepareSearch().setQuery(qb2).setSize(10);
+
+        MultiSearchResponse multiResponse = client.prepareMultiSearch().add(requestBuilder2)
+                .execute().actionGet();
+        long nbHits = 0;
+        for (MultiSearchResponse.Item item : multiResponse.getResponses()) {
+            SearchResponse response = item.getResponse();
+            nbHits = response.getHits().getTotalHits();
+            SearchHit[] hits = response.getHits().getHits();
+            System.out.println(hits[0].getSourceAsMap());
+        }
+
+    }
+
+    /**
+     * QueryBuilders.queryStringQuery(queryString);
+     * <p>
+     * queryString:字段内容（不指定具体的字段，只知道字段的内容）
+     */
+    @Test
+    public void testQueryStringQuery() {
+        QueryBuilder qb2 = QueryBuilders.queryStringQuery("kimchy is a good boy");
+        SearchResponse response = client.prepareSearch(index).setQuery(qb2).setSize(10).get();
+        long nbHits = response.getHits().getTotalHits();
+        SearchHit[] hits = response.getHits().getHits();
+        for (SearchHit hitFields : hits) {
+            System.out.println(hitFields.getSourceAsMap());
+        }
+
+
+    }
+
+    /**
      * 测试multiSearch
+     * <p>
+     * 查询解析查询字符串查:对index的查询解析
+     * QueryBuilders.queryStringQuery(index);
      */
     @Test
     public void testMultiSearch() {
-        QueryBuilder qb1 = QueryBuilders.queryStringQuery("elasticsearch");
+        QueryBuilder qb1 = QueryBuilders.queryStringQuery(index);
         SearchRequestBuilder requestBuilder1 = client.prepareSearch().setQuery(qb1).setSize(1);
 
-        QueryBuilder qb2 = QueryBuilders.matchQuery("user", "kimchy");
+        QueryBuilder qb2 = QueryBuilders.matchQuery("user.keyword", "kimchy");
         SearchRequestBuilder requestBuilder2 = client.prepareSearch().setQuery(qb2).setSize(1);
 
         MultiSearchResponse multiResponse = client.prepareMultiSearch().add(requestBuilder1).add(requestBuilder2)
@@ -174,14 +205,17 @@ public class JavaESTest2 {
     /**
      * 测试聚合查询
      * <p>
-     * AggregationBuilders.terms count grouy by
+     * AggregationBuilders.terms
+     * 相当于
+     * select count(a) as aa, a form table group by a order by aa
      */
     @Test
     public void testAggregation() {
-        SearchResponse response = client.prepareSearch("twitter")
+        SearchResponse response = client.prepareSearch(index)
                 .setQuery(QueryBuilders.matchAllQuery()) // 先使用query过滤掉一部分
-                .addAggregation(AggregationBuilders.terms("term").field("gender"))
+                .addAggregation(AggregationBuilders.terms("term").field("user"))
                 .addAggregation(AggregationBuilders.dateHistogram("da").field("postDate").format("yyyy-MM-dd")
+                        .dateHistogramInterval(DateHistogramInterval.MONTH)
                         .interval(86400l) // TODO
                 )
                 .execute().actionGet();
@@ -218,7 +252,7 @@ public class JavaESTest2 {
      * <p>
      * DateHistogramInterval.HOUR 安小时统计
      * <p>
-     * DateHistogramInterval. 安月统计
+     * DateHistogramInterval.MONTH 安月统计
      */
     @Test
     public void testDateHistogram() {
@@ -228,11 +262,11 @@ public class JavaESTest2 {
         //}
         //设置统计查询的时间范围
         ExtendedBounds extendedBounds = new ExtendedBounds("2017-01-01", "2017-12-12");
-        SearchResponse response = client.prepareSearch("twitter")
+        SearchResponse response = client.prepareSearch(index)
                 .setQuery(QueryBuilders.matchAllQuery()) // 先使用query过滤掉一部分
                 .addAggregation(AggregationBuilders.dateHistogram("da").field("postDate").format("yyyy-MM-dd")
-                                .dateHistogramInterval(DateHistogramInterval.MONTH).extendedBounds(extendedBounds)
-                        //.interval(DateHistogramInterval.QUARTER) // TODO 随意设置时间
+                                .dateHistogramInterval(DateHistogramInterval.QUARTER).extendedBounds(extendedBounds)
+                        //.interval(DateHistogramInterval.SECOND) // TODO 随意设置时间
                 )
                 .execute().actionGet();
         Histogram histogram = response.getAggregations().get("da");
@@ -247,12 +281,20 @@ public class JavaESTest2 {
 
     /**
      * 测试 terminate（终止）
+     * <p>
+     * 为每个碎片收集的文档的最大数量，在到达时，查询执行将提前终止。如果设置了，您将能够通过在
+     * SearchResponse onject中询问()来检查该操作是否提前终止了
+     * <p>
+     * 每个分片上最大查询的文档数量
      */
     @Test
     public void testTerminateAfter() {
-        SearchResponse response = client.prepareSearch(index).setTerminateAfter(1000).get();
+        SearchResponse response = client.prepareSearch(index).setTerminateAfter(2).get();
         if (response.isTerminatedEarly()) {
-            System.out.println("ternimate");
+            SearchHit[] hits = response.getHits().getHits();
+            for (SearchHit searchHitFields : hits) {
+                System.out.println(searchHitFields.getSourceAsMap());
+            }
         }
     }
 
@@ -264,30 +306,24 @@ public class JavaESTest2 {
         ////前缀查找
         //QueryBuilders.prefixQuery("","");//
         ////匹配短语查询
-        //QueryBuilders.matchPhraseQuery("","");
         //QueryBuilders.rangeQuery("age").gt()
+        //QueryBuilders.matchPhraseQuery()//精确查找
+        //QueryBuilders.boolQuery().must(termQuery("content", "test1"));
+        //QueryBuilders.fuzzyQuery("","");//模糊查询
         SearchResponse response = client.prepareSearch(index)
                 .setTypes(type)
-                .setQuery(QueryBuilders.matchAllQuery()) //查询所有
+                .setQuery(QueryBuilders.matchPhraseQuery("user", "kimchy is a good boy 256")) //查询所有
                 .setSearchType(SearchType.QUERY_THEN_FETCH)
-                .setPostFilter(QueryBuilders.rangeQuery("age").from(10).to(110)
+                .setPostFilter(QueryBuilders.rangeQuery("age").from(10).to(310)
                         //.includeLower(true).includeUpper(true)
-                ).setSize(20).addSort("age", SortOrder.DESC)
+                ).setSize(300).addSort("age", SortOrder.DESC)
                 .setExplain(true) //explain为true表示根据数据相关度排序，和关键字匹配最高的排在前面
                 .get();
-
-
         SearchHit[] hits = response.getHits().getHits();
-
         for (SearchHit hit : hits) {
             System.out.println(hit.getSourceAsMap());
         }
 
-
-        //QueryBuilders.matchPhraseQuery()//精确查找
-        //QueryBuilders.prefixQuery()
-        //QueryBuilders.boolQuery().must(termQuery("content", "test1"));
-        //QueryBuilders.fuzzyQuery("","");//模糊查询
     }
 
 
@@ -502,7 +538,8 @@ public class JavaESTest2 {
                 .setQuery(QueryBuilders.disMaxQuery().add(QueryBuilders.matchAllQuery()))
                 //.setQuery(QueryBuilders.boolQuery().mustNot(termQuery("price", 20)))
                 //.setQuery(QueryBuilders.boolQuery().should(termQuery("price", 20)).should(termQuery("price", 10)))
-                //.setQuery(QueryBuilders.boolQuery().should(QueryBuilders.boolQuery().must(termQuery("productID", "XHDK-A-1293-#fJ3"))).should(termQuery("price", 10))) //查询所有
+                //.setQuery(QueryBuilders.boolQuery().should(QueryBuilders.boolQuery().must(termQuery("productID",
+                // "XHDK-A-1293-#fJ3"))).should(termQuery("price", 10))) //查询所有
                 .setSearchType(SearchType.QUERY_THEN_FETCH)
                 .setExplain(true) //explain为true表示根据数据相关度排序，和关键字匹配最高的排在前面
                 .get();
@@ -607,7 +644,7 @@ public class JavaESTest2 {
         SearchRequestBuilder srb = client.prepareSearch(index);
         srb.setTypes(type);
         srb.setSearchType(SearchType.DEFAULT);
-        
+
         //嵌套查询root节点
         NestedAggregationBuilder nestedBuilder = AggregationBuilders.nested("xxx", "quests");
         //嵌套查询的子查询中分组count
@@ -616,9 +653,9 @@ public class JavaESTest2 {
         //添加子查询到root节点里面
         nestedBuilder.subAggregation(tb);
         srb.addAggregation(nestedBuilder);
-        
+
         //获取一级嵌套
-        Nested negsted= srb.get().getAggregations().get("negsted");
+        Nested negsted = srb.get().getAggregations().get("negsted");
         //打印一级嵌套的结果
         System.out.println(negsted.getDocCount());
         //从一级嵌套查询的结果中获取二级嵌套查询结果
