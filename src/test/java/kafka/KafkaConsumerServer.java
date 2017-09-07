@@ -22,8 +22,8 @@ public class KafkaConsumerServer implements MessageListener<String, String> {
      *     自动提交offset 
      *     执行业务代码 
      *     （high level api 不提供offset管理，不能指定offset进行消费） 
-     */  
-    public void onMessage(ConsumerRecord<String, String> record)  {  
+     */
+    public void onMessage(ConsumerRecord<String, String> record)  {
         try {  
             LOG.info("=============kafkaConsumer开始消费=============");  
             String topic = record.topic();  

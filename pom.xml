@@ -358,7 +358,7 @@
 
        <!-- &lt;!&ndash;kafka发送消息以及接受消息使用的类库&ndash;&gt;
         <dependency>
-            <groupId>org.apache.kafka</groupId>
+            <groupId>org.apache.tkafka</groupId>
             <artifactId>kafka-clients</artifactId>
             <version>0.10.0.1</version>
         </dependency>
