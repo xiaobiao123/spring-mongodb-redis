@@ -19,6 +19,7 @@ public class Application {
 
 
         characterHandler.setSuccessor(symbolHandler);
+
         symbolHandler.setSuccessor(numberHandler);
 
 

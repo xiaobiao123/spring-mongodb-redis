@@ -13,15 +13,29 @@ public class TestJoin {
         TestJoin testJoin = new TestJoin();
         MyThread thread1 = testJoin.new MyThread();
         thread1.start();
+
         try {
             System.out.println("线程"+Thread.currentThread().getName()+"等待");
+            witeMethod();
+
             thread1.join();
+
             System.out.println("线程"+Thread.currentThread().getName()+"继续执行");
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    } 
+    }
+
+    private static  void witeMethod(){
+        try {
+            System.out.println("xxxxxxxx");
+            Thread.sleep(100l);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    }
      
     class MyThread extends Thread{
         @Override

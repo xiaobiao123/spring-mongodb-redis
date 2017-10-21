@@ -6,8 +6,8 @@ public class Test {
     public static void main(String[] args) {
         //第一种方式
 //        ExecutorService executor = Executors.newCachedThreadPool();
-//        Task task = new Task();
-//        FutureTask<Integer> futureTask = new FutureTask<Integer>(task);
+//        Task hellow = new Task();
+//        FutureTask<Integer> futureTask = new FutureTask<Integer>(hellow);
 //        executor.submit(futureTask);
 //        executor.shutdown();
          

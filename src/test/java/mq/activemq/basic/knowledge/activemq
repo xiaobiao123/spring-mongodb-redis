@@ -1,0 +1,32 @@
+JMS 公共	               PTP 域	                Pub/Sub 域
+ConnectionFactory	  QueueConnectionFactory	TopicConnectionFactory
+Connection	          QueueConnection	        TopicConnection
+Destination	          Queue	                    Topic
+Session	              QueueSession	            TopicSession
+MessageProducer	      QueueSender	            TopicPublisher
+MessageConsumer    	  QueueReceiver	            TopicSubscriber
+
+activeMQ基本内容详解
+http://www.cnblogs.com/LiZhiW/p/4966577.html?utm_source=tuicool&utm_medium=referral
+
+MessageListener:
+是最原始的消息监听器，它是JMS规范中定义的一个接口。其中定义了一个用于处理接收到的消息的onMessage方法，该方法只接收一个Message参数
+
+SessionAwareMessageListener：
+接受并发送接收到消息通知，
+
+MessageListenerAdapter：
+MessageListenerAdapter类实现了MessageListener接口和SessionAwareMessageListener接口，
+它的主要作用是将接收到的消息进行类型转换，然后通过反射的形式把它交给一个普通的Java类进行处理。
+
+ MessageListenerAdapter会把接收到的消息做如下转换：
+       TextMessage转换为String对象；
+       BytesMessage转换为byte数组；
+       MapMessage转换为Map对象；
+       ObjectMessage转换为对应的Serializable对象
+
+MessageListenerAdapter的defaultListenerMethod属性来决定的，当我们没有指定该属性时，Spring会默认调用目标处理器的handleMessage方法
+
+MessageListenerAdapter除了会自动的把一个普通Java类当做MessageListener来处理接收到的消息之外，其另外一个主要的功能是可以自动的发送返回消息
+
+可以通过发送的Message的setJMSReplyTo方法指定该消息对应的回复消息的目的地

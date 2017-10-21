@@ -326,12 +326,12 @@
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>transport</artifactId>
             <version>5.4.0</version>
-           <!-- <exclusions>
-                <exclusion>
-                    <groupId>org.elasticsearch.plugin</groupId>
-                    <artifactId>transport-netty3-client</artifactId>
-                </exclusion>
-            </exclusions>-->
+            <!-- <exclusions>
+                 <exclusion>
+                     <groupId>org.elasticsearch.plugin</groupId>
+                     <artifactId>transport-netty3-client</artifactId>
+                 </exclusion>
+             </exclusions>-->
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -356,18 +356,52 @@
             <version>2.1.0.RELEASE</version>
         </dependency>
 
-       <!-- &lt;!&ndash;kafka发送消息以及接受消息使用的类库&ndash;&gt;
+        <!-- &lt;!&ndash;kafka发送消息以及接受消息使用的类库&ndash;&gt;
+         <dependency>
+             <groupId>org.apache.tkafka</groupId>
+             <artifactId>kafka-clients</artifactId>
+             <version>0.10.0.1</version>
+         </dependency>
+         &lt;!&ndash;kafka自带监听器，依赖于spring，所以需要和pring-integration-kafka结合使用&ndash;&gt;
+         <dependency>
+             <groupId>org.springframework.kafka</groupId>
+             <artifactId>spring-kafka</artifactId>
+             <version>1.1.0.RELEASE</version>
+         </dependency>-->
+
+        <!-- active mq -->
         <dependency>
-            <groupId>org.apache.tkafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>0.10.0.1</version>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-core</artifactId>
+            <version>5.7.0</version>
         </dependency>
-        &lt;!&ndash;kafka自带监听器，依赖于spring，所以需要和pring-integration-kafka结合使用&ndash;&gt;
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-            <version>1.1.0.RELEASE</version>
+
+        <!--<dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>jsr250-api</artifactId>
+            <version>1.0</version>
         </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!--rabbit mq-->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>1.7.4.RELEASE</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

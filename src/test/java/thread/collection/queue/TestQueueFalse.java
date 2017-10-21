@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
  */
 public class TestQueueFalse {
     private int queueSize = 10;
+    //praɪ'ɔrəti
     private PriorityQueue<Integer> queue = new PriorityQueue<Integer>(queueSize);
      
     public static void main(String[] args)  {

@@ -57,5 +57,5 @@
         <int:poller fixed-delay="1000" time-unit="MILLISECONDS"/>
     </int-kafka:outbound-channel-adapter>
 
-    <bean id="producerListener" class="kafka.producter.KafkaProducerListener"/>
+    <bean id="producerListener" class="KafkaProducerListener"/>
 </beans>

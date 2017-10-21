@@ -7,6 +7,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class TestQueue {
     private int queueSize = 10;
+    //blɑkɪŋ kju
     private ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<Integer>(queueSize);
 
     public static void main(String[] args)  {
@@ -49,7 +50,7 @@ public class TestQueue {
                 try {
                     queue.put(1);
                     System.out.println("向队列取中插入一个元素，队列剩余空间："+(queueSize-queue.size()));
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

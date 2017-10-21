@@ -25,7 +25,8 @@ public class Test {
     }  
 }
  
-class InsertData { 
+class InsertData {
+    //对象锁
     public synchronized void insert(){
         System.out.println("执行insert");
         try {
@@ -35,7 +36,8 @@ class InsertData {
         }
         System.out.println("执行insert完毕");
     }
-     
+
+    //类锁
     public synchronized static void insert1() {
         System.out.println("执行insert1");
         try {
