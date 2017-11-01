@@ -9,8 +9,9 @@ public class Producer {
     public static void main(String[] args) throws JMSException {
         // 连接到ActiveMQ服务器
         ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://172.30.22.9:61616");
+
         Connection connection = factory.createConnection();
-        connection.start();
+        //connection.start();
         Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
         // 创建主题  
         Topic topic = session.createTopic("slimsmart.topic.test");

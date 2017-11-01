@@ -44,13 +44,20 @@ public class RedisTest {
     public void redsiLock() {
         RedisLock redisLock = new RedisLock("test", redisPool);
 
-        Boolean lock = redisLock.lock(1000l);
+        Boolean lock = redisLock.lock(1200l);
         if (lock) {
             // doSomething.........................
+            try {
+                Thread.sleep(5000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println("finally 锁已经被释放");
+                redisLock.unlock();
+            }
 
-
+            System.out.println("锁已经被释放");
             //执行完后删除锁
-            redisLock.unlock();
 
         }
 
@@ -72,15 +79,25 @@ public class RedisTest {
     @Test
     public void setString() {
         ShardedJedis shardedJedis = this.getConnection();
-        //for (int i = 0; i < 15; i++) {
-        //    shardedJedis.set("test:string" + i, i + "");
-        //}
+
+        for (int i = 0; i < 15; i++) {
+            shardedJedis.set("test:string" + i, i + "");
+        }
 
         //nxxx的值只能取NX或者XX，如果取NX，则只有当key不存在是才进行set，如果取XX，则只有当key已经存在时才进行set
         //expx expx的值只能取EX或者PX，代表数据过期时间的单位，EX代表秒，PX代表毫秒。
         //过期时间，单位是expx所代表的单位。
-        shardedJedis.set("redis:string", "xxxxxxxxxx", "xx", "ex", 10);
+
+        shardedJedis.set("redis:string", "xxxxxxxxxx", "nx", "ex", 1000);
         shardedJedis.close();
+
+        //设置存活时间
+        //shardedJedis.expire()
+        //shardedJedis.setex(key,value)
+        //shardedJedis.setnx(key,value) //当仅当SETNX 是SET if Not eXists的简写
+        // 返回整数，具体为
+        //    - 1，当 key 的值被设置
+        //    - 0，当 key 的值没被设置
     }
 
     /**
@@ -118,6 +135,7 @@ public class RedisTest {
         try {
             tableKeyId = shardedJedis.incr(dbName + "." + tableName + ".KEY");
             System.out.println(JSON.toJSONString("=============" + tableKeyId));
+
         } catch (Exception e) {
             logger.error("调用genUuidDbKey方法异常:   " + e.getCause().toString());
         } finally {
@@ -165,7 +183,8 @@ public class RedisTest {
     public void addHash() {
         ShardedJedis shardedJedis = this.getConnection();
         for (int i = 0; i < 10; i++) {
-            System.out.println(JSON.toJSONString(shardedJedis.hset("test:hash", "hashField" + i, "hashValue" + i + "update")));
+            System.out.println(JSON.toJSONString(shardedJedis.hset("test:hash", "hashField" + i, "hashValue" + i +
+                    "update")));
         }
         shardedJedis.close();
     }
@@ -222,6 +241,7 @@ public class RedisTest {
             //插入输入
             shardedJedis.lpush("user_list", JSON.toJSONString(user));
         }
+
         //获取对象的长度
         System.out.println("=====================" + shardedJedis.llen("user_list"));
         shardedJedis.close();
@@ -300,7 +320,7 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         System.out.println("=====================" + shardedJedis.lrange("user_list", 0, 10));
 
-        ////命令使其永远只保存最近N个ID
+        //命令使其永远只保存最近N个ID
         shardedJedis.ltrim("user_list", 0, 9);
 
         //获取对象的长度
@@ -334,12 +354,12 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         //获取对象的长度
         System.out.println("=====================" + shardedJedis.llen("user_list"));
-        System.out.println("=====================" + JSON.toJSONString(shardedJedis.lindex("user_list", 6)));
+        System.out.println("=====================" + JSON.toJSONString(shardedJedis.lindex("user_list", 0)));
         shardedJedis.close();
     }
 
 
-    /********************************set ******************************************/
+    /********************************set 集合******************************************/
 
     /**
      * 添加set
@@ -352,6 +372,8 @@ public class RedisTest {
             //添加
             System.out.println("=====================" + shardedJedis.sadd("name_set", "member" + i));
         }
+
+
         shardedJedis.close();
     }
 
@@ -363,6 +385,9 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
         System.out.println("=====================" + shardedJedis.scard("name_set"));
+        //随机返回
+        System.out.println("=====================" + JSON.toJSONString( shardedJedis.srandmember("name_set")));
+
         shardedJedis.close();
     }
 
@@ -402,7 +427,18 @@ public class RedisTest {
         shardedJedis.close();
     }
 
-    /********************************zadd***********************/
+
+
+
+
+
+
+
+
+
+
+
+    /********************************有序集合(sorted set)***********************/
 
     @Test
     public void zadd() {
@@ -548,7 +584,8 @@ public class RedisTest {
     public void zincrby() {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
-        System.out.println("=====================" + shardedJedis.zincrby("name_zadd", 10, "test6"));
+        System.out.println("=====================" + shardedJedis.zincrby("name_zuser", 10, "test6"));
+
         shardedJedis.close();
     }
 

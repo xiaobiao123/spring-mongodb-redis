@@ -8,6 +8,10 @@ public class Synch {
 
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
+        Executors.newScheduledThreadPool(10);
+
+        Executors.newCachedThreadPool();
+
         for (int i = 0; i < 1000; i++) {
 
             executorService.submit(new Runnable() {

@@ -128,7 +128,7 @@ public final class ThreadPool {
             Runnable r = null;
             while (isRunning) {// 注意，若线程无效则自然结束run方法，该线程就没用了  
                 synchronized (taskQueue) {
-                    while (isRunning && taskQueue.isEmpty()) {// 队列为空  
+                    while (isRunning && taskQueue.isEmpty()) {// 队列为空
                         try {
                             taskQueue.wait(20);
                         } catch (InterruptedException e) {

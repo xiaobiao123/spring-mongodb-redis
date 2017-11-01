@@ -41,8 +41,8 @@ public class RedisApplicationScenariosTest {
 
     /*支持多命令操作*/
 
-    public static String dbName = "test";
-    public static String tableName = "tableName";
+    //public static String dbName = "test";
+    //public static String tableName = "tableName";
     public static int size = 10;
 
     /**
@@ -56,7 +56,8 @@ public class RedisApplicationScenariosTest {
     @Test
     public void hmset() {
         ShardedJedis shardedJedis = this.getConnection();
-       shardedJedis.hset("product_no"+1,"xihuanshu","2");
+        //shardedJedis.hset("product_no" + 1, "xihuanshu", "2");
+
         for (int i = 0; i < 15; i++) {
             Map<String, String> map = Maps.newHashMap();
             map.put("xihuanshu", "10");
@@ -67,13 +68,16 @@ public class RedisApplicationScenariosTest {
         shardedJedis.close();
     }
 
+    /**
+     * 修改key为pingluanshu的值
+     */
     @Test
     public void hmsetExist() {
         ShardedJedis shardedJedis = this.getConnection();
         for (int i = 0; i < 15; i++) {
             Map<String, String> map = Maps.newHashMap();
-            map.put("pingluanshu", "20" + 11);
-            shardedJedis.hmset("count_product:product_no" + 10, map);
+            map.put("pingluanshu", "20" + i);
+            shardedJedis.hmset("count_product:product_no" + i, map);
         }
         shardedJedis.close();
     }
@@ -84,7 +88,7 @@ public class RedisApplicationScenariosTest {
     @Test
     public void hmget() {
         ShardedJedis shardedJedis = this.getConnection();
-        System.out.println(shardedJedis.hmget("count_product:product_no10", "pingluanshu",  "fangwenshu","xihuanshu"));
+        System.out.println(shardedJedis.hmget("count_product:product_no10", "pingluanshu", "fangwenshu", "xihuanshu"));
         System.out.println(shardedJedis.hvals("count_product:product_no10"));
         shardedJedis.close();
     }
@@ -98,7 +102,7 @@ public class RedisApplicationScenariosTest {
     public void hvals() {
         ShardedJedis shardedJedis = this.getConnection();
         System.out.println(shardedJedis.hvals("count_product:product_no10"));
-
+        System.out.println(shardedJedis.hkeys("count_product:product_no10"));
         System.out.println(shardedJedis.hgetAll("count_product:product_no10"));
         shardedJedis.close();
     }
@@ -141,7 +145,7 @@ public class RedisApplicationScenariosTest {
             map.put("follow" + i, Double.valueOf(i));
             map.put("fans" + i, Double.valueOf(i));
             map.put("focusOn" + i, Double.valueOf(i));
-            shardedJedis.zadd("user_relation:100000", map);
+            shardedJedis.zadd("user_relation:100001", map);
         }
         shardedJedis.close();
     }
@@ -157,7 +161,8 @@ public class RedisApplicationScenariosTest {
         Collection<Jedis> jedisC = shardedJedis.getAllShards();
         Iterator<Jedis> iter = jedisC.iterator();
         Jedis jedis = iter.next();
-        System.out.println(JSON.toJSONString(jedis.zinterstore("user_relation:100003", "user_relation:100001", "user_relation:100000")));
+        System.out.println(JSON.toJSONString(jedis.zinterstore("user_relation:100003", "user_relation:100001",
+                "user_relation:100000")));
         System.out.println(JSON.toJSONString(shardedJedis.zrange("user_relation:100003", 0, -1)));
         System.out.println(shardedJedis.zcard("user_relation:100003"));
 
@@ -193,36 +198,38 @@ public class RedisApplicationScenariosTest {
     @Test
     public void topN() {
         ShardedJedis shardedJedis = this.getConnection();
-        for (int i = 0; i < 10; i++) {
-            //System.out.println(JSON.toJSONString(shardedJedis.zadd("topN",Double.valueOf(i+""),"TOP_NO"+i)));
-        }
+        //for (int i = 0; i < 10; i++) {
+        //    System.out.println(JSON.toJSONString(shardedJedis.zadd("topN",Double.valueOf(i+""),"TOP_NO"+i)));
+        //}
         //修改数据
-        //System.out.println(JSON.toJSONString(shardedJedis.zincrby("topN",Double.valueOf("3"),"TOP_NO"+2)));
+        //System.out.println(JSON.toJSONString(shardedJedis.zincrby("topN", Double.valueOf("3"), "TOP_NO" + 2)));
         //按score进行排序--asc
-//        System.out.println(JSON.toJSONString(shardedJedis.zrange("topN", 0, -1)));
+        //System.out.println(JSON.toJSONString(shardedJedis.zrange("topN", 0, -1)));
         //按score进行排序--dec
-//        System.out.println(JSON.toJSONString(shardedJedis.zrevrange("topN", 0, -1)));
+        //        System.out.println(JSON.toJSONString(shardedJedis.zrevrange("topN", 0, -1)));
         //查询score在min-max之间的值
-//        System.out.println(JSON.toJSONString(shardedJedis.zrangeByScore("topN", 2, 9)));
+        //System.out.println(JSON.toJSONString(shardedJedis.zrangeByScore("topN", 2, 9)));
 
-//        System.out.println(JSON.toJSONString(shardedJedis.zrangeWithScores("topN", 2, 9)));
-//        System.out.println(JSON.toJSONString(shardedJedis.zrevrangeWithScores("topN", 2, 9)));
+        //安score排序 start:pageIndex ,end:pageSize
+        //System.out.println(JSON.toJSONString(shardedJedis.zrangeWithScores("topN", 2, 9)));
+        //System.out.println(JSON.toJSONString(shardedJedis.zrevrangeWithScores("topN", 2, 9)));
 
-//        System.out.println(JSON.toJSONString(shardedJedis.zrangeByScoreWithScores("topN", 2, 9)));
-//        System.out.println(JSON.toJSONString(shardedJedis.zrangeByScoreWithScores("topN", 2, 9,1,4)));
+        //
+        System.out.println(JSON.toJSONString(shardedJedis.zrangeByScoreWithScores("topN", 2, 9)));
+        System.out.println(JSON.toJSONString(shardedJedis.zrangeByScoreWithScores("topN", 2, 9, 1, 4)));
 
-//        System.out.println(JSON.toJSONString(shardedJedis.zrem("topN", "")));
+        //        System.out.println(JSON.toJSONString(shardedJedis.zrem("topN", "")));
 
         //删除--移除下标 0 至 1 区间内的成员
-//        System.out.println(JSON.toJSONString(shardedJedis.zremrangeByRank("topN",0,1)));
+        //        System.out.println(JSON.toJSONString(shardedJedis.zremrangeByRank("topN",0,1)));
 
         //移除所有薪水在 1500 到 3500 内的员工
-        System.out.println(JSON.toJSONString(shardedJedis.zremrangeByScore("topN", 0, 1)));
+        //System.out.println(JSON.toJSONString(shardedJedis.zremrangeByScore("topN", 0, 1)));
 
 
-        System.out.println(JSON.toJSONString(shardedJedis.zrangeByScoreWithScores("topN", 2, 9)));
+        //System.out.println(JSON.toJSONString(shardedJedis.zrangeByScoreWithScores("topN", 2, 9)));
 
-//        System.out.println(JSON.toJSONString(shardedJedis.zrange("List",0,20)));
+        //System.out.println(JSON.toJSONString(shardedJedis.zrange("List", 0, 20)));
         shardedJedis.close();
     }
 

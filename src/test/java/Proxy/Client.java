@@ -21,9 +21,8 @@ public class Client {
 		 * ，表示我要代理的是该真实对象，这样我就能调用这组接口中的方法了 第三个参数handler， 我们这里将这个代理对象关联到了上方的
 		 * InvocationHandler 这个对象上
 		 */
-		Subject subject = (Subject) Proxy.newProxyInstance(handler.getClass().getClassLoader(),
+		Subject subject = (Subject) Proxy.newProxyInstance(Client.class.getClassLoader(),
 				realSubject.getClass().getInterfaces(), handler);
-
 		System.out.println(subject.getClass().getName());
 		subject.rent();
 		subject.hello("world");

@@ -171,7 +171,7 @@ public class ZhidaoMapping {
         //        //5个主分片
         //        .put("number_of_shards", 3)
         //        //测试环境，减少副本提高速度
-        //        .put("number_of_replicas", 2).build();
+        //        .put("number_of_replicas", 2).H1build();
         //client.admin().indices()
         //        //这个索引库的名称还必须不包含大写字母
         //        .prepareCreate("testindex").setSettings(settings2)

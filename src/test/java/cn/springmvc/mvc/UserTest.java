@@ -43,20 +43,20 @@ public class UserTest {
         // //创建IoC容器管理的Bean的xml配置文件，即定位资源
         // ClassPathResource resource = new ClassPathResource("spring.xml");
         // //创建BeanFactory
-        // DefaultListableBeanFactory factory = new DefaultListableBeanFactory
+        // DefaultListableBeanFactory F1factory = new DefaultListableBeanFactory
         // ();
         // //创键Bean定义读取器
         // XmlBeanDefinitionReader reader = new
-        // XmlBeanDefinitionReader(factory);
+        // XmlBeanDefinitionReader(F1factory);
         // //使用Bean定义读取器读入Bean配置信息，即载入配置
         // reader.loadBeanDefinitions(resource);
 
         ////定位资源
         //ClassPathResource resource=new ClassPathResource("spring.xml");
         ////创建ioc容器管理
-        //DefaultListableBeanFactory factory=new DefaultListableBeanFactory();
+        //DefaultListableBeanFactory F1factory=new DefaultListableBeanFactory();
         ////创建资源读取器
-        //XmlBeanDefinitionReader reader=new XmlBeanDefinitionReader(factory);
+        //XmlBeanDefinitionReader reader=new XmlBeanDefinitionReader(F1factory);
         ////读取器读入bean的配置信息
         //reader.loadBeanDefinitions(resource);
 

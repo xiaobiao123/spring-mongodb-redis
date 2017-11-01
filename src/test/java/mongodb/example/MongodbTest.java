@@ -227,6 +227,9 @@ public class MongodbTest {
     }
 
     @Test
+    /**
+     * GROUP  BY
+     */
     public void aggregate() {
         userDao.aggregate();
     }

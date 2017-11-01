@@ -32,6 +32,6 @@ public class Originator {
         caretaker.addMemento(originator.createMemento(originator.getState()));
         originator.setState("State2");
         String restore = caretaker.getMemento().getState();
-        System.out.println("Current originator state=" + originator.getState() + ",restore state=" + restore);
+        System.out.println("Current originator C1state=" + originator.getState() + ",restore C1state=" + restore);
     }
 }  

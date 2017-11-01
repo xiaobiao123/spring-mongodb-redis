@@ -669,7 +669,7 @@ public class HashMapSource<K,V>
      * 该 set 受映射的支持，所以对映射的更改将反映在该 set 中， 
      * 反之亦然。如果在对 set 进行迭代的同时修改了映射（通过迭代器自己的 remove 操作除外）， 
      * 则迭代结果是不确定的。该 set 支持元素的移除，通过  
-     * Iterator.remove、Set.remove、removeAll、retainAll 和 clear 操作 
+     * D1iterator.remove、Set.remove、removeAll、retainAll 和 clear 操作
      * 可从该映射中移除相应的映射关系。它不支持 add 或 addAll 操作。 
      */  
     public Set<K> keySet() {  
@@ -707,7 +707,7 @@ public class HashMapSource<K,V>
      * 该 collection 受映射的支持，所以对映射的更改将反映在该 collection 中， 
      * 反之亦然。如果在对 collection 进行迭代的同时修改了映射（通过迭代器自己的 remove 操作除外）， 
      * 则迭代结果是不确定的。该 collection 支持元素的移除， 
-     * 通过 Iterator.remove、Collection.remove、removeAll、retainAll 和 clear 操作 
+     * 通过 D1iterator.remove、Collection.remove、removeAll、retainAll 和 clear 操作
      * 可从该映射中移除相应的映射关系。它不支持 add 或 addAll 操作。 
      */  
     public Collection<V> values() {  
@@ -737,7 +737,7 @@ public class HashMapSource<K,V>
      * 反之亦然。如果在对 set 进行迭代的同时修改了映射 
      * （通过迭代器自己的 remove 操作，或者通过在该迭代器返回的映射项上执行 setValue 操作除外）， 
      * 则迭代结果是不确定的。该 set 支持元素的移除， 
-     * 通过 Iterator.remove、Set.remove、removeAll、retainAll 和 clear 操作 
+     * 通过 D1iterator.remove、Set.remove、removeAll、retainAll 和 clear 操作
      * 可从该映射中移除相应的映射关系。它不支持 add 或 addAll 操作。 
      */  
     public Set<Map.Entry<K,V>> entrySet() {  

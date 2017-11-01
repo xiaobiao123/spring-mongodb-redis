@@ -266,7 +266,7 @@ public class UserDaoImpl implements UserDao {
 //				 new BasicDBObject("_id",new BasicDBObject("$gt",120000)), null, null);
 
 
-        object.put("_id", new BasicDBObject("$gt", 120000));
+        object.put("_id", new BasicDBObject("$gt", 12));
 
         List distinc = collection.distinct("age", object);
 

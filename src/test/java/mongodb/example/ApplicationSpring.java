@@ -29,8 +29,8 @@ public class ApplicationSpring {
         entity1.setRegionName("北京");  
         entity1.setWorks(1);  
         userDao.insert(entity1);  
-        userDao.update(entity1);  
-        userDao.createCollection();  
+        //userDao.update(entity1);
+        //userDao.createCollection();
 //      
 //        List<UserEntity> list = userDao.findList(0, 10);  
 //        for (UserEntity e : list) {  
