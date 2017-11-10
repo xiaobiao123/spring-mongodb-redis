@@ -355,20 +355,17 @@
             <artifactId>spring-integration-kafka</artifactId>
             <version>2.1.0.RELEASE</version>
         </dependency>
-
-        <!-- &lt;!&ndash;kafka发送消息以及接受消息使用的类库&ndash;&gt;
-         <dependency>
-             <groupId>org.apache.tkafka</groupId>
-             <artifactId>kafka-clients</artifactId>
-             <version>0.10.0.1</version>
-         </dependency>
-         &lt;!&ndash;kafka自带监听器，依赖于spring，所以需要和pring-integration-kafka结合使用&ndash;&gt;
-         <dependency>
-             <groupId>org.springframework.kafka</groupId>
-             <artifactId>spring-kafka</artifactId>
-             <version>1.1.0.RELEASE</version>
-         </dependency>-->
-
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>0.10.0.1</version>
+        </dependency>
+        <!--kafka自带监听器，依赖于spring，所以需要和pring-integration-kafka结合使用-->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>1.1.0.RELEASE</version>
+        </dependency>
         <!-- active mq -->
         <dependency>
             <groupId>org.apache.activemq</groupId>

@@ -1,17 +1,13 @@
 package com.tiantian.springintejms.service.impl;
 
-import javax.annotation.Resource;
-import javax.jms.*;
-
+import com.tiantian.springintejms.service.ProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;  
-import org.springframework.stereotype.Component;  
-   
-import com.tiantian.springintejms.service.ProducerService;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.jms.core.MessageCreator;
+import org.springframework.stereotype.Component;
+
+import javax.jms.*;
 
 @Component  
 public class ProducerServiceImpl implements ProducerService {

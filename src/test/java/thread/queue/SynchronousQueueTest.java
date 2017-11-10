@@ -25,7 +25,7 @@ public class SynchronousQueueTest {
 
 
         //同步移交
-        SynchronousQueue<String> synchronousQueue = new SynchronousQueue();
+        final SynchronousQueue<String> synchronousQueue = new SynchronousQueue();
         new Thread(new Runnable() {
             @Override
             public void run() {

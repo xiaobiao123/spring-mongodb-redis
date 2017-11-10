@@ -22,7 +22,6 @@ import java.util.concurrent.ExecutionException;
  *
  * @author
  */
-@Service
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:conf/kafka_producer.xml")
 public class KafkaProducerServer {
@@ -32,7 +31,10 @@ public class KafkaProducerServer {
 
     @Test
     public void testTemplateSend() {
-        template.send("test-topic", "www.656463.com11");
+        for (int i=0;i<1000;i++){
+            template.send("testTopic123", "www.656463.com11"+i);
+        }
+
     }
 
 

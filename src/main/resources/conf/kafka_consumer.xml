@@ -16,6 +16,8 @@
                 <entry key="enable.auto.commit" value="true"/>
                 <entry key="auto.commit.interval.ms" value="1000"/>
                 <entry key="session.timeout.ms" value="15000"/>
+                <!--一次获取消息的最大数量-->
+                <entry key="max.poll.records" value="10"/>
                 <entry key="key.deserializer" value="org.apache.kafka.common.serialization.StringDeserializer"/>
                 <entry key="value.deserializer" value="org.apache.kafka.common.serialization.StringDeserializer"/>
             </map>
@@ -30,11 +32,11 @@
     </bean>
 
     <!-- 实际执行消息消费的类 -->
-    <bean id="messageListernerConsumerService" class="KafkaConsumerServer"/>
+    <bean id="messageListernerConsumerService" class="mq.kafka.KafkaConsumerServer"/>
 
 
     <bean id="containerProperties" class="org.springframework.kafka.listener.config.ContainerProperties">
-        <constructor-arg value="orderTopic"/><!-- 监听的topic ContainerProperties 中构造函数参数，多个toppic 用，隔开 -->
+        <constructor-arg value="test-topic_1"/><!-- 监听的topic ContainerProperties 中构造函数参数，多个toppic 用，隔开 -->
         <property name="messageListener" ref="messageListernerConsumerService"/>
     </bean>
 

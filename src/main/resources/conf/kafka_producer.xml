@@ -3,12 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:int="http://www.springframework.org/schema/integration"
        xmlns:int-kafka="http://www.springframework.org/schema/integration/kafka"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/integration/kafka
         http://www.springframework.org/schema/integration/kafka/spring-integration-kafka.xsd
         http://www.springframework.org/schema/integration
         http://www.springframework.org/schema/integration/spring-integration.xsd
         http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task.xsd">
 
 <!-- 定义producer的参数 -->
     <bean id="producerProperties" class="java.util.HashMap">
@@ -16,14 +19,24 @@
             <map>
                 <entry key="bootstrap.servers" value="172.30.22.11:9092"/>
                <entry key="group.id" value="0" />
+                <!--retries，如果请求失败重试次数，则会有重复消息的可能性。-->
                 <entry key="retries" value="10"/>
-                <entry key="batch.size" value="16384"/>
+                <!--缓存每个分区未发送消息 batch.size 配置指定-->
+                <entry key="batch.size" value="10"/>
+                    <!--是否延迟发送  单位为毫秒-->
                 <entry key="linger.ms" value="1"/>
+                <!--可用缓存总量-->
                 <entry key="buffer.memory" value="33554432"/>
                 <entry key="key.serializer"
                        value="org.apache.kafka.common.serialization.StringSerializer"/>
                 <entry key="value.serializer"
                        value="org.apache.kafka.common.serialization.StringSerializer"/>
+                <!--props.put("compression.type", "gzip");
+                压缩数据的压缩类型none、gzip、snappy。-->
+                <!--
+                判断是不是成功发送。我们指定了“all”将会阻塞消息，这种设置性能最低，但是是最可靠的。
+                props.put("acks", "all");-->
+
             </map>
         </constructor-arg>
     </bean>
@@ -44,18 +57,22 @@
         <property name="producerListener" ref="producerListener"/>
     </bean>
 
-    <!-- 生产1号 定义通道-->
-    <int:channel id="inputToKafka">
-        <int:queue/>
-    </int:channel>
-    <!--出站通道适配器-->
-    <int-kafka:outbound-channel-adapter id="kafkaOutboundChannelAdapter"
-                                        kafka-template="KafkaTemplate"
-                                        auto-startup="true"
-                                        channel="inputToKafka"
-                                        topic="Xuesong_Topic">
-        <int:poller fixed-delay="1000" time-unit="MILLISECONDS"/>
-    </int-kafka:outbound-channel-adapter>
+    <!--&lt;!&ndash;生产1号 定义通道&ndash;&gt;-->
+    <!--&lt;!&ndash;int:channel是配置Spring Integration Channel, 此channel基于queue。&ndash;&gt;-->
+    <!--<int:channel id="inputToKafka">-->
+        <!--<int:queue/>-->
+    <!--</int:channel>-->
 
-    <bean id="producerListener" class="KafkaProducerListener"/>
+    <!--&lt;!&ndash;出站通道适配器&ndash;&gt;-->
+    <!--<int-kafka:outbound-channel-adapter id="kafkaOutboundChannelAdapter"-->
+                                        <!--kafka-template="KafkaTemplate"-->
+                                        <!--auto-startup="true"-->
+                                        <!--channel="inputToKafka"-->
+                                        <!--topic="Xuesong_Topic">-->
+        <!--<int:poller fixed-delay="1000" time-unit="MILLISECONDS" receive-timeout="0" task-executor="taskExecutor"/>-->
+    <!--</int-kafka:outbound-channel-adapter>-->
+
+    <!--<task:executor id="taskExecutor" pool-size="5" keep-alive="120" queue-capacity="500"/>-->
+
+    <bean id="producerListener" class="mq.kafka.producter.KafkaProducerListener"/>
 </beans>

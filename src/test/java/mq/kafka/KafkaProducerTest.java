@@ -4,8 +4,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
   
 public class KafkaProducerTest {  
     public static void main(String[] args) {  
-      ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{  
-              "classpath*:conf/kafka-consumer.xml", "classpath*:conf/kafka_producer.xml"
+      ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
+              "classpath*:conf/kafka_consumer.xml"
       });
       context.start();
       while (true) {  

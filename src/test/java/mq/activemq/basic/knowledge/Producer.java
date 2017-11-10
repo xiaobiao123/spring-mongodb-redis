@@ -23,6 +23,8 @@ public class Producer {
         message.setStringProperty("property", "消息Property");
         // 发布主题消息  
         producer.send(message);
+        //设置消息过期
+        producer.setTimeToLive(100000L);
         System.out.println("Sent message: " + message.getText());
         session.commit();
         session.close();

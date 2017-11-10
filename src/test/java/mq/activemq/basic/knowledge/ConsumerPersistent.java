@@ -20,20 +20,22 @@ public class ConsumerPersistent {
         connection.start();  
         Session session = connection.createSession(Boolean.FALSE, Session.AUTO_ACKNOWLEDGE);
         // 创建主题  
-        Topic topic = session.createTopic("slimsmart.topic.test");  
-        // 创建持久订阅,指定客户端ID。  
-        MessageConsumer consumer = session.createDurableSubscriber(topic,clientId);  
-        consumer.setMessageListener(new MessageListener() {  
-            // 订阅接收方法  
-            public void onMessage(Message message) {  
-                TextMessage tm = (TextMessage) message;  
-                try {  
+        Topic topic = session.createTopic("slimsmart.topic.test");
+        // 创建持久订阅,指定客户端ID。
+        MessageConsumer consumer = session.createDurableSubscriber(topic,clientId);
+        consumer.setMessageListener(new MessageListener() {
+            // 订阅接收方法
+            public void onMessage(Message message) {
+                TextMessage tm = (TextMessage) message;
+                try {
                     System.out.println("Received message: " + tm.getText()+":"+tm.getStringProperty("property"));
-                } catch (JMSException e) {  
-                    e.printStackTrace();  
-                }  
-            }  
-        });  
+                    message.acknowledge();
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
   
     }  
 }  
