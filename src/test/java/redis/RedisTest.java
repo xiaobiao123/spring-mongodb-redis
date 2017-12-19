@@ -79,7 +79,7 @@ public class RedisTest {
     @Test
     public void setString() {
         ShardedJedis shardedJedis = this.getConnection();
-
+        Transaction transaction=jedis.multi();
         for (int i = 0; i < 15; i++) {
             shardedJedis.set("test:string" + i, i + "");
         }

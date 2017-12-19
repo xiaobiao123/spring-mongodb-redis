@@ -17,6 +17,7 @@ public class PriorityQueueTest {
         queue.add(new User(55, "wu55"));
         queue.add(new User(9, "wu9"));
         queue.add(new User(3, "wu3"));
+
         for (User user : queue) {
             try {
                 System.out.println(queue.take().name);

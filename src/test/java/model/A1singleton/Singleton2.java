@@ -22,10 +22,10 @@ public class Singleton2 {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchFieldException {
-        Singleton2 singleton2= Singleton2.geInstance();
-        Class<?> class1 = singleton2.getClass();
-        Field fields = class1.getDeclaredField("value");
-        fields.setAccessible(true);
+//        Singleton2 singleton2= Singleton2.geInstance();
+//        Class<?> class1 = singleton2.getClass();
+//        Field fields = class1.getDeclaredField("value");
+//        fields.setAccessible(true);
         // 一般采用这种形式
 
     }

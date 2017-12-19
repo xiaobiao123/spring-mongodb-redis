@@ -1,4 +1,4 @@
-package testxxx;
+package javastudy.testxxx;
 
 public class InitializerExamples1 {
     static int count; 

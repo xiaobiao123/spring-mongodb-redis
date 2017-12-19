@@ -8,19 +8,19 @@ import java.util.concurrent.*;
 public class SynchronousQueueTest {
     public static void main(String[] args) {
 
-        ////SynchronousQueue 是一个没有数据缓冲的BlockingQueue
-        //Executors.newCachedThreadPool();
-        ////DelayedWorkQueue 默认Integer.MAX_VALUE
-        ////DelayedWorkQueue 中的元素第一个元素永远是 delay 时间最小的那个元素，如果 delay 没有到期，take 的时候便会 block 住
-        ////创建一个定长线程池，支持定时及周期性任务执行
-        //Executors.newScheduledThreadPool(10);
-        ////LinkedBlockingQueue
-        ////创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行
-        //Executors.newSingleThreadExecutor();
-        ////LinkedBlockingQueue  默认Integer.MAX_VALUE
-        ////newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
-        //Executors.newFixedThreadPool(10);
-        ////创建一个拥有多个任务队列（以便减少连接数）的线程池
+        //SynchronousQueue 是一个没有数据缓冲的BlockingQueue
+        Executors.newCachedThreadPool();
+        //DelayedWorkQueue 默认Integer.MAX_VALUE
+        //DelayedWorkQueue 中的元素第一个元素永远是 delay 时间最小的那个元素，如果 delay 没有到期，take 的时候便会 block 住
+        //创建一个定长线程池，支持定时及周期性任务执行
+        Executors.newScheduledThreadPool(10);
+        //LinkedBlockingQueue
+        //创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行
+        Executors.newSingleThreadExecutor();
+        //LinkedBlockingQueue  默认Integer.MAX_VALUE
+        //newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
+        Executors.newFixedThreadPool(10);
+        //创建一个拥有多个任务队列（以便减少连接数）的线程池
         //Executors.newWorkStealingPool(10);
 
 

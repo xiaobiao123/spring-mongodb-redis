@@ -14,4 +14,8 @@ public enum Singleton {
         Singleton s2 = Singleton.INSTANCE;
         System.out.println(s == s2);
     }
+
+
+
+
 }
