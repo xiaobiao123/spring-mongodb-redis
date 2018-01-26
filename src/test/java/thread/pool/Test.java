@@ -43,7 +43,7 @@ public class Test {
         //newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
         Executors.newFixedThreadPool(10);
         //创建一个拥有多个任务队列（以便减少连接数）的线程池
-        Executors.newWorkStealingPool(10);
+        //Executors.newWorkStealingPool(10);
 
 
     }
