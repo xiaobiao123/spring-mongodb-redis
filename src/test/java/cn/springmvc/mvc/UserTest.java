@@ -65,7 +65,7 @@ public class UserTest {
     @Test
     public void addUser() throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
-        Long start=System.currentTimeMillis();
+        Long start = System.currentTimeMillis();
         for (int i = 0; i < 1; i++) {
             User user = new User();
             user.setNickname("nickname" + 1);
@@ -80,16 +80,18 @@ public class UserTest {
         while (!executorService.isTerminated()) {
 
         }
-        System.out.println(System.currentTimeMillis()-start);
+        System.out.println(System.currentTimeMillis() - start);
         System.out.println("所有子线程已执行完毕");
 
     }
 
     public class InserUser implements Runnable {
         private User user;
+
         public InserUser(User user) {
             this.user = user;
         }
+
         @Override
         public void run() {
             synchronized (user) {
