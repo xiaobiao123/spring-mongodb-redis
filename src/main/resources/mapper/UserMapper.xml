@@ -14,9 +14,9 @@
 		update gwb_user_test set state=state+#{state}
 	</update>
 
-	<select id="getUser" parameterType="string" resultType="cn.springmvc.model.User">
+	<select id="getUser" parameterType="string" resultType="User">
 
-		select * from gwb_user_test where nickNameSS=#{nickName}
+		select * from gwb_user_test where nickName=#{nickName}
 
 	</select>
 

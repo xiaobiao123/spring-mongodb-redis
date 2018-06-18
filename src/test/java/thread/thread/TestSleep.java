@@ -24,7 +24,8 @@ public class TestSleep {
         System.out.println("thread2=====" + thread2.getId());
 
 
-        System.out.println("main===="+Thread.currentThread().getId()+"getname:"+Thread.currentThread().getName());
+        System.out.println("main====------------"+Thread.currentThread().getId()+"getname:"+Thread.currentThread()
+                .getName());
 
     }
 
@@ -37,7 +38,7 @@ public class TestSleep {
                 System.out.println("i12:" + i);
                 try {
                     System.out.println("线程" + Thread.currentThread().getName() + "进入睡眠状态");
-                    Thread.currentThread().sleep(10000);
+                    Thread.currentThread().sleep(2000);
                 } catch (InterruptedException e) {
                     // TODO: handle exception
                 }

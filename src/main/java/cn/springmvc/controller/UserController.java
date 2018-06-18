@@ -95,7 +95,7 @@ public class UserController {
 //
     @RequestMapping("index2")
     @ResponseBody
-    public String index2() {
+    public String index2(String name,String age) {
         logger.debug("This is a debug messagexxxxxxxxxxxxxxxxxxxx!");
         logger.info("This is info messagexxxxxxxxxxxxxxxxxxxxxxx!");
         logger.warn("This is a warn messagexxxxxxxxxxxxxxxxxxxxxxxx!");

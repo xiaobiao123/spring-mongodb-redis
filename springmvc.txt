@@ -30,23 +30,27 @@
     10、FlashMapManager：用于管理FlashMap的策略接口，FlashMap用于存储一个请求的输出，当进入另一个请求时作为该请求的输入，通常用于重定向场景，
         后边会细述。
 
-      //初始化文件上传处理类
+      //初始化文件上传处理类  解析器
           initMultipartResolver(context);
-      //初始化本地化Resolver
+      //初始化本地化Resolver  http://blog.csdn.net/rj042/article/details/23354225
           initLocaleResolver(context);
       //初始化主题Resolver
           initThemeResolver(context);
       //初始化一些个与处理的HandlerMappings
-          initHandlerMappings(context);
-      //
+          initHandlerMappings(context);  HttpRequestHandlerAdapter  SimpleControllerHandlerAdapter
+          AnnotationMethonHanderAdapter
           initHandlerAdapters(context);
+
       //初始化异常处理的handler
           initHandlerExceptionResolvers(context);
+          AnnotationMethodHandlerExceptionResolver
+          ResponseStatusExceptionResolver
+          DefaultHandlerException
       //初始化请求路径转换为ViewName 的Translator
-          initRequestToViewNameTranslator(context);
+          initRequestToViewNameTranslator(context);  DefaultRequestToViewNameTranslator
       //初始化ViewResolvers 这个就是针对视图处理的Resolvers 比如jsp处理Resolvers 或者freemarker处理Resolvers
           initViewResolvers(context);
-      //初始化 主要管理flashmap，比如RedirectAttributes 的属性会放到这个里面，默认使用的是SessionFlashMapManager
+      //初始化 主要管理flashmap，重定向数据保存   比如RedirectAttributes 的属性会放到这个里面，默认使用的是SessionFlashMapManager
           initFlashMapManager(context);
 
     前端控制器（DispatcherServlet）、
