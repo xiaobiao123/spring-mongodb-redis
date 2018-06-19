@@ -1,8 +1,10 @@
 package cn.springmvc.collection;
 
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import com.alibaba.fastjson.JSON;
+import org.junit.Test;
 
 public class TestList {
     public static void main(String[] args) {
@@ -40,6 +42,47 @@ public class TestList {
 
         System.out.println(1 << 5);
 
+
+
     }
 
+    @Test
+    public void testHashTable() {
+        ArrayBlockingQueue blockingQueue = new ArrayBlockingQueue(10);
+
+        Hashtable hashtable = new Hashtable();
+        hashtable.put("ddd", "xxx");
+
+        Integer i=12345678;
+        Integer k=12345678;
+        Set<String> set=new HashSet<>();
+        set.add(null);
+        System.out.println(i==k);
+
+    }
+
+    @Test
+    public void testRetrurnFinally() {
+        int i = 1;
+        try {
+            System.out.println("try里面的i : " + i);
+        } finally {
+            System.out.println("进入finally...");
+            ++i;
+            System.out.println("fianlly里面的i : " + i);
+        }
+
+
+        String k = "kkkkk";
+        try {
+            System.out.println("try里面的k : " + k);
+            //return k;
+        } finally {
+            System.out.println("进入finally...");
+            k = k + "xxxxxx";
+            System.out.println("fianlly里面的i : " + k);
+        }
+
+
+    }
 }

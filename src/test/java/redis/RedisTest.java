@@ -90,7 +90,6 @@ public class RedisTest {
 
         shardedJedis.set("redis:string", "xxxxxxxxxx", "nx", "ex", 1000);
         shardedJedis.close();
-
         //设置存活时间
         //shardedJedis.expire()
         //shardedJedis.setex(key,value)

@@ -11,16 +11,17 @@ import java.io.IOException;
  */
 public class TestInterrupt {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         TestInterrupt testInterrupt = new TestInterrupt();
         MyThread thread = testInterrupt.new MyThread();
         thread.start();
+       // thread.sleep(10000l);
+
 
         /*将线程中断标志设置为true*/
         thread.interrupt();
 
-
-        /*如果当前线程的中断标志是true,将线程中断标志设置为false*/
+        /*如果当前线程的中断标志是true,将线程中断标志设置为false*/  //除标志位是为了下次继续检测标志位
         System.out.println("interrupted22=======================:" + thread.interrupted());
 
         while (!thread.isInterrupted()) {

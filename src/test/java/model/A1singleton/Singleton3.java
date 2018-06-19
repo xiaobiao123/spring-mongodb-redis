@@ -24,5 +24,4 @@ public class Singleton3 {
     public static Singleton3 getInstance() {
         return SingletonHolder.instance;
     }
-
 }

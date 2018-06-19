@@ -60,10 +60,10 @@ public class JavaESTest2 {
         //        Builder builder = Settings.settingsBuilder();
         //        builder.put("cluster.name", "wenbronk_escluster");
         ////                .put("client.transport.ignore_cluster_name", true);
-        //        Settings settings = builder.H1build();
+        //        Settings settings = builder.H8build();
         //
         //        org.elasticsearch.client.transport.TransportClient.Builder transportBuild = TransportClient.builder();
-        //        TransportClient client1 = transportBuild.settings(settings).H1build();
+        //        TransportClient client1 = transportBuild.settings(settings).H8build();
         //        client = client1.addTransportAddress((new InetSocketTransportAddress(new InetSocketAddress
         // ("192.168.50.37", 9300))));
         //        System.out.println("success connect to escluster");

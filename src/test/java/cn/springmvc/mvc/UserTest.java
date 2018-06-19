@@ -45,9 +45,9 @@ public class UserTest {
         ////定位资源
         //ClassPathResource resource=new ClassPathResource("spring.xml");
         ////创建ioc容器管理
-        //DefaultListableBeanFactory F1factory=new DefaultListableBeanFactory();
+        //DefaultListableBeanFactory F6factory=new DefaultListableBeanFactory();
         ////创建资源读取器
-        //XmlBeanDefinitionReader reader=new XmlBeanDefinitionReader(F1factory);
+        //XmlBeanDefinitionReader reader=new XmlBeanDefinitionReader(F6factory);
         ////读取器读入bean的配置信息
         //reader.loadBeanDefinitions(resource);
 
