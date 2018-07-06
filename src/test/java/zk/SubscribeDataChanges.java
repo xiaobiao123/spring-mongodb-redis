@@ -6,7 +6,7 @@ import org.I0Itec.zkclient.exception.ZkMarshallingError;
 import org.I0Itec.zkclient.serialize.ZkSerializer;
 
 /**
- * 监听节点信息的变更（如对节点testUserNode的值进行修改）
+ * 监听节点信息的变更（如对节点path的值进行修改）
  */
 public class SubscribeDataChanges {
     public static class ZKDataListener implements IZkDataListener {
@@ -27,7 +27,7 @@ public class SubscribeDataChanges {
 
     public static void main(String[] args) throws InterruptedException {
         //zk集群的地址  
-        String ZKServers = "172.30.22.239";
+        String ZKServers = "172.30.22.11";
 
 //        ZkClient zkClient = new ZkClient(ZKServers,10000,10000,new SerializableSerializer());
 
@@ -42,8 +42,7 @@ public class SubscribeDataChanges {
         });
 
         System.out.println("conneted ok!");
-
-        zkClient.subscribeDataChanges("/testUserNode", new ZKDataListener());
+        zkClient.subscribeDataChanges("/path", new ZKDataListener());
         Thread.sleep(Integer.MAX_VALUE);
 
     }

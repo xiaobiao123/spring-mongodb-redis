@@ -38,12 +38,15 @@ public class UserTest {
         ApplicationContext context = new ClassPathXmlApplicationContext(
                 new String[]{"classpath:conf/spring.xml",
                         "classpath:conf/spring-mybatis.xml"});
-//		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] { "classpath:conf/spring.xml" });
+		//ApplicationContext context = new ClassPathXmlApplicationContext(new String[] { "classpath:conf/spring.xml" });
         userService = (UserService) context.getBean("userServiceImpl");
+        //System.out.println(  context.getBean("appleFactoryBean"));
+        //System.out.println(  context.getBean("&appleFactoryBean"));
+
 
 
         ////定位资源
-        //ClassPathResource resource=new ClassPathResource("spring.xml");
+        //ClassPathResource resource=new ClassPathResource("classpath:conf/spring.xml");
         ////创建ioc容器管理
         //DefaultListableBeanFactory F6factory=new DefaultListableBeanFactory();
         ////创建资源读取器
@@ -56,15 +59,13 @@ public class UserTest {
     @Test
     public void addUser() throws InterruptedException {
 
-
-
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         Long start=System.currentTimeMillis();
         for (int i = 0; i < 1; i++) {
             User user = new User();
             user.setNickname("nickname" + 1);
             user.setState(1);
-            executorService.execute(new InserUser(user));
+           // executorService.execute(new InserUser(user));
             Thread.sleep(1000);
         }
         System.out.println();

@@ -12,7 +12,7 @@ import java.util.List;
 public class SubscribeChildChanges {
 
     private static  ZkClient zkClient;
-    private  static final String ZKServers = "172.30.22.239";
+    private  static final String ZKServers = "172.30.22.11";
 
     static {
          zkClient = new ZkClient(ZKServers,10000,10000,new SerializableSerializer());
@@ -27,7 +27,7 @@ public class SubscribeChildChanges {
          */  
         public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
 
-            zkClient.getChildren("/testUserNode");
+            zkClient.getChildren("/path");
 
             System.out.println("SubscribeChildChanges  handleChildChange=========="+parentPath);
             System.out.println("SubscribeChildChanges  handleChildChange=========="+currentChilds.toString());
@@ -44,7 +44,7 @@ public class SubscribeChildChanges {
         /** 
          * "/testUserNode" 监听的节点，可以是现在存在的也可以是不存在的 
          */  
-        zkClient.subscribeChildChanges("/testUserNode", new ZKChildListener());
+        zkClient.subscribeChildChanges("/path", new ZKChildListener());
         Thread.sleep(Integer.MAX_VALUE);
     }
 }  
