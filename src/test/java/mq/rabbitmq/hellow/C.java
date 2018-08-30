@@ -29,7 +29,8 @@ public class C {
         System.out.println("C [*] Waiting for messages. To exit press CTRL+C");  
 //      DefaultConsumer类实现了Consumer接口，通过传入一个频道，告诉服务器我们需要那个频道的消息，如果频道中有消息，就会执行回调函数handleDelivery  
         Consumer consumer = new DefaultConsumer(channel) {  
-            @Override  
+            @Override
+            //Delivery [贸易] 交付；分娩；递送
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {  
                 String message = new String(body, "UTF-8");  
                 System.out.println("C [x] Received '" + message + "'");  

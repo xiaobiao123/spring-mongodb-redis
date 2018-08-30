@@ -2,16 +2,17 @@ package mq.kafka.producter;
 
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;  
-import org.slf4j.LoggerFactory;  
-import org.springframework.kafka.support.ProducerListener;  
+import org.slf4j.LoggerFactory;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.ProducerListener;
   
 /** 
  * kafkaProducer监听器，在producer配置文件中开启 
  * @author  
  * 
  */  
-@SuppressWarnings("rawtypes")  
-public class KafkaProducerListener implements ProducerListener{  
+@SuppressWarnings("rawtypes")
+public class KafkaProducerListener implements ProducerListener{
     protected final Logger LOG = LoggerFactory.getLogger("kafkaProducer");  
     /** 
      * 发送消息成功后调用 

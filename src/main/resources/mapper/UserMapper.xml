@@ -7,16 +7,16 @@
 	<cache  eviction="FIFO"  flushInterval="60000"  size="512"  readOnly="true"/>
 
 	<insert id="insertUser" parameterType="User" keyProperty="id">
-		insert into gwb_user_test( state, nickname,age,password,mark,name) values
+		insert into gwb_user( state, nickname,age,password,mark,name) values
 		(#{state}, #{nickname},#{age},#{password},#{mark},#{name})
 	</insert>
     <update id="updateUser">
-		update gwb_user_test set state=state+#{state}
+		update gwb_user set state=state+#{state}
 	</update>
 
 	<select id="getUser" parameterType="string" resultType="User">
 
-		select * from gwb_user_test where nickName=#{nickName}
+		select * from gwb_user where nickName=#{nickName}
 
 	</select>
 

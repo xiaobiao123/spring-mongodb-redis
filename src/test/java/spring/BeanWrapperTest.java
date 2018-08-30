@@ -14,7 +14,8 @@ import java.util.Map;
 public class BeanWrapperTest {
 
     public static void main(String[] args) {
-        BeanWrapper beanWrapper = new BeanWrapperImpl(new User());
+        User user = new User();
+        BeanWrapper beanWrapper = new BeanWrapperImpl(user);
         System.out.println("getPropertyValue：" + beanWrapper.getPropertyValue("nickname"));
 
         System.out.println("getPropertyType：" + beanWrapper.getPropertyType("nickname"));

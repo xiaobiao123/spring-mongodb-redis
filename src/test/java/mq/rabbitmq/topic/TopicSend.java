@@ -14,7 +14,6 @@ public class TopicSend {
         try {
             ConnectionFactory factory = new ConnectionFactory();
             factory.setHost("localhost");
-
             connection = factory.newConnection();
             channel = connection.createChannel();
             //声明一个匹配模式的交换器

@@ -8,6 +8,7 @@ import java.util.List;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.CountDownLatch;
+import  org.apache.zookeeper.CreateMode;
 
 public class DistributedLock implements Watcher{
     private int threadId;

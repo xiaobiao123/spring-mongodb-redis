@@ -15,8 +15,7 @@ public class SimpleTest {
 		for (String name : mg.getDatabaseNames()) {
 			System.out.println("dbName: " + name);
 		}
-
-		DB db = mg.getDB("test");
+		DB db = mg.getDB("admin");
 		// 查询所有的聚集集合
 		for (String name : db.getCollectionNames()) {
 			System.out.println("collectionName: " + name);
@@ -25,7 +24,8 @@ public class SimpleTest {
 
 		DBObject object=new BasicDBObject();
 		object.put("name", "1");
-		object.put("age", "1");
+		object.put("age", "2");
+
 
 		//新增
 		collection.insert(object);
@@ -35,8 +35,8 @@ public class SimpleTest {
 
 		//根据查询条件查询信息
 		System.out.println(JSON.toJSONString(collection.find(query)));
-		
 		// 查询所有的数据
+
 		DBCursor cur = collection.find();
 		while (cur.hasNext()) {
 			System.out.println(cur.next());

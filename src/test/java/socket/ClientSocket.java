@@ -22,8 +22,8 @@ public class ClientSocket {
 
      writer.write(JSON.toJSONString(user));
      writer.flush();
-     writer.close();
-     client.close();
+     //writer.close();
+     //client.close();
     } catch (IOException e) {
      e.printStackTrace();
     }

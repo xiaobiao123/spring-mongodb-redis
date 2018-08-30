@@ -40,7 +40,7 @@ public class UserTest {
                         "classpath:conf/spring-mybatis.xml"});
 		//ApplicationContext context = new ClassPathXmlApplicationContext(new String[] { "classpath:conf/spring.xml" });
         userService = (UserService) context.getBean("userServiceImpl");
-        //System.out.println(  context.getBean("appleFactoryBean"));
+        System.out.println(  context.getBean("appleFactoryBean"));
         //System.out.println(  context.getBean("&appleFactoryBean"));
 
 

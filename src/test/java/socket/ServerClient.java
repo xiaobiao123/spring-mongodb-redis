@@ -19,9 +19,9 @@ public class ServerClient {
                 builder.append(new String(chars, 0, len));
             }
             System.out.println("Receive from client message=: " + builder);
-            reader.close();
-            socket.close();
-            server.close();
+            //reader.close();
+            //socket.close();
+            //server.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

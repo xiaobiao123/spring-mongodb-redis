@@ -3,6 +3,7 @@ package redis;
 import cn.springmvc.model.User;
 import cn.springmvc.redis.RedisLock;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.Logger;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -89,7 +90,7 @@ public class RedisTest {
     public void setString() {
         ShardedJedis shardedJedis = this.getConnection();
         //Transaction transaction=jedis.multi();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 3; i++) {
             shardedJedis.set("redis:string" + i, i + "");
         }
 
@@ -127,7 +128,7 @@ public class RedisTest {
     public void delString() {
         ShardedJedis shardedJedis = this.getConnection();
         for (int i = 0; i < 15; i++) {
-            System.out.println(JSON.toJSONString(shardedJedis.del("redis:string") + i));
+            System.out.println(JSON.toJSONString(shardedJedis.del("redis:string" + i)));
         }
         shardedJedis.close();
 
@@ -163,7 +164,7 @@ public class RedisTest {
         List<Long> ids = new ArrayList<Long>();
 
         ShardedJedis shardedJedis = this.getConnection();
-
+        ShardedJedis shardedJedis1=this.getConnection();
         ShardedJedisPipeline shardedJedisPipeline = shardedJedis.pipelined();
         for (int i = 0; i < size; i++) {
             shardedJedisPipeline.incr(dbName + "." + tableName + ".KEY");
@@ -305,6 +306,10 @@ public class RedisTest {
         System.out.println("=====================" + shardedJedis.lpop("redis:list"));
         //获取对象的长度
         System.out.println("=====================" + shardedJedis.llen("redis:list"));
+
+        //会阻塞住直到消息到来
+        //shardedJedis.blpop("redis:list");
+
         shardedJedis.close();
     }
 
@@ -377,12 +382,10 @@ public class RedisTest {
     @Test
     public void sadd() {
         ShardedJedis shardedJedis = this.getConnection();
-
         for (int i = 0; i < 10; i++) {
             //添加
-            System.out.println("=====================" + shardedJedis.sadd("redis:set", "member" + i));
+            System.out.println("=====================" + shardedJedis.sadd("redis:set", "member" + i,"member"+2*i));
         }
-
 
         shardedJedis.close();
     }
@@ -396,7 +399,7 @@ public class RedisTest {
         //添加
         System.out.println("=====================" + shardedJedis.scard("redis:set"));
         //随机返回
-        System.out.println("=====================" + JSON.toJSONString( shardedJedis.srandmember("redis:set",2)));
+        System.out.println("=====================" + JSON.toJSONString(shardedJedis.srandmember("redis:set", 2)));
 
         shardedJedis.close();
     }
@@ -437,28 +440,17 @@ public class RedisTest {
         shardedJedis.close();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    /********************************有序集合(sorted set)***********************/
+    /******************************** 有序集合(sorted set) ******************************************/
 
     @Test
     public void zadd() {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
-        Random random=new Random();
+        Random random = new Random();
         for (int i = 0; i < 10; i++) {
-            System.out.println("=====================" + shardedJedis.zadd("redis:sort:set",random.nextInt(100) ,
+            System.out.println("=====================" + shardedJedis.zadd("redis:sort:set", random.nextInt(100),
                     "test"
-                    + i));
+                            + i));
         }
         shardedJedis.close();
     }
@@ -577,6 +569,7 @@ public class RedisTest {
     @Test
     public void zcount() {
         ShardedJedis shardedJedis = this.getConnection();
+
         //添加
         System.out.println("=====================" + shardedJedis.zcount("redis:sort:set", 5, 40));
         shardedJedis.close();
@@ -601,5 +594,35 @@ public class RedisTest {
 
         shardedJedis.close();
     }
+
+    /*********************************************************/
+    /**
+     * HyperLoglog-基数统计
+     * <p>
+     * 基数(不重复元素)
+     */
+    @Test
+    public void pfadd() {
+        ShardedJedis shardedJedis = this.getConnection();
+        //添加
+        System.out.println("=====================" + shardedJedis.pfadd("redis:pfadd", "test6"));
+        shardedJedis.pfcount("redis:pfadd");
+        shardedJedis.close();
+    }
+
+    @Test
+    public void GEOADD() {
+        ShardedJedis shardedJedis = this.getConnection();
+        //添加
+        //System.out.println("=====================" + shardedJedis.ge("redis:pfadd", "test6"));
+        double ss=-85.05112878d;
+        double dd=39.98448618d;
+
+        shardedJedis.geoadd("redis:geoadd",ss,dd,"xxxxxxxxxxxx");
+        shardedJedis.geoadd("redis:geoadd",ss,dd,"sss");
+        System.out.println(JSONObject.toJSONString(shardedJedis.geodist("redis:geoadd","xxxxxxxxxxxx","sss")));
+        shardedJedis.close();
+    }
+
 
 }

@@ -12,7 +12,7 @@ import com.rabbitmq.client.ConnectionFactory;
  */  
 public class P {  
   
-    private final static String QUEUE_NAME = "hello";
+    private final static String QUEUE_NAME = "hello2";
   
     public static void main(String[] argv) throws Exception {  
         // 创建连接工厂  
@@ -29,7 +29,7 @@ public class P {
         // exclusive:是否为当前连接的专用队列，在连接断开后，会自动删除该队列，生产环境中应该很少用到吧。
         // autoDelete:当没有任何消费者使用时，自动删除该队列
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        String message = "Hello World!";  
+        String message = "Hello World!";
 //      发送消息到队列中
         for (int i=0;i<100;i++){
             channel.basicPublish("", QUEUE_NAME, null, (message+i).getBytes("UTF-8"));

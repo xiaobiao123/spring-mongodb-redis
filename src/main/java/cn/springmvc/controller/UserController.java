@@ -56,23 +56,11 @@ public class UserController {
         return returnData.toString();
     }
 
-//    @RequestMapping("index")
-//    public String index() {
-//        logger.info("loadRunner" + "========================");
-//        for (int i = 0; i < 30; i++) {
-//            executor.execute(new Runnable() {
-//                @Override
-//                public synchronized void run() {
-//                    Long ss = 0L;
-//                    ss = +integer.getAndAdd(-1);
-//                    userService.updateUser(ss);
-//                    logger.error("AtomicInteger测试:" + ss);
-//
-//                }
-//            });
-//        }
-//        return "index";
-//    }
+    @RequestMapping("index")
+    public String index() {
+        System.out.println("this is test");
+        return "index";
+    }
 
     //    @RequestMapping("index3")
 //    public String index3() {

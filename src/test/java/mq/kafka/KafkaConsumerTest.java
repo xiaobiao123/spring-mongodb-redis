@@ -2,7 +2,7 @@ package mq.kafka;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
   
-public class KafkaProducerTest {  
+public class KafkaConsumerTest {
     public static void main(String[] args) {  
       ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
               "classpath*:conf/kafka_consumer.xml"
