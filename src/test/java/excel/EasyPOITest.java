@@ -20,7 +20,7 @@ public class EasyPOITest {
         //params.setSheetNum(9);
         params.setNeedSave(true);
         long st = System.currentTimeMillis();
-        List list = ExcelImportUtil.importExcel(new File("c:\\2000.xlsx"), GoodsExcelVo.class, params);
+        List list = ExcelImportUtil.importExcel(new File("c:\\3test.xlsx"), GoodsExcelVo.class, params);
 
         System.out.println(System.currentTimeMillis() - st);
     }
