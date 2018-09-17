@@ -245,7 +245,7 @@ public class UserDaoImpl implements UserDao {
     public void aggregate() {
         GroupBy groupBy = GroupBy.key("age").initialDocument("{count:0}")
                 .reduceFunction("function(key, values){values.count+=1;}");
-        //System.out.println(JSON.toJSON(mongoTemplate.group("mg_user", groupBy, UserEntity.class)));
+        System.out.println(JSON.toJSON(mongoTemplate.group("mg_user", groupBy, UserEntity.class)));
 
 
         //mongoTemplate.getCollection("mg_user").aggregate(new BasicDBObject("age", "xx"));
