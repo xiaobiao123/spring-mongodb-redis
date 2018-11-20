@@ -13,6 +13,8 @@ import org.elasticsearch.action.admin.cluster.settings.ClusterUpdateSettingsRequ
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
@@ -37,17 +39,14 @@ public class ZhidaoMapping {
                             startObject("category").field("type", "string").field("index", "not_analyzed").endObject().
                             startObject("author").field("type", "string").field("index", "not_analyzed").endObject().
                             startObject("date").field("type", "string").field("index", "not_analyzed").endObject().
-                            startObject("answer_author").field("type", "string").field("index", "not_analyzed")
-                    .endObject().
-                            startObject("answer_date").field("type", "string").field("index", "not_analyzed")
-                    .endObject().
-                            startObject("description").field("type", "string").field("index", "not_analyzed")
-                    .endObject().
+                            startObject("answer_author").field("type", "string").field("index", "not_analyzed").endObject().
+                    startObject("answer_date").field("type", "string").field("index", "not_analyzed").endObject().
+                            startObject("description").field("type", "string").field("index", "not_analyzed").endObject().
                             startObject("keywords").field("type", "string").field("index", "not_analyzed").endObject().
-                            startObject("read_count").field("type", "integer").field("index", "not_analyzed")
-                    .endObject()
+                            startObject("read_count").field("type", "integer").field("index", "not_analyzed").endObject()
                     //关联数据
-                    .startObject("list").field("type", "object").endObject().endObject().endObject();
+                    .startObject("list").field("type", "object").endObject().
+                            endObject().endObject();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,40 +95,52 @@ public class ZhidaoMapping {
     public static void addMapping(String index, String type, TransportClient client) {
         try {
             // 使用XContentBuilder创建Mapping
+            //XContentBuilder builder = XContentFactory.jsonBuilder()
+            //        .startObject()
+            //            .field("properties")
+            //        .startObject().field("user")
+            //            .startObject()
+            //            //.field("index", "not_analyzed")
+            //                .field("type", "string")
+            //                .field("fields")
+            //                .startObject()
+            //                    .field("keyword")
+            //                    .startObject()
+            //                        .field("type", "keyword")
+            //                    .endObject()
+            //                .endObject()
+            //            .endObject()
+            //        .field("gender")
+            //        .startObject()
+            //        //.field("index", "not_analyzed")
+            //        .field("type", "string")
+            //        .field("fields")
+            //        .startObject()
+            //        .field("keyword")
+            //        .startObject()
+            //        .field("type", "keyword")
+            //        .endObject()
+            //        .endObject()
+            //        .endObject()
+            //        .field("age")
+            //        .startObject()
+            //        .field("index", "not_analyzed")
+            //        .field("type", "integer")
+            //        .endObject()
+            //        .endObject()
+            //        .endObject();
+
             XContentBuilder builder = XContentFactory.jsonBuilder()
-                    .startObject()
-                    .field("properties")
-                    .startObject()
-                    .field("user")
-                    .startObject()
-                    .field("index", "not_analyzed")
-                    .field("type", "string")
-                    .field("fields")
-                    .startObject()
-                    .field("keyword")
-                    .startObject()
-                    .field("type", "keyword")
-                    .endObject()
-                    .endObject()
-                    .endObject()
-                    .field("gender")
-                    .startObject()
-                    .field("index", "not_analyzed")
-                    .field("type", "string")
-                    .field("fields")
-                    .startObject()
-                    .field("keyword")
-                    .startObject()
-                    .field("type", "keyword")
-                    .endObject()
-                    .endObject()
-                    .endObject()
-                    .field("age")
-                    .startObject()
-                    .field("index", "not_analyzed")
-                    .field("type", "integer")
-                    .endObject()
-                    .endObject()
+                    .startObject().field("properties")
+                        .startObject()
+                            .field("user")
+                                .startObject().field("type","string")
+                                .endObject()
+                            .field("userAY")
+                                .startObject().field("type","string")
+                                              .field("index","not_analyzed")
+                                .endObject()
+                        .endObject()
                     .endObject();
             System.out.println(builder.string());
             PutMappingRequest mappingRequest = Requests.putMappingRequest(index).source(builder).type(type);
@@ -154,11 +165,14 @@ public class ZhidaoMapping {
         //
         ////构建一个Index（索引）
         CreateIndexRequest request = new CreateIndexRequest("twitter");
+        //DeleteIndexRequest deleteIndexRequest=new DeleteIndexRequest("twitter");
+        //ActionFuture<DeleteIndexResponse> DeleteIndexResponse = client.admin().indices().delete(deleteIndexRequest);
+        //
         ActionFuture<CreateIndexResponse> createIndexResponseActionFuture = client.admin().indices().create(request);
         CreateIndexResponse createIndexResponse = createIndexResponseActionFuture.actionGet();
-        //
-        //
-        ////        创建可用户聚合查询的索引
+
+
+        //        创建可用户聚合查询的索引
         addMapping("twitter", "tweet2", client);
         //创建PutMappingRequest类型的索引
         //PutMappingRequest mapping = Requests.putMappingRequest("mapping_test_index").type("mapping").source

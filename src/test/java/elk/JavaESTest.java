@@ -140,6 +140,7 @@ public class JavaESTest {
         XContentBuilder source = jsonBuilder()
                 .startObject()
                 .field("user", "kimchy is a good boy "+i)
+                .field("userAY", "kimchy is a good boy "+i)
                 .field("age", i)
                 .field("gender", gender)
                 .field("postDate", new Date())
@@ -182,7 +183,7 @@ public class JavaESTest {
         for (int i = 200; i < 400; i++) {
         XContentBuilder source = createJson4(i);
         // 存json入索引中
-        IndexResponse response = client.prepareIndex("index_test", type, i + "").setSource(source).get();
+        IndexResponse response = client.prepareIndex(index, type, i + "").setSource(source).get();
         // 结果获取
         //IndexResponse response =client.prepareIndex("ypt_da","elastatic_serarch").setSource(source).get();
         String index = response.getIndex();
@@ -247,7 +248,7 @@ public class JavaESTest {
 
 
         BulkByScrollResponse scrollResponse = DeleteByQueryAction.INSTANCE.newRequestBuilder(client).
-                filter(QueryBuilders.matchQuery("age", "110")).source("twitter").get();
+                filter(QueryBuilders.matchQuery("age", "2")).source("twitter").get();
 
         System.out.println("deleted numbier is " + scrollResponse.getDeleted());
 
@@ -271,7 +272,7 @@ public class JavaESTest {
         //            .field("gender", "male")
         //            .field("message", "hello")
         //        .endObject());
-        //UpdateResponse response = client.update(updateRequest).get();
+        //UpdateResponse response2 = client.update(updateRequest).get();
 
         //UpdateResponse response = client.prepareUpdate("twitter", "tweet", "6").setDoc(createJson4(7)).get();
 

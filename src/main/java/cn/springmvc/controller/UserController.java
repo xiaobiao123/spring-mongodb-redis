@@ -89,7 +89,7 @@ public class UserController {
         logger.warn("This is a warn messagexxxxxxxxxxxxxxxxxxxxxxxx!");
         logger.error("This is error messagexxxxxxxxxxxxxxxxxxxxxxxxxx!");
 
-        userService.getUser("");
+       // userService.getUser("");
 
         try{
             System.out.println(5/0);

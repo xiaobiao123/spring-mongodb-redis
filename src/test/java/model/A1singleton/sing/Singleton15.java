@@ -17,7 +17,7 @@ public class Singleton15 {
 
     }
 
-    public static Singleton15 getSingleton11() {
+    public static Singleton15 getSingleton15() {
         return Sholder.instanc;
     }
 

@@ -15,7 +15,7 @@ public class Singleton14 {
 
     }
 
-    public static Singleton14 getSingleton11() {
+    public static Singleton14 getSingleton14() {
         if (instance == null) {
             synchronized (Singleton14.class) {
                 if (instance == null) {

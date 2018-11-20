@@ -36,7 +36,7 @@
 
 
     <bean id="containerProperties" class="org.springframework.kafka.listener.config.ContainerProperties">
-        <constructor-arg value="test-topic_1"/><!-- 监听的topic ContainerProperties 中构造函数参数，多个toppic 用，隔开 -->
+        <constructor-arg value="test-topic_100"/><!-- 监听的topic ContainerProperties 中构造函数参数，多个toppic 用，隔开 -->
         <property name="messageListener" ref="messageListernerConsumerService"/>
     </bean>
 

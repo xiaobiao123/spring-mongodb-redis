@@ -17,11 +17,9 @@ public class Application {
 
         numberHandler.setSuccessor(characterHandler);
 
-
         characterHandler.setSuccessor(symbolHandler);
 
         symbolHandler.setSuccessor(numberHandler);
-
 
         Request request1 = new Request("Number");
         //Request request2 = new Request("Character");

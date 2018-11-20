@@ -17,13 +17,15 @@ import java.lang.reflect.Proxy;
  */
 public class DynamicProxyDemo {
     public static void main(String[] args) {
+
         Foo foo = new FooImpl();
 
         String className = foo.getClass().getName();
         //if (className.startsWith("model.B2proxy.动态代理")){
         ProxyHandler handler = new ProxyHandler(foo);
-        //产生动态代理    类对象的加载器
-        Foo proxy = (Foo) Proxy.newProxyInstance(ProxyHandler.class.getClassLoader(), new Class[]{Foo.class}, handler);
+        //产生动态代理    类对象的加载器,目标对象实现的接口 ,InvocationHandler的实现类
+        //Foo proxy = (Foo) Proxy.newProxyInstance(ProxyHandler.class.getClassLoader(), new Class[]{Foo.class}, handler);
+        Foo proxy = (Foo) handler.getProxy(foo);
         proxy.f("f");
 
         //proxy.g(1);
