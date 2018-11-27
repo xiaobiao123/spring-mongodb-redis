@@ -1,5 +1,6 @@
 package elk;
 
+import com.alibaba.fastjson.JSONObject;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -60,10 +61,10 @@ public class JavaESTest2 {
         //        Builder builder = Settings.settingsBuilder();
         //        builder.put("cluster.name", "wenbronk_escluster");
         ////                .put("client.transport.ignore_cluster_name", true);
-        //        Settings settings = builder.H1build();
+        //        Settings settings = builder.H8build();
         //
         //        org.elasticsearch.client.transport.TransportClient.Builder transportBuild = TransportClient.builder();
-        //        TransportClient client1 = transportBuild.settings(settings).H1build();
+        //        TransportClient client1 = transportBuild.settings(settings).H8build();
         //        client = client1.addTransportAddress((new InetSocketTransportAddress(new InetSocketAddress
         // ("192.168.50.37", 9300))));
         //        System.out.println("success connect to escluster");
@@ -87,7 +88,7 @@ public class JavaESTest2 {
         SearchResponse response = searchRequestBuilder.setTypes("tweet2")
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                 .setQuery(QueryBuilders.termQuery("gender", "man"))
-                .setPostFilter(QueryBuilders.rangeQuery("age").from(110).to(140))// from  to  从0-10（包括0，和10）
+                //.setPostFilter(QueryBuilders.rangeQuery("age").from(110).to(140))// from  to  从0-10（包括0，和10）
                 .setFrom(0).setSize(5)//.setExplain(true)
                 // setFrom  setSize setfrom,setsize是指一页显示的多少，从第几个开始，显示size个数据
                 .execute().actionGet();
@@ -118,15 +119,16 @@ public class JavaESTest2 {
                 .addSort("age", SortOrder.ASC)  //TODO
                 .setScroll(new TimeValue(60000))
                 .setQuery(queryBuilder)
-                .setSize(10).execute().actionGet();
+                .setSize(5).execute().actionGet();
         while (true) {
-
-            for (SearchHit hit : response.getHits().getHits()) {
-                System.out.println("i am coming" + hit.getSourceAsString());
-            }
 
             SearchResponse response2 = client.prepareSearchScroll(response.getScrollId())
                     .setScroll(new TimeValue(60000)).execute().actionGet();
+
+            for (SearchHit hit : response2.getHits().getHits()) {
+                System.out.println("i am coming" + hit.getSourceAsString());
+            }
+
             if (response2.getHits().getHits().length == 0) {
                 System.out.println("oh no=====");
                 break;
@@ -143,7 +145,7 @@ public class JavaESTest2 {
     @Test
     public void testMatchQuery() {
         //QueryBuilder qb2 = QueryBuilders.matchQuery("content", "各地校车");
-        QueryBuilder qb2 = QueryBuilders.matchQuery("user", "context classloader");
+        QueryBuilder qb2 = QueryBuilders.matchQuery("user", "kimchy");
         SearchRequestBuilder requestBuilder2 = client.prepareSearch().setQuery(qb2).setSize(10);
 
         MultiSearchResponse multiResponse = client.prepareMultiSearch().add(requestBuilder2)
@@ -184,14 +186,15 @@ public class JavaESTest2 {
      */
     @Test
     public void testMultiSearch() {
-        QueryBuilder qb1 = QueryBuilders.queryStringQuery(index);
+        QueryBuilder qb1 = QueryBuilders.queryStringQuery("ElasticSearch12");
         SearchRequestBuilder requestBuilder1 = client.prepareSearch().setQuery(qb1).setSize(1);
 
-        QueryBuilder qb2 = QueryBuilders.matchQuery("user.keyword", "kimchy");
+        QueryBuilder qb2 = QueryBuilders.matchQuery("user", "kimchy");
         SearchRequestBuilder requestBuilder2 = client.prepareSearch().setQuery(qb2).setSize(1);
 
-        MultiSearchResponse multiResponse = client.prepareMultiSearch().add(requestBuilder1).add(requestBuilder2)
+        MultiSearchResponse multiResponse = client.prepareMultiSearch().add(requestBuilder2).add(requestBuilder1)
                 .execute().actionGet();
+        System.out.println(JSONObject.toJSONString(multiResponse));
         long nbHits = 0;
         for (MultiSearchResponse.Item item : multiResponse.getResponses()) {
             SearchResponse response = item.getResponse();
@@ -213,14 +216,16 @@ public class JavaESTest2 {
     public void testAggregation() {
         SearchResponse response = client.prepareSearch(index)
                 .setQuery(QueryBuilders.matchAllQuery()) // 先使用query过滤掉一部分
-                .addAggregation(AggregationBuilders.terms("term").field("user"))
-                .addAggregation(AggregationBuilders.dateHistogram("da").field("postDate").format("yyyy-MM-dd")
-                        .dateHistogramInterval(DateHistogramInterval.MONTH)
+                .addAggregation(AggregationBuilders.terms("term").field("userAY").size(100))
+                .addAggregation(AggregationBuilders.dateHistogram("da").field("postDate").format("yyyy-MM-dd HH:mm:ss")
+                        .dateHistogramInterval(DateHistogramInterval.MINUTE)
                         .interval(86400l) // TODO
                 )
                 .execute().actionGet();
         Terms term = response.getAggregations().get("term");
         List<Terms.Bucket> buckets = term.getBuckets();
+
+         SearchHit[] hits2 = response.getHits().getHits();
 
         for (Terms.Bucket bucket : buckets) {
             System.out.println("field name is " + bucket.getKey() + "  numbe is " + bucket.getDocCount());
@@ -265,7 +270,7 @@ public class JavaESTest2 {
         SearchResponse response = client.prepareSearch(index)
                 .setQuery(QueryBuilders.matchAllQuery()) // 先使用query过滤掉一部分
                 .addAggregation(AggregationBuilders.dateHistogram("da").field("postDate").format("yyyy-MM-dd")
-                                .dateHistogramInterval(DateHistogramInterval.QUARTER).extendedBounds(extendedBounds)
+                                .dateHistogramInterval(DateHistogramInterval.HOUR).extendedBounds(extendedBounds)
                         //.interval(DateHistogramInterval.SECOND) // TODO 随意设置时间
                 )
                 .execute().actionGet();
@@ -335,7 +340,7 @@ public class JavaESTest2 {
         SearchRequestBuilder srb = client.prepareSearch(index);
         srb.setTypes(type);
         srb.setSearchType(SearchType.DEFAULT);
-        TermsAggregationBuilder one = AggregationBuilders.terms("classAgg").field("gender").size(20);
+        TermsAggregationBuilder one = AggregationBuilders.terms("classAgg").field("userAY").size(20);
         // TODO 可以设置子 size（pageSize,默认10）
         TermsAggregationBuilder two = AggregationBuilders.terms("age").field("age").size(20);
 

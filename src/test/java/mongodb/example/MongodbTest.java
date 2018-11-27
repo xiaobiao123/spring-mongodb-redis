@@ -236,6 +236,7 @@ public class MongodbTest {
 
     @Test
     public void distinct() {
+
         userDao.distinc();
     }
 

@@ -11,6 +11,7 @@ public class ReceiveLogsTopic2 {
     public static void main(String[] argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
+        factory.setPort(5672);
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
         //		声明一个匹配模式的交换器

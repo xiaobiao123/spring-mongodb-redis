@@ -31,9 +31,10 @@ public class KafkaProducerServer {
 
     @Test
     public void testTemplateSend() {
-        for (int i=0;i<1000;i++){
-            template.send("testTopic123", "www.656463.com11"+i);
+        for (int i = 0; i < 1000; i++) {
+            template.send("test-topic_100", "www.656463.com11" + i);
         }
+        template.flush();
 
     }
 
@@ -41,18 +42,21 @@ public class KafkaProducerServer {
     @Test
     public void orderTopic() {
         KafkaProducerServer kafkaProducerServer = new KafkaProducerServer();
-        String topic = "orderTopic";
+        String topic = "orderTopic23";
         String value = "发送的内容你看看能收到吗？亲爱的";
         String ifPartition = "1";
-        Integer partitionNum = 1;
+        Integer partitionNum = 2;
         String role = "test";//用来生成key
 
-        Map<String, Object> res = kafkaProducerServer.sndMesForTemplate
-                (topic, value, ifPartition, partitionNum, role,template);
+        for (int i = 0; i < 100; i++) {
+            Map<String, Object> res = kafkaProducerServer.sndMesForTemplate
+                    (topic, value+i, ifPartition, partitionNum, role+i, template);
+        }
+
 
         String key = role + "-" + value.hashCode();
 
-        ListenableFuture<SendResult<String, String>> result = template.send(topic, key, value);
+        // ListenableFuture<SendResult<String, String>> result = template.send(topic, key, value);
 
     }
 
@@ -66,7 +70,7 @@ public class KafkaProducerServer {
      * @param role         角色:bbc app erp...
      */
     public Map<String, Object> sndMesForTemplate(String topic, Object value, String ifPartition,
-                                                 Integer partitionNum, String role,KafkaTemplate<String, String> template) {
+                                                 Integer partitionNum, String role, KafkaTemplate<String, String> template) {
         String key = role + "-" + value.hashCode();
         String valueString = JSON.toJSONString(value);
         if (ifPartition.equals("0")) {

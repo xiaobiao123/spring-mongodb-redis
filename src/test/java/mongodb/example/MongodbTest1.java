@@ -49,13 +49,14 @@ public class MongodbTest1 {
         String reduce = "function(doc, aggr){" +  
                 "            aggr.total += doc.unreadCount;" +  
                 "        }";  
-        Query query = Query.query(Criteria.where("toUid").is(userId));  
+        Query query = Query.query(Criteria.where("toUid").is(userId));
         DBObject result = mongoTemplate.getCollection("mg_state")
-				.group(new BasicDBObject("toUid", 1),
+				.group(new BasicDBObject("toUid", "vvvv"),
                 query.getQueryObject(),   
-                new BasicDBObject("total", total),  
+                new BasicDBObject("total", total),
                 reduce);  
-          
+
+
         Map<String,BasicDBObject> map = result.toMap();  
         if(map.size() > 0){  
             BasicDBObject bdbo = map.get("0");  
@@ -64,24 +65,24 @@ public class MongodbTest1 {
         }  
       System.out.println(total);
     }  
-//	
-	
+//
+
 	@Test
-	public void getNewMessageCount(){  
+	public void getNewMessageCount(){
 		String userId="gwb";
-        Long total = 0l;  
-        
+        Long total = 0l;
+
 //        AggregationOperation match = Aggregation.match(Criteria.where("service").is("EFT").and("source").is("MARKUP"));
-    
+
         System.out.println(total);
 		Criteria criteria = Criteria.where("toUid").is(userId);
 //		mongoTemplate.group(criteria, "mg_state", new GroupBy("toUid"), StateStats.class);
 //		mongoTemplate.group(criteria, "gwb", new GroupBy("gwb"), StateStats.class);
 
-		GroupBy groupBy = GroupBy.key("toUid").initialDocument("{count:0}")
-				.reduceFunction("function(key, values){values.count+=1;}");
-
-		System.out.println(JSON.toJSON(mongoTemplate.group(criteria, "mg_state", groupBy, StateStats.class)));
+		GroupBy groupBy = GroupBy.key("toUid").initialDocument("{xxx:0}")
+				.reduceFunction("function(key, values){values.xxx+=1;}");
+		 Map map = mongoTemplate.group(criteria, "mg_state", groupBy, StateStats.class).getRawResults().toMap();
+		System.out.println(JSON.toJSON(mongoTemplate.group(criteria, "mg_state", groupBy, StateStats.class).getRawResults().toMap()));
 	
 	}
 }

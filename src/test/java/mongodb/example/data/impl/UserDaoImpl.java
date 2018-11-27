@@ -1,8 +1,11 @@
 package mongodb.example.data.impl;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.mongodb.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.mapreduce.GroupBy;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -18,10 +23,6 @@ import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 
 import mongodb.example.data.UserDao;
 import mongodb.example.data.model.Message;
@@ -166,8 +167,8 @@ public class UserDaoImpl implements UserDao {
     public List<UserEntity> findListByAgeSortByBirth(int age) {
         Query query = new Query();
         query.addCriteria(new Criteria("age").is(age));
-//        query.with(new Sort(Direction.DESC,"birth"));
-//        query.with(new Sort("birth")); 排序
+        //        query.with(new Sort(Direction.DESC,"birth"));
+        //        query.with(new Sort("birth")); 排序
         query.with(new Sort(Sort.Direction.ASC, "birth"));
 
         return this.mongoTemplate.find(query, UserEntity.class);
@@ -227,17 +228,17 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Long count() {
-        Query query=new Query();
+        Query query = new Query();
         query.addCriteria(Criteria.where("age").gt(20));
-        return this.mongoTemplate.count(query,UserEntity.class);
+        return this.mongoTemplate.count(query, UserEntity.class);
     }
 
     @Override
     public List<UserEntity> findListGtAge(int age) {
-        Query query=new Query();
+        Query query = new Query();
         query.addCriteria(new Criteria("age").gte(age));
-        query.with(new Sort(Direction.DESC,"age"));
-        return this.mongoTemplate.find(query,UserEntity.class);
+        query.with(new Sort(Direction.DESC, "age"));
+        return this.mongoTemplate.find(query, UserEntity.class);
     }
 
     @Override
@@ -246,12 +247,44 @@ public class UserDaoImpl implements UserDao {
                 .reduceFunction("function(key, values){values.count+=1;}");
         System.out.println(JSON.toJSON(mongoTemplate.group("mg_user", groupBy, UserEntity.class)));
 
-//		Query query=new Query();
-//		
-//		query.addCriteria(new Criteria().where("sendTime").is("2016-09-26 15:37:44"));
-//		
-//		System.out.println(JSON.toJSON(mongoTemplate.count(query, Message.class)));
 
+        //mongoTemplate.getCollection("mg_user").aggregate(new BasicDBObject("age", "xx"));
+
+        //**************************************************************************************************
+        //按照eval字段进行分组，注意$eval必须是存在mongodb里面的字段，不能写$evaluate(此字段是News类中定义的，和存入mongodb中的有区别)
+        //{$group:{_id:{'AAA':'$BBB'},CCC:{$sum:1}}}固定格式：把要分组的字段放在_id:{}里面，BBB是mongodb里面的某个字段，AAA是BBB的重命名，CCC是$sum:1的重命名
+        //此查询语句== select eval as eval, count(*) as docsNum from news group by eval having docsNum>=85 order by
+        // docsNum desc
+        //具体的mongodb和sql的对照可以参考：http://docs.mongodb.org/manual/reference/sql-aggregation-comparison/
+        //String groupStr = "{$group:{_id:{'eval':'$eval'},docsNum:{$sum:1}}}";
+        //DBObject group = (DBObject) JSON.parse(groupStr);
+        //String matchStr = "{$match:{docsNum:{$gte:85}}}";
+        //DBObject match = (DBObject) JSON.parse(matchStr);
+        //String sortStr = "{$sort:{_id.docsNum:-1}}";
+        //DBObject sort = (DBObject) JSON.parse(sortStr);
+        //AggregationOutput output = mongoTemplate.getCollection("news").aggregate(group, match, sort);
+
+        //**************************************************************************************************
+        //我们需要查询订单号为001,002,003中的订单详情各个产品卖出多少个，并且过滤掉数量小于1的产品
+        Set<Integer> onumberSet = new HashSet<Integer>();
+        onumberSet.add(22);
+        onumberSet.add(23);
+        onumberSet.add(29);
+        Aggregation agg = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("age").in(onumberSet)),
+                //Aggregation.unwind("items"),//嵌套子查询
+                //Aggregation.group("regionName").count().as("total"),
+                Aggregation.group("regionName").sum("age").as("total"),
+                //Aggregation.group("regionName").avg("age").as("total"),
+                Aggregation.match(Criteria.where("total").gt(0)),
+                Aggregation.sort(Direction.DESC,"total")
+        );
+
+        AggregationResults<BasicDBObject> outputType = mongoTemplate.aggregate(agg, "mg_user", BasicDBObject.class);
+        for (Iterator<BasicDBObject> iterator = outputType.iterator(); iterator.hasNext(); ) {
+            BasicDBObject obj = iterator.next();
+            System.out.println(JSONObject.toJSONString(obj));
+        }
     }
 
 
@@ -262,11 +295,11 @@ public class UserDaoImpl implements UserDao {
         DBCollection collection = db.getCollection("mg_user");
         DBObject object = new BasicDBObject();
 
-//		 collection.group(new BasicDBObject("name",1), 
-//				 new BasicDBObject("_id",new BasicDBObject("$gt",120000)), null, null);
+        //		 collection.group(new BasicDBObject("name",1),
+        //				 new BasicDBObject("_id",new BasicDBObject("$gt",120000)), null, null);
 
 
-        object.put("_id", new BasicDBObject("$gt", 12));
+        object.put("age", new BasicDBObject("$gt", 12));
 
         List distinc = collection.distinct("age", object);
 

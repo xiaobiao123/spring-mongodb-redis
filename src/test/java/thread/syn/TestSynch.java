@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * 3）如果一个线程A需要访问对象object1的synchronized方法fun1，另外一个线程B需要访问对象object2的synchronized方法fun1，
  * 即使object1和object2是同一类型），也不会产生线程安全问题，因为他们访问的是不同的对象，所以不存在互斥问题。
  */
-public class TestSynch {
+public  class   TestSynch {
 
     public static void main(String[] args) {
         final InsertDataSynch insertData = new InsertDataSynch();
@@ -26,7 +26,7 @@ public class TestSynch {
 
         new Thread() {
             public void run() {
-                insertData.insert2(Thread.currentThread());
+                insertData.insert3(Thread.currentThread());
             }
         }.start();
 
@@ -76,7 +76,7 @@ class InsertDataSynch {
             System.out.println("insert3:" + thread.getName() + "在插入数据" + i);
             arrayList.add(i);
             try {
-                Thread.sleep(0);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,6 @@
 package elk;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.lucene.search.join.ScoreMode;
 import org.apache.lucene.search.spans.SpanContainingQuery;
 import org.apache.lucene.search.spans.SpanNearQuery;
@@ -23,6 +24,7 @@ import org.junit.Test;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -36,6 +38,8 @@ import java.util.Map.Entry;
  *         当前安装版本: elasticsearch-2.4.0.tar.gz
  *         <p>
  *         QueryBuilder 是es中提供的一个查询接口,可以对其进行参数设置来进行查用擦还训
+ *
+ *         https://www.cnblogs.com/wenbronk/p/6432990.html
  */
 
 public class JavaESQuery {
@@ -55,29 +59,29 @@ public class JavaESQuery {
      */
     @Test
     public void testGet() {
-        GetRequestBuilder requestBuilder = client.prepareGet("twitter", "tweet", "1");
+        GetRequestBuilder requestBuilder = client.prepareGet("twitter", "tweet2", "12");
         GetResponse response = requestBuilder.execute().actionGet();
-        GetResponse getResponse = requestBuilder.get();
-        ListenableActionFuture<GetResponse> execute = requestBuilder.execute();
+        //GetResponse getResponse = requestBuilder.get();
+        //ListenableActionFuture<GetResponse> execute = requestBuilder.execute();
         System.out.println(response.getSourceAsString());
     }
 
     /**
      * 使用QueryBuilder
-     * termQuery("key", obj) 完全匹配
+     * termQuery("key", obj) 完全匹配 不带分析，如果字段不带分析则使用完全匹配；如果字段带分析，则使用前缀
      * termsQuery("key", obj1, obj2..)   一次匹配多个值
-     * matchQuery("key", Obj) 单个匹配, field不支持通配符, 前缀具高级特性
+     * matchQuery("key", Obj) 单个匹配, field不支持通配符, 前缀具高级特性  带分析
      * multiMatchQuery("text", "field1", "field2"..);  匹配多个字段, field有通配符忒行
      * matchAllQuery();         匹配所有文件
      */
     @Test
     public void testQueryBuilder() {
-        //QueryBuilder queryBuilder = QueryBuilders.termQuery("user", "kimchy");
-        QueryBuilder queryBuilder1 = QueryBuilders.termQuery("user", "kimchy");
-        QueryBuilders.termsQuery("user", new ArrayList<String>().add("kimchy"));
-        //        QueryBuilder queryBuilder = QueryBuilders.matchQuery("user", "kimchy");
-        //        QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery("kimchy", "user", "message", "gender");
-        QueryBuilder queryBuilder = QueryBuilders.matchAllQuery();
+        //QueryBuilder queryBuilder = QueryBuilders.termQuery("user", "a good");
+        //QueryBuilder queryBuilder = QueryBuilders.termQuery("gender", "male");
+        //QueryBuilder queryBuilder =QueryBuilders.matchQuery("userAY", Arrays.asList("kimchy"));
+        QueryBuilder queryBuilder = QueryBuilders.termQuery("user", "kimchy");
+        //QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery("kimchy", "user", "message", "gender");
+        //QueryBuilder queryBuilder = QueryBuilders.matchAllQuery();
         searchFunction(queryBuilder);
 
     }
@@ -94,8 +98,17 @@ public class JavaESQuery {
         QueryBuilder queryBuilder = QueryBuilders.boolQuery()
                 .must(QueryBuilders.termQuery("user", "kimchy"))
                 //.mustNot(QueryBuilders.termQuery("message", "nihao"))
-                .should(QueryBuilders.termQuery("gender", "male"));
+                .should(QueryBuilders.termQuery("userAY", "kimchy"));
+
         searchFunction(queryBuilder);
+
+        //SearchResponse response = client.prepareSearch("twitter")
+        //        .setQuery(queryBuilder)
+        //        .execute().actionGet();
+        //
+        //
+        //System.out.println(JSONObject.toJSONString(response));
+
     }
 
     /**
@@ -104,7 +117,7 @@ public class JavaESQuery {
      */
     @Test
     public void testIdsQuery() {
-        QueryBuilder queryBuilder = QueryBuilders.idsQuery().addIds("1","20");
+        QueryBuilder queryBuilder = QueryBuilders.idsQuery("tweet2").addIds("12", "20");
         searchFunction(queryBuilder);
     }
 
@@ -114,8 +127,8 @@ public class JavaESQuery {
     @Test
     public void testConstantScoreQuery() {
         QueryBuilder queryBuilder = QueryBuilders.constantScoreQuery(
-                QueryBuilders.termQuery("name", "kimchy"))
-                .boost(1.0f);
+                QueryBuilders.termQuery("user", "kimchy"))
+                .boost(2.0f);
         searchFunction(queryBuilder);
         // 过滤查询
         //        QueryBuilders.constantScoreQuery(FilterBuilders.termQuery("name", "kimchy")).boost(2.0f);
@@ -131,9 +144,9 @@ public class JavaESQuery {
     public void testDisMaxQuery() {
         QueryBuilder queryBuilder = QueryBuilders.disMaxQuery()
                 .add(QueryBuilders.termQuery("user", "kimchy"))  // 查询条件
-                .add(QueryBuilders.termQuery("message", "hello"))
-                .boost(1.3f)
-                .tieBreaker(0.7f);
+                .add(QueryBuilders.termQuery("message", "hello"));
+                //.boost(1.3f)
+                //.tieBreaker(0.7f);
         searchFunction(queryBuilder);
     }
 
@@ -153,7 +166,7 @@ public class JavaESQuery {
     @Test
     public void testChildQuery() {
         QueryBuilder queryBuilder = QueryBuilders.hasChildQuery("tweet2",
-                QueryBuilders.termQuery("name", "vini"), ScoreMode.Avg);
+                QueryBuilders.termQuery("user", "kimch"), ScoreMode.Avg);
         searchFunction(queryBuilder);
     }
 
@@ -190,10 +203,12 @@ public class JavaESQuery {
      */
     @Test
     public void testMoreLikeThisQuery() {
-        QueryBuilder queryBuilder = QueryBuilders.moreLikeThisQuery(new String[]{});
+        QueryBuilder queryBuilder = QueryBuilders.moreLikeThisQuery(new String[]{"kimch"},new
+                MoreLikeThisQueryBuilder.Item[]{});
         //                            .minTermFreq(1)         //最少出现的次数
         //                            .maxQueryTerms(12);        // 最多允许查询的词语
         searchFunction(queryBuilder);
+
     }
 
     /**
@@ -217,6 +232,7 @@ public class JavaESQuery {
     /**
      * 范围内查询
      */
+    @Test
     public void testRangeQuery() {
         QueryBuilder queryBuilder = QueryBuilders.rangeQuery("user")
                 .from("kimchy")
@@ -231,7 +247,8 @@ public class JavaESQuery {
     // */
     //@Test
     //public void testSpanQueries() {
-    //    QueryBuilder queryBuilder1 = QueryBuilders.spanFirstQuery(QueryBuilders.spanTermQuery("name", "葫芦580娃"), 30000);     // Max查询范围的结束位置
+    //    QueryBuilder queryBuilder1 = QueryBuilders.spanFirstQuery(QueryBuilders.spanTermQuery("name", "葫芦580娃"), 30000);     //
+    // Max查询范围的结束位置
     //
     //    QueryBuilder queryBuilder2 = QueryBuilders.spanNearQuery(10)
     //            .clause(QueryBuilders.spanTermQuery("name", "葫芦580娃")) // Span Term Queries
@@ -262,8 +279,8 @@ public class JavaESQuery {
     @Test
     public void testTopChildrenQuery() {
 
-        QueryBuilders.hasChildQuery("tweet", QueryBuilders.termQuery("user", "kimchy"), ScoreMode.Min);
-
+        QueryBuilder queryBuilder =QueryBuilders.hasChildQuery("tweet2", QueryBuilders.termQuery("user", "kimchy"), ScoreMode.Min);
+        searchFunction(queryBuilder);
     }
 
     /**
@@ -285,8 +302,7 @@ public class JavaESQuery {
         QueryBuilder queryBuilder = QueryBuilders.nestedQuery("location",
                 QueryBuilders.boolQuery()
                         .must(QueryBuilders.matchQuery("location.lat", 0.962590433140581))
-                        .must(QueryBuilders.rangeQuery("location.lon").lt(36.0000).gt(0.000)),ScoreMode.Total)
-                ;
+                        .must(QueryBuilders.rangeQuery("location.lon").lt(36.0000).gt(0.000)), ScoreMode.Total);
 
     }
 
@@ -308,11 +324,13 @@ public class JavaESQuery {
      * @param queryBuilder
      */
     private void searchFunction(QueryBuilder queryBuilder) {
-        SearchResponse response = client.prepareSearch("twitter")
+        SearchResponse response = client.prepareSearch("twitter").setTypes("tweet2")
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                 .setScroll(new TimeValue(60000))
                 .setQuery(queryBuilder)
-                .setSize(100).execute().actionGet();
+                .setSize(5).execute().actionGet();
+
+        System.out.println(JSONObject.toJSONString(response.getHits()));
 
         while (true) {
             response = client.prepareSearchScroll(response.getScrollId())
@@ -321,7 +339,8 @@ public class JavaESQuery {
                 Iterator<Entry<String, Object>> iterator = hit.getSource().entrySet().iterator();
                 while (iterator.hasNext()) {
                     Entry<String, Object> next = iterator.next();
-                    System.out.println(next.getKey() + ": " + next.getValue());
+                    //System.out.println(next.getKey() + ": " + next.getValue());
+                    System.out.println(JSONObject.toJSONString(next));
                     if (response.getHits().hits().length == 0) {
                         break;
                     }

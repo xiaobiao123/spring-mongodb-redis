@@ -1,10 +1,8 @@
 package model.A1singleton;
 
-import java.lang.reflect.Field;
-
 public class Singleton2 {
     //懒汉式，声明时不创建实例对象
-    public static Singleton2 instance;
+    private static Singleton2 instance;
 
     //单类模式的构造方法必须为private，以避免通过构造方法创建对象实例，  
     //并且必须显示声明构造方法，以防止使用默认构造方法
@@ -22,7 +20,7 @@ public class Singleton2 {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchFieldException {
-//        Singleton2 singleton2= Singleton2.geInstance();
+        Singleton2 singleton2=null;
 //        Class<?> class1 = singleton2.getClass();
 //        Field fields = class1.getDeclaredField("value");
 //        fields.setAccessible(true);
