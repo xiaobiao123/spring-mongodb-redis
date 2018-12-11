@@ -164,7 +164,7 @@ public class RedisTest {
         List<Long> ids = new ArrayList<Long>();
 
         ShardedJedis shardedJedis = this.getConnection();
-        ShardedJedis shardedJedis1=this.getConnection();
+        ShardedJedis shardedJedis1 = this.getConnection();
         ShardedJedisPipeline shardedJedisPipeline = shardedJedis.pipelined();
         for (int i = 0; i < size; i++) {
             shardedJedisPipeline.incr(dbName + "." + tableName + ".KEY");
@@ -232,7 +232,11 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         System.out.println(shardedJedis.hexists("redis:hash", "hashField1"));
         shardedJedis.close();
+
+
     }
+
+
     /*********************************************hash 操作 end*******************************************/
 
 
@@ -336,7 +340,7 @@ public class RedisTest {
 
         //命令使其永远只保存最近N个ID
         shardedJedis.ltrim("redis:list", 0, 9);
-
+        shardedJedis.lset("redis:list",1,"xxxxxxxx");
         //获取对象的长度
         System.out.println("=====================" + shardedJedis.llen("redis:list"));
         shardedJedis.close();
@@ -384,7 +388,7 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         for (int i = 0; i < 10; i++) {
             //添加
-            System.out.println("=====================" + shardedJedis.sadd("redis:set", "member" + i,"member"+2*i));
+            System.out.println("=====================" + shardedJedis.sadd("redis:set", "member" + i, "member" + 2 * i));
         }
 
         shardedJedis.close();
@@ -440,6 +444,31 @@ public class RedisTest {
         shardedJedis.close();
     }
 
+    @Test
+    public void test() {
+
+        //book表存储book名称
+        //set book:1:name "The Ruby Programming Language"
+        //set book:2:name "Ruby on rail"
+        //set book:3:name "Programming Erlang"
+
+        ///tag表使用集合来存储数据，因为集合擅长求交集、并集
+        //sadd tag:ruby 1
+        //sadd tag:ruby 2
+        //sadd tag:web 2
+        //sadd tag:erlang 3
+
+
+
+        ////即属于ruby又属于web的书？
+        //inter_list = redis.sinter("tag:web", "tag:ruby");
+        ////即属于ruby，但不属于web的书？
+        //diff_list = redis.sdiff("tag:ruby", "tag:web");
+        ////属于ruby和属于web的书的合集？
+        //union_list = redis.sunion("tag:ruby", "tag:web");
+    }
+
+
     /******************************** 有序集合(sorted set) ******************************************/
 
     @Test
@@ -448,9 +477,9 @@ public class RedisTest {
         //添加
         Random random = new Random();
         for (int i = 0; i < 10; i++) {
-            System.out.println("=====================" + shardedJedis.zadd("redis:sort:set", random.nextInt(100),
-                    "test"
-                            + i));
+            System.out.println("=====================" +
+                    shardedJedis.zadd("redis:sort:set", random.nextInt(100),
+                    "test"+i));
         }
         shardedJedis.close();
     }
@@ -615,12 +644,12 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
         //System.out.println("=====================" + shardedJedis.ge("redis:pfadd", "test6"));
-        double ss=-85.05112878d;
-        double dd=39.98448618d;
+        double ss = -85.05112878d;
+        double dd = 39.98448618d;
 
-        shardedJedis.geoadd("redis:geoadd",ss,dd,"xxxxxxxxxxxx");
-        shardedJedis.geoadd("redis:geoadd",ss,dd,"sss");
-        System.out.println(JSONObject.toJSONString(shardedJedis.geodist("redis:geoadd","xxxxxxxxxxxx","sss")));
+        shardedJedis.geoadd("redis:geoadd", ss, dd, "xxxxxxxxxxxx");
+        shardedJedis.geoadd("redis:geoadd", ss, dd, "sss");
+        System.out.println(JSONObject.toJSONString(shardedJedis.geodist("redis:geoadd", "xxxxxxxxxxxx", "sss")));
         shardedJedis.close();
     }
 

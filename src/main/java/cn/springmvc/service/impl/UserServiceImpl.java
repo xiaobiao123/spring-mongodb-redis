@@ -13,26 +13,26 @@ import cn.springmvc.service.UserService;
 @Lazy
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserDAO userDAO;
+    @Autowired
+    private UserDAO userDAO;
 
-	private String string;
+    private String string;
 
 
-	public int insertUser(User user) {
-		return userDAO.insertUser(user);
-	}
+    public int insertUser(User user) {
+      return   userDAO.insertUser(user);
+    }
 
-	@Override
-	public  void updateUser(Long i) {
-		 userDAO.updateUser(i);
-//		logger.error("AtomicInteger测试:"+integer.get());
-//		integer.addAndGet(1);
-	}
+    @Override
+    public void updateUser(Long i) {
+        userDAO.updateUser(i);
+        //		logger.error("AtomicInteger测试:"+integer.get());
+        //		integer.addAndGet(1);
+    }
 
-	@Override
-	public User getUser( String nickName) {
-		return userDAO.getUser(nickName);
-	}
+    @Override
+    public User getUser(String nickName) {
+        return userDAO.getUser(nickName);
+    }
 
 }

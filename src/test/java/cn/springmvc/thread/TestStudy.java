@@ -1,11 +1,9 @@
 package cn.springmvc.thread;
 
 import org.junit.Test;
+import org.springframework.web.servlet.DispatcherServlet;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.DelayQueue;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.*;
 
 /**
  * Created by gwb on 2018/5/29.
@@ -37,7 +35,9 @@ public class TestStudy {
      * peek()：获取队首元素，失败null;
      */
     @Test
-    public void testQueue() {
+    public void testQueue() throws InterruptedException {
+        ArrayBlockingQueue queue=new ArrayBlockingQueue(2);
+        queue.poll(10, TimeUnit.SECONDS);
 
     }
 
@@ -69,5 +69,6 @@ public class TestStudy {
 
 
         SynchronousQueue synchronousQueue=new SynchronousQueue();
+
     }
 }
