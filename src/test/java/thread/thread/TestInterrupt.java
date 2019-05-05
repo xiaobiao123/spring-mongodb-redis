@@ -28,7 +28,7 @@ public class TestInterrupt {
             System.out.println("while");
         }
         /*判断当前现在的中断状态*/
-        System.out.println("isInterrupted22=======================:" + thread.isInterrupted());
+        System.out.println("isInterrupted22xx=======================:" + thread.isInterrupted());
     }
 
     class MyThread extends Thread {

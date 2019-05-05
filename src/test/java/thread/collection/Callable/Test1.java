@@ -8,6 +8,7 @@ public class Test1 {
         Task2 task = new Task2();
         Future<Integer> result = executor.submit(task);
         executor.shutdown();
+        Executors.newSingleThreadExecutor();
          
         try {
             Thread.sleep(1000);

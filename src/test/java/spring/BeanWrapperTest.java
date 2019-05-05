@@ -16,10 +16,11 @@ public class BeanWrapperTest {
     public static void main(String[] args) {
         User user = new User();
         BeanWrapper beanWrapper = new BeanWrapperImpl(user);
+        beanWrapper.setPropertyValue("nickname", "今天天气很不错");
         System.out.println("getPropertyValue：" + beanWrapper.getPropertyValue("nickname"));
 
         System.out.println("getPropertyType：" + beanWrapper.getPropertyType("nickname"));
-        beanWrapper.setPropertyValue("nickname", "今天天气很不错");
+
         System.out.println(beanWrapper.getPropertyValue("nickname"));
         //返回的是一个类
         try {
@@ -37,14 +38,14 @@ public class BeanWrapperTest {
         }
         //Class.forName(xxx.xx.xx)的作用是要求JVM查找并加载指定的类
 
-        Women women = new Women();
-
-        women.map.put("1", "1");
-        women.map.put("2", "2");
+        //Women women = new Women();
+        //
+        //women.map.put("1", "1");
+        //women.map.put("2", "2");
 
     }
 
-    static class Women {
-        private final Map<String, Object> map = Maps.newHashMap();
-    }
+    //static class Women {
+    //    private final Map<String, Object> map = Maps.newHashMap();
+    //}
 }
