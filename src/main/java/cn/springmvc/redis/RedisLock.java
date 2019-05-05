@@ -143,7 +143,7 @@ public class RedisLock {
                     this.jedis.del(this.key);
                 }
             } finally {
-                this.shardedJedisPool.returnResource(this.jedis);
+                //this.shardedJedisPool.returnResource(this.jedis);
             }
         }
 

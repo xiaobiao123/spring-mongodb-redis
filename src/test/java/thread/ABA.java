@@ -12,6 +12,7 @@ public class ABA {
 //        AtomicStampedReference
 
         public static void main(String[] args) throws InterruptedException {
+
                 Thread intT1 = new Thread(new Runnable() {
                         @Override
                         public void run() {

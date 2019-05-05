@@ -46,9 +46,9 @@ public class UserController {
         user.setState(1);
         String nickName = System.currentTimeMillis()+""+ RandomDataUtil.SixNumRadom();
         user.setNickname(nickName);
-        user.setName("name"+integer.addAndGet(1));
-        user.setMark("mark"+integer.addAndGet(1));
-        user.setPassword("password"+integer.getAndAdd(1));
+//        user.setName("name"+integer.addAndGet(1));
+//        user.setMark("mark"+integer.addAndGet(1));
+//        user.setPassword("password"+integer.getAndAdd(1));
         //System.out.println(integer.addAndGet(1));
         userService.insertUser(user);
 //        User rtUser = userService.getUser(nickName);

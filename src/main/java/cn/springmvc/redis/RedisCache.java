@@ -1003,7 +1003,7 @@ public class RedisCache {
                 throw new RuntimeException("Redis execute exception", e);
             } finally {
                 if (jedis != null) {
-                    shardedJedisPool.returnResource(jedis);
+                    //shardedJedisPool.returnResource(jedis);
                 }
             }
             return result;

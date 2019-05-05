@@ -14,10 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import redis.clients.jedis.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:conf/applicationContext-redis.xml")
@@ -98,7 +95,7 @@ public class RedisTest {
         //expx expx的值只能取EX或者PX，代表数据过期时间的单位，EX代表秒，PX代表毫秒。
         //过期时间，单位是expx所代表的单位。
 
-        shardedJedis.set("redis:string", "xxxxxxxxxx", "xx", "px", 1000);
+        shardedJedis.setex("redis:string", 1000, "xxxxxxxxxx");
         shardedJedis.close();
         //设置存活时间
         //shardedJedis.expire()
@@ -164,7 +161,7 @@ public class RedisTest {
         List<Long> ids = new ArrayList<Long>();
 
         ShardedJedis shardedJedis = this.getConnection();
-        ShardedJedis shardedJedis1=this.getConnection();
+        ShardedJedis shardedJedis1 = this.getConnection();
         ShardedJedisPipeline shardedJedisPipeline = shardedJedis.pipelined();
         for (int i = 0; i < size; i++) {
             shardedJedisPipeline.incr(dbName + "." + tableName + ".KEY");
@@ -208,6 +205,7 @@ public class RedisTest {
         for (int i = 0; i < 10; i++) {
             System.out.println(JSON.toJSONString(shardedJedis.hget("redis:hash", "hashField" + i)));
         }
+        shardedJedis.hgetAll("redis:hash");
         shardedJedis.close();
     }
 
@@ -384,7 +382,7 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         for (int i = 0; i < 10; i++) {
             //添加
-            System.out.println("=====================" + shardedJedis.sadd("redis:set", "member" + i,"member"+2*i));
+            System.out.println("=====================" + shardedJedis.sadd("redis:set", "member" + i, "member" + 2 * i));
         }
 
         shardedJedis.close();
@@ -615,14 +613,99 @@ public class RedisTest {
         ShardedJedis shardedJedis = this.getConnection();
         //添加
         //System.out.println("=====================" + shardedJedis.ge("redis:pfadd", "test6"));
-        double ss=-85.05112878d;
-        double dd=39.98448618d;
-
-        shardedJedis.geoadd("redis:geoadd",ss,dd,"xxxxxxxxxxxx");
-        shardedJedis.geoadd("redis:geoadd",ss,dd,"sss");
-        System.out.println(JSONObject.toJSONString(shardedJedis.geodist("redis:geoadd","xxxxxxxxxxxx","sss")));
+        double ss = -85.05112878d;
+        double dd = 39.98448618d;
+        shardedJedis.geoadd("redis:geoadd", ss, dd, "xxxxxxxxxxxx");
+        shardedJedis.geoadd("redis:geoadd", ss, dd, "sss");
+        System.out.println(JSONObject.toJSONString(shardedJedis.geodist("redis:geoadd", "xxxxxxxxxxxx", "sss")));
         shardedJedis.close();
     }
 
+    /***********************************************/
+
+//    https://blog.csdn.net/fly910905/article/details/82629687
+//
+//            # 计算出 7 天都在线的用户
+//    BITOP "AND" "7_days_both_online_users" "day_1_online_users" "day_2_online_users" ... "day_7_online_users"
+//
+//            # 计算出 7 在的在线用户总人数
+//    BITOP "OR" "7_days_total_online_users" "day_1_online_users" "day_2_online_users" ... "day_7_online_users"
+//
+//            # 计算出两天当中只有其中一天在线的用户
+//    BITOP "XOR" "only_one_day_online" "day_1_online_users" "day_2_online_users"
+    /**
+     * 统计在线用户数
+     */
+    @Test
+    public void bitset() {
+        ShardedJedis shardedJedis = this.getConnection();
+        //key
+        String key = String.format("sid:%08d", 2);
+        //用户id
+        int cid = new Random().nextInt(100000);
+        System.out.println("setbit = " + key + ":" + cid);
+        // true 在线 false下线
+        shardedJedis.setbit(key, cid, true);
+        //是否在线
+        shardedJedis.getbit(key, cid);
+        //用户在线数
+        shardedJedis.bitcount(key);
+        shardedJedis.close();
+    }
+
+    /**
+     * 用户签到
+     */
+    @Test
+    public void bitsetmark() {
+        ShardedJedis shardedJedis = this.getConnection();
+        //key
+        String key = String.format("sid:%08d", 2);
+        //签到时间
+        int cid = new Random().nextInt(100000);
+        System.out.println("setbit = " + key + ":" + cid);
+        // true 在线 false下线
+        shardedJedis.setbit(key, cid, true);
+        //是否在线
+        shardedJedis.getbit(key, cid);
+        //用户在线数
+        shardedJedis.bitcount(key);
+        shardedJedis.close();
+    }
+
+    /**
+     * 统计活跃用户量
+     * <p>
+     * 统计某年某月某日的用户活跃量
+     */
+    @Test
+    public void bitop() {
+
+        Collection<Jedis> allShards = redisPool.getResource().getAllShards();
+
+        allShards.isEmpty();
+
+        Jedis next = allShards.iterator().next();
+
+           /*
+            BITOP AND destkey key [key ...] ，对一个或多个 key 求逻辑并，并将结果保存到 destkey 。
+            BITOP OR destkey key [key ...] ，对一个或多个 key 求逻辑或，并将结果保存到 destkey 。
+            BITOP XOR destkey key [key ...] ，对一个或多个 key 求逻辑异或，并将结果保存到 destkey 。
+            BITOP NOT destkey key ，对给定 key 求逻辑非，并将结果保存到 destkey 。
+         */
+        jedis.setbit("bitop1", 0, true);
+        jedis.setbit("bitop1", 1, true);
+        jedis.setbit("bitop0", 0, false);
+        jedis.setbit("bitop0", 1, false);
+
+
+        jedis.bitop(BitOP.AND, "AND", "bitop1", "bitop0");
+
+
+        jedis.bitop(BitOP.AND, "SSS", "stat_2017-01-10", "stat_2017-01-11", "stat_2017-01-12");
+        //总数
+        jedis.bitcount("SSS");
+
+    }
 
 }

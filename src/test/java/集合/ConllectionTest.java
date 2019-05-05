@@ -1,5 +1,7 @@
 package 集合;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import org.junit.Test;
 
 import java.util.*;
@@ -21,17 +23,28 @@ public class ConllectionTest {
         //List linkedList=new LinkedList();
         //linkedList.add("xxxxxx");
 
-        String a="123l";
-        String a1="123l";
-        System.out.println(a==a1);
+//        String a="123l";
+//        String a1="123l";
+//        System.out.println(a==a1);
+//
+//        Long l1=127l;
+//        Long l2=127l;
+//
+//        System.out.println(l1==l2);
+//
+//        Double d1=12d;
+//        Double d2=12d;
+//        System.out.println(d1==d2);
 
-        Long l1=127l;
-        Long l2=127l;
+        Map<String,Map<String,Object>> code= Maps.newHashMap();
+        Map<String,Object> user=Maps.newHashMap();
+        user.put("userId","用户id");
+        user.put("deviceCode","设备编号");
+        user.put("deviceCype","设备类型");
+        user.put("openId","微信服务/订阅号id");
+        user.put("extraJson","扩展信息");
 
-        System.out.println(l1==l2);
+        System.out.println(JSONObject.toJSONString(user));
 
-        Double d1=12d;
-        Double d2=12d;
-        System.out.println(d1==d2);
     }
 }

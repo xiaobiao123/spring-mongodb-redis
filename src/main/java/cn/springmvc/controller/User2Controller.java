@@ -1,6 +1,5 @@
 package cn.springmvc.controller;
 
-import cn.springmvc.model.User;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,7 @@ public class User2Controller {
 
 
     /**
-     * author 李俊标
+     *
      * 2018-4-19
      */
     private static final long serialVersionUID = 1L;
@@ -39,6 +38,7 @@ public class User2Controller {
                 "&secret=" + SECRET + "&js_code=" + code + "&grant_type=authorization_code";
         RestTemplate restTemplate = new RestTemplate();
         //进行网络请求,访问url接口
+
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
         //根据返回值进行后续操作
         if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
