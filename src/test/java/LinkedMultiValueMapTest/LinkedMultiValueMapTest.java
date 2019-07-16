@@ -70,7 +70,7 @@ public class LinkedMultiValueMapTest {
     public void testFindFirst() {
         Optional<TradePaymentModel> first   = list.stream().filter(model -> model.getShouldPayment() > 3).findFirst();
         boolean                     present = first.isPresent();
-        TradePaymentModel tradePaymentModel = list.stream().filter(model -> model.getShouldPayment() > 30).findFirst().get();
+        TradePaymentModel tradePaymentModel = list.stream().filter(model -> model.getShouldPayment() > 3).findFirst().orElse(null);
         System.out.println(JSONObject.toJSONString(tradePaymentModel));
     }
 

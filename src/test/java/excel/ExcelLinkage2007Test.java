@@ -3,9 +3,7 @@
 //import com.google.common.collect.Maps;
 //import org.apache.poi.hssf.usermodel.DVConstraint;
 //import org.apache.poi.hssf.util.HSSFColor;
-//import org.apache.poi.ss.usermodel.DataValidation;
-//import org.apache.poi.ss.usermodel.DataValidationConstraint;
-//import org.apache.poi.ss.usermodel.Name;
+//import org.apache.poi.ss.usermodel.*;
 //import org.apache.poi.ss.util.CellRangeAddressList;
 //import org.apache.poi.xssf.usermodel.*;
 //
@@ -27,10 +25,10 @@
 //    private List<String> province = new ArrayList<String>(Arrays.asList("湖南",
 //            "广东"));
 //    // 初始化数据（湖南的市区）
-//    private List<String> hnCity = new ArrayList<String>(Arrays.asList("长沙市",
+//    private List<String> hnCity   = new ArrayList<String>(Arrays.asList("长沙市",
 //            "邵阳市"));
 //    // 初始化数据（广东市区）
-//    private List<String> gdCity = new ArrayList<String>(Arrays.asList("深圳市",
+//    private List<String> gdCity   = new ArrayList<String>(Arrays.asList("深圳市",
 //            "广州市"));
 //
 //    private Map<String, List<String>> map = Maps.newHashMap();
@@ -43,15 +41,15 @@
 //    public void setDataCellStyles(XSSFWorkbook workbook, XSSFSheet sheet) {
 //        cellStyle = workbook.createCellStyle();
 //        // 设置边框
-//        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
-//        cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
-//        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
-//        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);
+//        cellStyle.setBorderBottom(BorderStyle.THIN);
+//        cellStyle.setBorderLeft(BorderStyle.THIN);
+//        cellStyle.setBorderRight(BorderStyle.THIN);
+//        cellStyle.setBorderTop(BorderStyle.THIN);
 //        // 设置背景色
-//        cellStyle.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
-//        cellStyle.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+////        cellStyle.setFillForegroundColor(HSSFColor.);
+//        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 //        // 设置居中
-//        cellStyle.setAlignment(XSSFCellStyle.ALIGN_LEFT);
+//        cellStyle.setAlignment(HorizontalAlignment.CENTER);
 //        // 设置字体
 //        XSSFFont font = workbook.createFont();
 //        font.setFontName("宋体");
@@ -142,8 +140,8 @@
 //    // 根据数据值确定单元格位置（比如：28-AB）
 //    private String getcellColumnFlag(int num) {
 //        String columFiled = "";
-//        int chuNum = 0;
-//        int yuNum = 0;
+//        int    chuNum     = 0;
+//        int    yuNum      = 0;
 //        if (num >= 1 && num <= 26) {
 //            columFiled = this.doHandle(num);
 //        } else {
@@ -180,18 +178,18 @@
 //        // 设置数据有效性加载在哪个单元格上。
 //        // 四个参数分别是：起始行、终止行、起始列、终止列
 //        int firstRow = naturalRowIndex;
-//        int lastRow = naturalRowIndex;
+//        int lastRow  = naturalRowIndex;
 //        int firstCol = naturalColumnIndex - 1;
-//        int lastCol = naturalColumnIndex - 1;
+//        int lastCol  = naturalColumnIndex - 1;
 //        CellRangeAddressList regions = new CellRangeAddressList(firstRow,
 //                lastRow, firstCol, lastCol);
 //        // 数据有效性对象
 //        //DataValidation data_validation_list = new XSSFDataValidation(regions,
 //        //        constraint);
 //        // 取得规则
-//        XSSFDataValidationHelper dvHelper = new XSSFDataValidationHelper(sheet);
-//        DataValidationConstraint provConstraint = dvHelper.createFormulaListConstraint(formulaString);
-//        DataValidation provinceDataValidation = dvHelper.createValidation(provConstraint, regions);
+//        XSSFDataValidationHelper dvHelper               = new XSSFDataValidationHelper(sheet);
+//        DataValidationConstraint provConstraint         = dvHelper.createFormulaListConstraint(formulaString);
+//        DataValidation           provinceDataValidation = dvHelper.createValidation(provConstraint, regions);
 //
 //
 //        return provinceDataValidation;
@@ -227,7 +225,7 @@
 //
 //    public void Export() {
 //        try {
-//            File file = new File("c:/excel.xlsx");
+//            File             file         = new File("c:/excel.xlsx");
 //            FileOutputStream outputStream = new FileOutputStream(file);
 //            // 创建excel
 //            XSSFWorkbook workbook = new XSSFWorkbook();

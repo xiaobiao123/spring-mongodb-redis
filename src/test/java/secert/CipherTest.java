@@ -71,19 +71,14 @@ public class CipherTest {
 
             // 实例化KeyGenerator对象，并指定DES算法
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        // 生成SecretKey对象
+            // 生成SecretKey对象
             SecretKey secretKey = keyGenerator.generateKey();
 
-
-            c.init(Cipher.WRAP_MODE,  secretKey);
+            c.init(Cipher.WRAP_MODE, secretKey);
 
             byte[] wrap = c.wrap(secretKey);
 
-
-
             c.init(Cipher.UNWRAP_MODE, secretKey);
-
-
 
 //        上述实例化操作是一种最为简单的实现，并没有考虑DES分组算法的工作模式和填充模式，可通过以下方式对其设定：
             Cipher c2 = Cipher.getInstance("DES/CBC/PKCS5Padding");

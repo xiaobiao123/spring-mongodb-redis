@@ -2,9 +2,7 @@
 //
 //import org.apache.poi.hssf.usermodel.DVConstraint;
 //import org.apache.poi.hssf.util.HSSFColor;
-//import org.apache.poi.ss.usermodel.DataValidation;
-//import org.apache.poi.ss.usermodel.DataValidationConstraint;
-//import org.apache.poi.ss.usermodel.Name;
+//import org.apache.poi.ss.usermodel.*;
 //import org.apache.poi.ss.util.CellRangeAddressList;
 //import org.apache.poi.xssf.usermodel.*;
 //
@@ -34,15 +32,16 @@
 //    public void setDataCellStyles(XSSFWorkbook workbook, XSSFSheet sheet) {
 //        cellStyle = workbook.createCellStyle();
 //        // 设置边框
-//        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
-//        cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
-//        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
-//        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);
+//        cellStyle.setBorderBottom(BorderStyle.THIN);
+////        cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+//        cellStyle.setBorderLeft(BorderStyle.THIN);
+//        cellStyle.setBorderRight(BorderStyle.THIN);
+//        cellStyle.setBorderTop(BorderStyle.THIN);
 //        // 设置背景色
-//        cellStyle.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
-//        cellStyle.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+////        cellStyle.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
+//        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 //        // 设置居中
-//        cellStyle.setAlignment(XSSFCellStyle.ALIGN_LEFT);
+//        cellStyle.setAlignment(HorizontalAlignment.CENTER);
 //        // 设置字体
 //        XSSFFont font = workbook.createFont();
 //        font.setFontName("宋体");

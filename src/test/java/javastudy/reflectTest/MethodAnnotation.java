@@ -7,12 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;  
 import java.lang.annotation.Target;  
   
-/** 
- *  
- * @author Uno 
- * 
- */  
-@Documented  
+@Documented
 @Inherited  
 @Retention(RetentionPolicy.RUNTIME)  
 @Target(ElementType.METHOD) //次注解只能作用于方法上  

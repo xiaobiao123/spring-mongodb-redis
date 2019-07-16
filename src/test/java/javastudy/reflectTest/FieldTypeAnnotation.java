@@ -11,7 +11,6 @@ import java.net.Authenticator.RequestorType;
 /**
  * 自定义注解
  *
- * @author Uno
  * @Documented:指明该注解可以用于生成doc
  * @Inherited：该注解可以被自动继承
  * @Retention:指明在什么级别显示该注解： RetentionPolicy.SOURCE 注解存在于源代码中，编译时会被抛弃

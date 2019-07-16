@@ -1,15 +1,12 @@
 package javastudy.reflectTest;
 
-import java.awt.Dialog.ModalityType;  
-import java.lang.reflect.Field;  
-import java.lang.reflect.Method;  
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;  
   
 @FieldTypeAnnotation(type = "class", hobby = { "smoke" })  
 public class ReflectAnnotation {  
-    /** 
-     * leip 2016年12月3日 TODO 
-     **/  
+
     @FieldTypeAnnotation(hobby = { "sleep", "play" })  
     private String maomao;  
   

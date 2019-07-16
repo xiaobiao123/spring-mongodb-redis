@@ -1,24 +1,17 @@
 //package excel;
 //
 //import cn.afterturn.easypoi.excel.ExcelExportUtil;
-//import cn.afterturn.easypoi.excel.ExcelImportUtil;
 //import cn.afterturn.easypoi.excel.entity.ExportParams;
-//import cn.afterturn.easypoi.excel.entity.ImportParams;
 //import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
-//import org.apache.poi.ss.usermodel.CellStyle;
-//import org.apache.poi.ss.usermodel.Name;
-//import org.apache.poi.ss.usermodel.Sheet;
+//import excel.easy.poi.Person;
 //import org.apache.poi.ss.usermodel.Workbook;
-//import org.apache.poi.xssf.usermodel.XSSFSheet;
 //import org.junit.Test;
 //import org.springframework.mock.web.MockHttpServletResponse;
-//import org.springframework.web.bind.annotation.RequestMapping;
 //
 //import javax.servlet.http.HttpServletResponse;
 //import java.io.File;
 //import java.io.FileInputStream;
 //import java.io.FileOutputStream;
-//import java.io.OutputStream;
 //import java.util.*;
 //
 ///**
@@ -30,10 +23,10 @@
 //        HttpServletResponse response = new MockHttpServletResponse();
 //        //模拟从数据库获取需要导出的数据
 //        List<Person> personList = new ArrayList<>();
-//        Person person1 = new Person("路飞", "1", new Date());
-//        Person person2 = new Person("娜美", "2", new Date());
-//        Person person3 = new Person("索隆", "1", new Date());
-//        Person person4 = new Person("小狸猫", "1", new Date());
+//        Person       person1    = new Person("路飞", "1", new Date());
+//        Person       person2    = new Person("娜美", "2", new Date());
+//        Person       person3    = new Person("索隆", "1", new Date());
+//        Person       person4    = new Person("小狸猫", "1", new Date());
 //        personList.add(person1);
 //        personList.add(person2);
 //        personList.add(person3);
@@ -47,7 +40,7 @@
 //
 //    @Test
 //    public void importExcel() {
-//        String filePath = "F:\\海贼王.xls";
+//        String filePath = "d:\\海贼王.xls";
 //        //解析excel，
 //        List<Person> personList = FileUtil.importExcel(filePath, 1, 1, Person.class);
 //        //也可以使用MultipartFile,使用 FileUtil.importExcel(MultipartFile file, Integer titleRows, Integer headerRows, Class<T> pojoClass)导入

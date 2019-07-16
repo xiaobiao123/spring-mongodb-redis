@@ -40,15 +40,15 @@
 //    public void setDataCellStyles(HSSFWorkbook workbook, HSSFSheet sheet) {
 //        cellStyle = workbook.createCellStyle();
 //        // 设置边框
-//        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-//        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-//        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-//        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-//        // 设置背景色
-//        cellStyle.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
-//        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-//        // 设置居中
-//        cellStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+////        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+////        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+////        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+////        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+////        // 设置背景色
+////        cellStyle.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
+////        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+////        // 设置居中
+////        cellStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
 //        // 设置字体
 //        HSSFFont font = workbook.createFont();
 //        font.setFontName("宋体");
