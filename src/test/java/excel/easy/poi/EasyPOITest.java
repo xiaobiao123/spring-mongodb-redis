@@ -8,10 +8,8 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.excel.entity.params.ExcelExportEntity;
 import cn.afterturn.easypoi.excel.export.ExcelExportService;
-import cn.afterturn.easypoi.excel.export.styler.ExcelExportStylerColorImpl;
 import com.google.common.collect.Lists;
 import excel.GoodsExcelVo;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
@@ -22,9 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by gwb on 2018-09-13.
- */
 public class EasyPOITest {
 
     @Test
@@ -33,7 +28,7 @@ public class EasyPOITest {
         //params.setTitleRows(2);
         //params.setHeadRows(2);
         //params.setSheetNum(9);
-        params.setNeedSave(true);
+        params.setNeedSave(false);
         long st   = System.currentTimeMillis();
         List list = ExcelImportUtil.importExcel(new File("c:\\3test.xlsx"), GoodsExcelVo.class, params);
 
@@ -103,9 +98,7 @@ public class EasyPOITest {
 
     @Test
     public void testMult() {
-
         try {
-
             List<Map<String, Object>> sheets = new ArrayList<Map<String, Object>>();
 
             for (int i = 0; i < 10; i++) {
