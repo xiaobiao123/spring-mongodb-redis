@@ -8,6 +8,7 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.excel.entity.params.ExcelExportEntity;
 import cn.afterturn.easypoi.excel.export.ExcelExportService;
+import cn.afterturn.easypoi.handler.inter.IExcelExportServer;
 import com.google.common.collect.Lists;
 import excel.GoodsExcelVo;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -42,19 +43,20 @@ public class EasyPOITest {
         Workbook     workbook = null;
         Date         start    = new Date();
         ExportParams params   = new ExportParams("大数据测试", "测试");
-        //for (int i = 0; i < 100; i++) {  //一百万数据量
-        Person person1 = new Person("路飞", "1", new Date(), 2);
-        Person person2 = new Person("娜美", "2", new Date(), 3);
-        Person person3 = new Person("索隆", "1", new Date(), 4);
-        Person person4 = new Person("小狸猫", "1", new Date(), 5);
-        list.add(person3);
-        list.add(person1);
-        list.add(person2);
-        list.add(person4);
+//        for (int i = 0; i < 50000; i++) {  //一百万数据量
+            Person person1 = new Person("路飞", "1", new Date(), 2);
+            Person person2 = new Person("娜美", "2", new Date(), 3);
+            Person person3 = new Person("索隆", "1", new Date(), 4);
+            Person person4 = new Person("小狸猫", "1", new Date(), 5);
+            list.add(person3);
+            list.add(person1);
+            list.add(person2);
+            list.add(person4);
 
-        list3.add(person3);
-        list3.add(person1);
-        list3.add(person2);
+            list3.add(person3);
+            list3.add(person1);
+            list3.add(person2);
+//        }
 
         ExportParams empExportParams = new ExportParams();
         empExportParams.setSheetName("员工报表2");
@@ -79,6 +81,8 @@ public class EasyPOITest {
         empExportMap2.put("data", list3);
         list2.add(empExportMap2);
 
+//        ExportParams entity, Class<?> pojoClass, IExcelExportServer server, Object queryParams
+//        ExcelExportUtil.exportBigExcel(empExportParams, Person.class, list);
 //        workbook = ExcelExportUtil.exportExcel(params, Person.class, list);
 
 //        HSSF是指2007年以前的,XSSF是指2007年版本以上的
