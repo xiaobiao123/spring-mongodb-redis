@@ -45,13 +45,7 @@ public class Test00 {
      */
     @Test
     public void createSheet() throws Exception {
-//        workbook = new XSSFWorkbook();//创建Excel文件(Workbook)
-//        XSSFSheet sheet = workbook.createSheet();//创建工作表(Sheet)
-//        sheet = workbook.createSheet("Test");//创建工作表(Sheet)
-//        FileOutputStream out = new FileOutputStream(filePath);
-//        workbook.write(out);//保存Excel文件
-//        out.close();//关闭文件流
-//        System.out.println("OK!");
+        workbook.createSheet("sheet2");
     }
 
     /**
@@ -61,7 +55,6 @@ public class Test00 {
      */
     @Test
     public void testCreatecell() throws Exception {
-
         XSSFRow  row  = sheet.createRow(0);// 创建行,从0开始
         XSSFCell cell = row.createCell(0);// 创建行的单元格,也是从0开始
         cell.setCellValue("李志伟");// 设置单元格内容
@@ -345,7 +338,12 @@ public class Test00 {
 
     @Test
     public void 生成下拉() {
-        CellRangeAddressList         regions      = new CellRangeAddressList(1, 65535, 0, 0);//选定一个区域
+        XSSFRow  row  = sheet.createRow(0);
+        XSSFCell cell = row.createCell(0);
+        cell.setCellValue("生成下拉");
+
+
+        CellRangeAddressList         regions      = new CellRangeAddressList(0, 65535, 0, 0);//选定一个区域
         String[]                     datas        = new String[]{"java", "mysql", "oracle"};
         XSSFDataValidationHelper     dvHelper     = new XSSFDataValidationHelper(sheet);
         XSSFDataValidationConstraint dvConstraint = (XSSFDataValidationConstraint) dvHelper.createExplicitListConstraint(datas);
