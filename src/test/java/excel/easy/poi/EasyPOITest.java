@@ -57,10 +57,11 @@ public class EasyPOITest {
         list.add(person2);
         list.add(person4);
 
+
+        list3.add(person4);
+        list3.add(person2);
         list3.add(person3);
         list3.add(person1);
-        list3.add(person2);
-        list3.add(person4);
 //        }
 
         Long         s               = System.currentTimeMillis();
