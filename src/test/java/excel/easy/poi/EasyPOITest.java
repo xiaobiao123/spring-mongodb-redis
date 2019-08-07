@@ -9,11 +9,14 @@ import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.excel.entity.params.ExcelExportEntity;
 import cn.afterturn.easypoi.excel.export.ExcelExportService;
 import cn.afterturn.easypoi.handler.inter.IExcelExportServer;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import excel.GoodsExcelVo;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,6 +36,7 @@ public class EasyPOITest {
         long st   = System.currentTimeMillis();
         List list = ExcelImportUtil.importExcel(new File("c:\\3test.xlsx"), GoodsExcelVo.class, params);
 
+
         System.out.println(System.currentTimeMillis() - st);
     }
 
@@ -44,20 +48,22 @@ public class EasyPOITest {
         Date         start    = new Date();
         ExportParams params   = new ExportParams("大数据测试", "测试");
 //        for (int i = 0; i < 50000; i++) {  //一百万数据量
-            Person person1 = new Person("路飞", "1", new Date(), 2);
-            Person person2 = new Person("娜美", "2", new Date(), 3);
-            Person person3 = new Person("索隆", "1", new Date(), 4);
-            Person person4 = new Person("小狸猫", "1", new Date(), 5);
-            list.add(person3);
-            list.add(person1);
-            list.add(person2);
-            list.add(person4);
+        Person person1 = new Person("路飞", "1", new Date(), 2);
+        Person person2 = new Person("娜美", "2", new Date(), 3);
+        Person person3 = new Person("索隆", "1", new Date(), 4);
+        Person person4 = new Person("小狸猫", "1", new Date(), 5);
+        list.add(person3);
+        list.add(person1);
+        list.add(person2);
+        list.add(person4);
 
-            list3.add(person3);
-            list3.add(person1);
-            list3.add(person2);
+        list3.add(person3);
+        list3.add(person1);
+        list3.add(person2);
+        list3.add(person4);
 //        }
 
+        Long         s               = System.currentTimeMillis();
         ExportParams empExportParams = new ExportParams();
         empExportParams.setSheetName("员工报表2");
         empExportParams.setType(ExcelType.XSSF);
@@ -97,6 +103,7 @@ public class EasyPOITest {
         workbook.write(fos);
         workbook.close();
         fos.close();
+        System.out.println(System.currentTimeMillis() - s);
     }
 
 
@@ -153,4 +160,24 @@ public class EasyPOITest {
             e.printStackTrace();
         }
     }
+
+    /**
+     * easyPoiexcel导入
+     *
+     * @param file
+     */
+    public void improt(@RequestParam("file") MultipartFile file) {
+        ImportParams importParams = new ImportParams();
+        Long         s            = System.currentTimeMillis();
+        List<Person> list         = Lists.newArrayList();
+        try {
+            list = ExcelImportUtil.importExcel(file.getInputStream(), Person.class, importParams);
+
+            System.out.println(JSONObject.toJSONString(list));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
