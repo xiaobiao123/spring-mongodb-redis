@@ -17,7 +17,9 @@ import java.net.Authenticator.RequestorType;
  * RetentionPolicy.CLASS 注解会被编译到class文件中，但是JVM会忽略
  * RetentionPolicy.RUNTIME JVM会读取注解，同时会保存到class文件中
  *
- * @Target:指明该注解可以注解的程序范围 ElementType.TYPE 用于类，接口，枚举但不能是注解
+ * @Target:指明该注解可以注解的程序范围
+ *
+ * ElementType.TYPE 用于类，接口，枚举但不能是注解
  * ElementType.FIELD 作用于字段，包含枚举值
  * ElementType.METHOD 作用于方法，不包含构造方法
  * ElementType.PARAMETER 作用于方法的参数
@@ -31,10 +33,7 @@ import java.net.Authenticator.RequestorType;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})//次注解作用于类和字段上  
 public @interface FieldTypeAnnotation {
-    /**
-     * leip 2016年12月3日
-     * TODO
-     **/
+
     String type() default "ignore";
 
     int age() default 27;

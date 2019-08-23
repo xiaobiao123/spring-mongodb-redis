@@ -49,8 +49,8 @@ public class ReflectAnnotation {
                 String[] hobby = fieldAnno.hobby();  
                 String type = fieldAnno.type();  
                 System.out.println(field.getName() + " age = " + age + ", hobby = " + Arrays.asList(hobby).toString() + " type = " + type);  
-            }  
-        }  
+            }
+        }
         //解析方法上的注解  
         Method[] methods = clz.getDeclaredMethods();  
         for(Method method : methods){  

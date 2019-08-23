@@ -28,10 +28,12 @@ public class ProducerServiceImpl implements ProducerService {
     @Qualifier("responseQueue")
     private Destination responseDestination;
 
+    @Override
     public void sendMessage(Destination destination, final String message) {
         System.out.println("---------------生产者发送消息-----------------");
         System.out.println("---------------生产者发了一个消息：" + message);
         jmsTemplate.send(destination, new MessageCreator() {
+            @Override
             public Message createMessage(Session session) throws JMSException {
                 TextMessage textMessage = session.createTextMessage(message);
                 //持久化和非持久化
@@ -42,7 +44,7 @@ public class ProducerServiceImpl implements ProducerService {
                 //包含了消息发往的目的地或者主题信息。
                 //textMessage.setJMSDestination(destination);
                 //发送时间
-                textMessage.setJMSTimestamp(100l);
+                textMessage.setJMSTimestamp(100L);
                 //与当前消息关联的其他消息的标示
                 textMessage.setJMSCorrelationID("");
                 //带有该字段的消息通常过去发送过但是没有被确认，如果要再次发送，提供者必须设置该字段。如果true，则消息接受者必须进行消息重复处理的逻辑。
