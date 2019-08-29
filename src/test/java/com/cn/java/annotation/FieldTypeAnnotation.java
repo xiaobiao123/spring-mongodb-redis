@@ -11,9 +11,10 @@ import java.net.Authenticator.RequestorType;
 /**
  * 自定义注解
  *
- * @Documented:指明该注解可以用于生成doc
- * @Inherited：该注解可以被自动继承
- * @Retention:指明在什么级别显示该注解： RetentionPolicy.SOURCE 注解存在于源代码中，编译时会被抛弃
+ * @Documented:指明该注解可以用于生成doc  'dɒkjʊm(ə)ntɪd  备有证明文件的
+ * @Inherited：该注解可以被自动继承        ɪn'hɛrɪtid  继承
+ * @Retention:指明在什么级别显示该注解：    rɪ'tɛnʃən  保留；扣留，滞留；记忆力；闭尿
+ * RetentionPolicy.SOURCE 注解存在于源代码中，编译时会被抛弃    'pɑləsi  政策，方针；保险单
  * RetentionPolicy.CLASS 注解会被编译到class文件中，但是JVM会忽略
  * RetentionPolicy.RUNTIME JVM会读取注解，同时会保存到class文件中
  *
