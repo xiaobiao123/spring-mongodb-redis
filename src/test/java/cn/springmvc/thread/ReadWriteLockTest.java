@@ -6,10 +6,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class ReadWriteLockTest {
 	private ReadWriteLock rwl = new ReentrantReadWriteLock();
 
+
 	volatile int i=0;
 	
 	public static void main(String[] args) {
-		final ReadWriteLockTest test = new ReadWriteLockTest();
+		 ReadWriteLockTest test = new ReadWriteLockTest();
 
 		new Thread() {
 			public void run() {
@@ -35,7 +36,7 @@ public class ReadWriteLockTest {
 			System.out.println(thread.getName() + "读操作完毕");
 		} catch (Exception e) {
 		}finally {
-			rwl.readLock().unlock();
+			rwl.writeLock().unlock();
 		}
 	}
 }

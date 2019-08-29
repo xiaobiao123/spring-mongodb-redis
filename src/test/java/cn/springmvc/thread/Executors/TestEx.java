@@ -63,7 +63,7 @@ public class TestEx {
          */
         @Override
         public synchronized void run() {
-            System.out.println("thread.............i=" + str);
+            System.out.println("com.cn.thread.............i=" + str);
         }
     }
 
@@ -79,7 +79,7 @@ public class TestEx {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            executorService.execute(new ThreadCustomerCert("thread+i" + i));
+            executorService.execute(new ThreadCustomerCert("com.cn.thread+i" + i));
         }
         //System.out.println(executorService.isTerminated());
         //executorService.shutdown();
@@ -95,7 +95,7 @@ public class TestEx {
         // ExecutorService executorService = Executors.newFixedThreadPool(3);
         // TODO 判断总行书，循环插入
         for (int i = 100; i < 199; i++) {
-            executorService.execute(new ThreadCustomerCert("thread+k" + i));
+            executorService.execute(new ThreadCustomerCert("com.cn.thread+k" + i));
         }
 
     }

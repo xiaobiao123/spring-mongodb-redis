@@ -1,31 +1,18 @@
 package cn.springmvc.mvc;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
-import mongodb.example.MongodbTest;
-import mongodb.example.data.model.UserEntity;
 import org.junit.Before;
 
 import org.junit.Test;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 
 import cn.springmvc.model.User;
 
 import cn.springmvc.service.UserService;
-import org.springframework.stereotype.Service;
 
 public class UserTest {
 
@@ -38,7 +25,7 @@ public class UserTest {
         ApplicationContext context = new ClassPathXmlApplicationContext(
                 new String[]{"classpath:conf/spring.xml",
                         "classpath:conf/spring-mybatis.xml"});
-		//ApplicationContext context = new ClassPathXmlApplicationContext(new String[] { "classpath:conf/spring.xml" });
+		//ApplicationContext context = new ClassPathXmlApplicationContext(new String[] { "classpath:conf/com.cn.spring.xml" });
         userService = (UserService) context.getBean("userServiceImpl");
         System.out.println(  context.getBean("appleFactoryBean"));
         //System.out.println(  context.getBean("&appleFactoryBean"));
@@ -46,7 +33,7 @@ public class UserTest {
 
 
         ////定位资源
-        //ClassPathResource resource=new ClassPathResource("classpath:conf/spring.xml");
+        //ClassPathResource resource=new ClassPathResource("classpath:conf/com.cn.spring.xml");
         ////创建ioc容器管理
         //DefaultListableBeanFactory F6factory=new DefaultListableBeanFactory();
         ////创建资源读取器

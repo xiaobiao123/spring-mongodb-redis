@@ -61,6 +61,8 @@ public class TestStudy {
         System.out.println("this is poll " + arrayBlockingQueue.poll());
 
         arrayBlockingQueue.put("22");
+        arrayBlockingQueue.put("22");
+        arrayBlockingQueue.offer("22");
         arrayBlockingQueue.take();
         System.out.println("this is take");
         arrayBlockingQueue.put("22");

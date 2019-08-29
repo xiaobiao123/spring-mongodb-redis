@@ -1,11 +1,10 @@
 package cn.springmvc.collection.String类为什么是final的;
 
 import com.google.common.base.Function;
-import thread.collection.hasmset.HashMapSource;
+import com.cn.thread.collection.hasmset.HashMapSource;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.PriorityBlockingQueue;
 
 public class IntegerTest {
     public static void main(String[] args) {

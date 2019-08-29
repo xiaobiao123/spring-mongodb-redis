@@ -32,8 +32,9 @@ public class TestList {
 
 
         Map<String, String> map1 = new HashMap<>();
-        map1.put("shopNo", "shopNo1");
-        map1.put("shopName", "shopName1");
+        String              put  = map1.put("shopNo", "shopNo1");
+
+        String put1 = map1.put("shopNo", "shopName1");
 
         list.add(map1);
         System.out.println("testQueryCustomers  success..." + JSON.toJSONString(list));

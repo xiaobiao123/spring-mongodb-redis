@@ -1,6 +1,5 @@
 package Ckeck;
 
-import model.A1singleton.Singleton1;
 import org.junit.Test;
 
 /**

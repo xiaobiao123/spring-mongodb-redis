@@ -1,15 +1,17 @@
 package cn.springmvc.thread;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class TryLockTest {
     private ArrayList<Integer> arrayList = new ArrayList<Integer>();
     Lock lock = new ReentrantLock(); // 注意这个地方
+    static CountDownLatch downLatch = new CountDownLatch(100);
 
     public static void main(String[] args) {
-        final TryLockTest tryLockTest = new TryLockTest();
+        TryLockTest tryLockTest = new TryLockTest();
 
         new Thread() {
             public void run() {
@@ -17,11 +19,15 @@ public class TryLockTest {
             }
         }.start();
 
-        new Thread() {
-            public void run() {
-                tryLockTest.insert(Thread.currentThread());
-            }
-        }.start();
+        for (int i = 0; i < 100; i++) {
+            downLatch.countDown();
+            new Thread() {
+                public void run() {
+                    tryLockTest.insert(Thread.currentThread());
+                }
+            }.start();
+        }
+
     }
 
     public void insert(Thread thread) {
@@ -30,7 +36,7 @@ public class TryLockTest {
                 System.out.println(thread.getName() + "得到了锁");
                 for (int i = 0; i < 5; i++) {
                     arrayList.add(i);
-                    Thread.sleep(100);
+                    Thread.sleep(10);
                 }
             } catch (Exception e) {
                 // TODO: handle exception

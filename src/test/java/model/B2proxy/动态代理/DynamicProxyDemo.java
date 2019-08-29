@@ -23,9 +23,9 @@ public class DynamicProxyDemo {
         String className = foo.getClass().getName();
         //if (className.startsWith("model.B2proxy.动态代理")){
         ProxyHandler handler = new ProxyHandler(foo);
-        //产生动态代理    类对象的加载器,目标对象实现的接口 ,InvocationHandler的实现类
-        //Foo proxy = (Foo) Proxy.newProxyInstance(ProxyHandler.class.getClassLoader(), new Class[]{Foo.class}, handler);
-        Foo proxy = (Foo) handler.getProxy(foo);
+//        产生动态代理    类对象的加载器,目标对象实现的接口 ,InvocationHandler的实现类
+        Foo proxy = (Foo) Proxy.newProxyInstance(ProxyHandler.class.getClassLoader(), new Class[]{Foo.class}, handler);
+        Foo proxy2 = (Foo) handler.getProxy(foo);
         proxy.f("f");
 
         //proxy.g(1);

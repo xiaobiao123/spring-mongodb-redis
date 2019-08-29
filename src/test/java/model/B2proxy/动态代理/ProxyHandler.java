@@ -15,7 +15,7 @@ class ProxyHandler implements InvocationHandler {
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
         System.out.println("Before mothod:" + method);
-        method.invoke(this.delegate, args);
+        method.invoke(proxy, args);
         System.out.println("After mothod:" + method);
         return null;
     }
